@@ -109,7 +109,7 @@ Returns the success/error feedback message.
 
 ### echo_message()
 
-Echos [`message()`](#message directly as a HTML-safe string.
+Echos [`message()`](#message) directly as a HTML-safe string.
 
 ### has_message()
 
