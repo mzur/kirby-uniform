@@ -45,7 +45,7 @@ You first have to initialize the form at the top of your contact form template l
 
 ```
 
-The **first** argument is a unique ID of the contact form on your site. The **second** one is the recipients/your email address. In this case the `Email` field of the current page is used but of course you could hard code the address or get it elswhere. The **third** (optional) argument is the subject of the email to be sent. If none is specified, the default subject from the language definition is used.
+The **first** argument is a unique ID of the contact form on your site. The **second** one is the recipient's/your email address. In this case the `Email` field of the current page is used but of course you could hard code the address or get it elswhere. The **third** (optional) argument is the subject of the email to be sent. If none is specified, the default subject from the language definition is used.
 
 You then create a form element with the own url of the page as `action` target like this:
 
@@ -67,9 +67,9 @@ The plugin then requires the presence of an `_email` field containing the sender
 
 There are a few important things happening here. First, the `echo_value()` function is used to set the `value` of the email field. If the submission of the form has failed, this restores already set fields. So in this case you don't have to enter the email address again when the page is reloaded. For more on the available functions, see [the functions section](#functions).
 
-Secondly the honey pot field uses the `sendform__potty` class. If you check the `sendform.css` you'll see, that it makes the field disappear visually but not in the souce code of the page the spam-bots are accessing.
+Secondly the honey pot field uses the `sendform__potty` class. If you check the `sendform.css` you'll see that it makes the field disappear visually but not in the souce code of the page, the spam-bots are accessing.
 
-Lastly the submit button uses the `token()` function to set its value. The token is submitted along with all the other data of the form and ensures that the form can only be sent directly from the website and not e.g. with an automated script.
+Lastly the submit button uses the `token()` function to set its value. The token is submitted along with all the other data of the form and ensures that the form can only be submitted directly from the website and not e.g. with an automated script.
 
 The presence of these three elements with the exact `name` attributes and the token as a value of the submit button is critical for the plugin to work correctly!
 
@@ -81,27 +81,27 @@ Now you can add as many additional form fields as you like. Make sure not to use
 
 Returns the value of a form field in case the submission of the form has failed. The value is empty if the form was sent successful. This will not work if the page was simply refreshed without submitting the form.
 
-`key`: The `name` attribute of the form field.
+`$key`: The `name` attribute of the form field.
 
 ### echo_value($key)
 
-Echos [`value()`](#value($key)) directly as a HTML-safe string.
+Echos [`value()`](#valuekey) directly as a HTML-safe string.
 
-`key`: The `name` attribute of the form field.
+`$key`: The `name` attribute of the form field.
 
 ### is_value($key, $value)
 
 Checks if a form field has a certain value.
 
-`key`: The `name` attribute of the form field.
+`$key`: The `name` attribute of the form field.
 
-`value`: The value tested against the actual content of the form field.
+`$value`: The value tested against the actual content of the form field.
 
-Returns `true` if the value equals the content of the form field. `false` otherwise
+Returns `true` if the value equals the content of the form field, `false` otherwise
 
 ### successful()
 
-Returns `true` if the form was sent successfully. `false` otherwise.
+Returns `true` if the form was sent successfully, `false` otherwise.
 
 ### message()
 
@@ -109,11 +109,11 @@ Returns the success/error feedback message.
 
 ### echo_message()
 
-Echos [`message()`](#message()) directly as a HTML-safe string.
+Echos [`message()`](#message directly as a HTML-safe string.
 
 ### has_message()
 
-Returns `true` if there is a success/error feedback message. `false` otherwise.
+Returns `true` if there is a success/error feedback message, `false` otherwise.
 
 ### token()
 
@@ -125,7 +125,7 @@ Here are a few full examples that you could directly put into your templates. Th
 
 ### basic
 
-This form only asks for the name and email as well as a message. It restores values if the submission fails and displays the feedback message in a separate container. Note the `#form' anchor for jumping down to the feedback message when the form was submitted. If the form was submitted successfully, the submit button is disabled.
+This form only asks for the name and email as well as a message. It restores values if the submission fails and displays the feedback message in a separate container. Note the `#form` anchor for jumping down to the feedback message when the form was submitted (especially important on mobile). If the form was submitted successfully, the submit button is disabled.
 
 ```php
 <?php
@@ -165,6 +165,8 @@ In case "Martin" with email "martin@example.com" submitted the message "hello", 
 
 From: `Martin<martin@example.com>`
 
+Subject: `Message from the web form.`
+
 ```txt
 Name: Martin
 
@@ -180,7 +182,7 @@ This form extends the basic example by radio buttons and `select` fields as well
 	$form = sendform(
 		'registration-form',
 		'me@example.com',
-		$site->title()->html() . ' - New registration'
+		'Exhibition - New registration'
 	);
 ?>
 
@@ -231,4 +233,22 @@ This form extends the basic example by radio buttons and `select` fields as well
 	<button type="submit" name="_submit" value="<?php echo $form->token() ?>"<?php e($form->successful(), ' disabled')?>>Submit</button>
 
 </form>
+```
+
+In case "Martin" with email "martin@example.com" has "JavaScript" as area of expertise, wants a 12 m² booth, doesn't want to receive the newsletter and submitted the message "hello", the email would look like this:
+
+From: `Martin<martin@example.com>`
+
+Subject: `Exhibition - New registration`
+
+```txt
+Name: Martin
+
+Expertise: JavaScript
+
+Booth: 12 sqm
+
+Newsletter: no
+
+Message: hello
 ```
