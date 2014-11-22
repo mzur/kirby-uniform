@@ -40,13 +40,7 @@ You first have to initialize the form at the top of your contact form template l
 		'contact-form-id',
 		$page->email(),
 		array(
-			'subject' => $site->title()->html().': message from the contact form',
-			'required'	=> array(
-				'name'	=> 'aplha'
-			),
-			'validate'	=> array(
-				'age'	=> 'num'
-			)
+			'subject' => $site->title()->html().' - message from the contact form'
 		)
 	);
 ?>
