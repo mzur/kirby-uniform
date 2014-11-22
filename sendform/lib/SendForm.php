@@ -150,11 +150,10 @@ class SendForm {
 
 		// perform validation for all fields with a given validation method
 		foreach ($validateFields as $field => $method) {
+			$value = a::get($this->data, $field);
 			// validate only if a method is given and the field contains data
-			if ($method && a::get($this->data, $field)) {
-				if (!call('v::' . $method, $this->data[$field])) {
-					array_push($this->erroneousFields, $field);
-				}
+			if ($method && $value && !call('v::' . $method, $value)) {
+				array_push($this->erroneousFields, $field);
 			}
 		}
 
