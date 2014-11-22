@@ -57,7 +57,7 @@ The plugin then requires the presence of an `_email` field containing the sender
 
 ```php
 <label for="email" class="required">E-Mail</label>
-<input type="email" name="_from" id="email" value="<?php $form->echo_value('_from') ?>" required/>
+<input type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
 <label class="sendform__potty" for="potty">Please leave this field blank</label>
 <input type="text" name="_potty" id="potty" class="sendform__potty" />
@@ -65,7 +65,7 @@ The plugin then requires the presence of an `_email` field containing the sender
 <button type="submit" name="_submit" value="<?php echo $form->token() ?>"<?php e($form->successful(), " disabled")?>>Submit</button>
 ```
 
-There are a few important things happening here. First, the `echo_value()` function is used to set the `value` of the email field. If the submission of the form has failed, this restores already set fields. So in this case you don't have to enter the email address again when the page is reloaded. For more on the available functions, see [the functions section](#functions).
+There are a few important things happening here. First, the `echoValue()` function is used to set the `value` of the email field. If the submission of the form has failed, this restores already set fields. So in this case you don't have to enter the email address again when the page is reloaded. For more on the available functions, see [the functions section](#functions).
 
 Secondly the honey pot field uses the `sendform__potty` class. If you check the `sendform.css` you'll see that it makes the field disappear visually but not in the souce code of the page, the spam-bots are accessing.
 
@@ -83,13 +83,13 @@ Returns the value of a form field in case the submission of the form has failed.
 
 `$key`: The `name` attribute of the form field.
 
-### echo_value($key)
+### echoValue($key)
 
 Echos [`value()`](#valuekey) directly as a HTML-safe string.
 
 `$key`: The `name` attribute of the form field.
 
-### is_value($key, $value)
+### isValue($key, $value)
 
 Checks if a form field has a certain value.
 
@@ -107,11 +107,11 @@ Returns `true` if the form was sent successfully, `false` otherwise.
 
 Returns the success/error feedback message.
 
-### echo_message()
+### echoMessage()
 
 Echos [`message()`](#message) directly as a HTML-safe string.
 
-### has_message()
+### hasMessage()
 
 Returns `true` if there is a success/error feedback message, `false` otherwise.
 
@@ -138,21 +138,21 @@ This form only asks for the name and email as well as a message. It restores val
 <form action="<?php echo $page->url()?>#form" method="post">
 
 	<label for="name" class="required">Name</label>
-	<input type="text" name="name" id="name" value="<?php $form->echo_value('name') ?>" required/>
+	<input type="text" name="name" id="name" value="<?php $form->echoValue('name') ?>" required/>
 
 	<label for="email" class="required">E-Mail</label>
-	<input type="email" name="_from" id="email" value="<?php $form->echo_value('_from') ?>" required/>
+	<input type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
 	<label for="message" class="required">Message</label>
-	<textarea name="message" id="message" required><?php $form->echo_value('message') ?></textarea>
+	<textarea name="message" id="message" required><?php $form->echoValue('message') ?></textarea>
 
 	<label class="sendform__potty" for="potty">Please leave this field blank</label>
 	<input type="text" name="_potty" id="potty" class="sendform__potty" />
 
 	<a name="form"></a>
-<?php if ($form->has_message()): ?>
+<?php if ($form->hasMessage()): ?>
 	<div class="message <?php e($form->successful(), 'success' , 'error')?>">
-		<?php $form->echo_message() ?>
+		<?php $form->echoMessage() ?>
 	</div>
 <?php endif; ?>
 
@@ -189,13 +189,13 @@ This form extends the basic example by radio buttons and `select` fields as well
 <form action="<?php echo $page->url()?>#form" method="post">
 
 	<label for="name" class="required">Name</label>
-	<input type="text" name="name" id="name" value="<?php $form->echo_value('name') ?>" required/>
+	<input type="text" name="name" id="name" value="<?php $form->echoValue('name') ?>" required/>
 
 	<label for="email" class="required">E-Mail</label>
-	<input type="email" name="_from" id="email" value="<?php $form->echo_value('_from') ?>" required/>
+	<input type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
 	<label for="expertise">Area of expertise</label>
-	<input type="text" name="expertise" id="expertise" value="<?php $form->echo_value('expertise') ?>"/>
+	<input type="text" name="expertise" id="expertise" value="<?php $form->echoValue('expertise') ?>"/>
 
 	<label for="booth">Booth size</label>
 	<select name="booth" id="booth">
@@ -218,15 +218,15 @@ This form extends the basic example by radio buttons and `select` fields as well
 	</div>
 
 	<label for="message" class="required">Message</label>
-	<textarea name="message" id="message" required><?php $form->echo_value('message') ?></textarea>
+	<textarea name="message" id="message" required><?php $form->echoValue('message') ?></textarea>
 
 	<label class="sendform__potty" for="potty">Please leave this field blank</label>
 	<input type="text" name="_potty" id="potty" class="sendform__potty" />
 
 	<a name="form"></a>
-<?php if ($form->has_message()): ?>
+<?php if ($form->hasMessage()): ?>
 	<div class="message <?php e($form->successful(), 'success' , 'error')?>">
-		<?php $form->echo_message() ?>
+		<?php $form->echoMessage() ?>
 	</div>
 <?php endif; ?>
 

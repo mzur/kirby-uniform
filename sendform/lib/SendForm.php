@@ -31,12 +31,12 @@ class SendForm {
 	/**
 	 * Was this form sent succesfully?
 	 */
-	private $sent_successful;
+	private $sentSuccessful;
 
 	/**
 	 * Feedback success/error message.
 	 */
-	private $sent_message;
+	private $sentMessage;
 
 	/**
 	 * id: The unique ID of this form.
@@ -45,7 +45,7 @@ class SendForm {
 	 *
 	 * subject (optional): The subject of the e-mail.
 	 */
-	function __construct($id, $recipient, $subject='') {
+	public function __construct($id, $recipient, $subject='') {
 
 		if (str::length($id) === 0) {
 			throw new Error('No SendForm ID was given.');
@@ -62,7 +62,7 @@ class SendForm {
 		$this->token = s::get($this->id);
 
 		if (!$this->token) {
-			$this->generate_token();
+			$this->generateToken();
 		}
 
 		// get the data to be sent (if there is any)
@@ -70,18 +70,18 @@ class SendForm {
 		$this->data['_to'] = $recipient;
 		$this->data['_subject'] = $subject;
 
-		$this->sent_successful = false;
-		$this->sent_message = '';
+		$this->sentSuccessful = false;
+		$this->sentMessage = '';
 
-		if ($this->data_valid()) {
-			$this->send_form();
+		if ($this->dataValid()) {
+			$this->sendForm();
 		}
 	}
 
 	/**
 	 * Generates a new token for this form and session.
 	 */
-	private function generate_token() {
+	private function generateToken() {
 		$this->token = str::random(SendForm::TOKEN_LENGTH);
 		s::set($this->id, $this->token);
 	}
@@ -89,7 +89,7 @@ class SendForm {
 	/**
 	 * Destroys the current token of this form.
 	 */
-	private function destroy_token() {
+	private function destroyToken() {
 		s::remove($this->id);
 	}
 
@@ -98,17 +98,17 @@ class SendForm {
 	 * the session token, the sender's e-mail address and the hney pot still
 	 * being empty.
 	 */
-	private function data_valid() {
+	private function dataValid() {
 
 		if (a::get($this->data, '_submit') === $this->token) {
 			if (a::get($this->data, '_from')) {
 				if (!a::get($this->data, '_potty')) {
 					return true;
 				} else {
-					$this->sent_message = l::get('sendform-filled-potty');
+					$this->sentMessage = l::get('sendform-filled-potty');
 				}
 			} else {
-				$this->sent_message = l::get('sendform-no-email');
+				$this->sentMessage = l::get('sendform-no-email');
 			}
 		}
 
@@ -118,7 +118,7 @@ class SendForm {
 	/**
 	 * Bundles the form data to an e-mail body and sends it.
 	 */
-	private function send_form() {
+	private function sendForm() {
 		$mail_body = "";
 
 		foreach ($this->data as $key => $value) {
@@ -139,12 +139,12 @@ class SendForm {
 		));
 
 		if($email->send()) {
-			$this->sent_message = l::get('sendform-send-success');
-			$this->sent_successful = true;
+			$this->sentMessage = l::get('sendform-send-success');
+			$this->sentSuccessful = true;
 			// now this form send session is over, so destroy the token
-			$this->destroy_token();
+			$this->destroyToken();
 		} else {
-			$this->sent_message = l::get('sendform-send-error') . " " .
+			$this->sentMessage = l::get('sendform-send-error') . " " .
 				$email->error();
 		}
 	}
@@ -156,7 +156,7 @@ class SendForm {
 	 * key: The "name" attribute of the form field.
 	 */
 	public function value($key) {
-		return ($this->sent_successful) ? '' : a::get($this->data, $key, '');
+		return ($this->sentSuccessful) ? '' : a::get($this->data, $key, '');
 	}
 
 	/**
@@ -164,7 +164,7 @@ class SendForm {
 	 *
 	 * key: The "name" attribute of the form field.
 	 */
-	public function echo_value($key) {
+	public function echoValue($key) {
 		echo str::html($this->value($key));
 	}
 
@@ -178,7 +178,7 @@ class SendForm {
 	 * returns: True if the value equals the content of the form field. false
 	 * 	otherwise
 	 */
-	public function is_value($key, $value) {
+	public function isValue($key, $value) {
 		return $this->value($key) === $value;
 	}
 
@@ -186,28 +186,28 @@ class SendForm {
 	 * Returns true if the form was sent successfully. false otherwise.
 	 */
 	public function successful() {
-		return $this->sent_successful;
+		return $this->sentSuccessful;
 	}
 
 	/**
 	 * Returns the success/error feedback message.
 	 */
 	public function message() {
-		return $this->sent_message;
+		return $this->sentMessage;
 	}
 
 	/**
 	 * Echos the success/error feedback message directly as a HTML-safe string.
 	 */
-	public function echo_message() {
+	public function echoMessage() {
 		echo str::html($this->message());
 	}
 
 	/**
 	 * Returns true if there is a success/error feedback message.
 	 */
-	public function has_message() {
-		return str::length($this->sent_message) !== 0;
+	public function hasMessage() {
+		return str::length($this->sentMessage) !== 0;
 	}
 
 	/**
