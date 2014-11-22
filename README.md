@@ -146,8 +146,8 @@ This form only asks for the name and email as well as a message. It restores val
 	<label for="message" class="required">Message</label>
 	<textarea name="message" id="message" required><?php $form->echo_value('message') ?></textarea>
 
-	<label class="form__potty" for="potty">Please leave this field blank</label>
-	<input type="text" name="_potty" id="potty" class="form__potty" />
+	<label class="sendform__potty" for="potty">Please leave this field blank</label>
+	<input type="text" name="_potty" id="potty" class="sendform__potty" />
 
 	<a name="form"></a>
 <?php if ($form->has_message()): ?>
@@ -220,8 +220,8 @@ This form extends the basic example by radio buttons and `select` fields as well
 	<label for="message" class="required">Message</label>
 	<textarea name="message" id="message" required><?php $form->echo_value('message') ?></textarea>
 
-	<label class="form__potty" for="potty">Please leave this field blank</label>
-	<input type="text" name="_potty" id="potty" class="form__potty" />
+	<label class="sendform__potty" for="potty">Please leave this field blank</label>
+	<input type="text" name="_potty" id="potty" class="sendform__potty" />
 
 	<a name="form"></a>
 <?php if ($form->has_message()): ?>
