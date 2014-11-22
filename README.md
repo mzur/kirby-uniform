@@ -59,7 +59,7 @@ The plugin then requires the presence of a `_from` field containing the sender's
 
 ```php
 <label for="email" class="required">E-Mail</label>
-<input type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
+<input<?php e($form->hasError('_from'), ' class="erroneous"')?> type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
 <label class="sendform__potty" for="potty">Please leave this field blank</label>
 <input type="text" name="_potty" id="potty" class="sendform__potty" />
@@ -67,7 +67,9 @@ The plugin then requires the presence of a `_from` field containing the sender's
 <button type="submit" name="_submit" value="<?php echo $form->token() ?>"<?php e($form->successful(), " disabled")?>>Submit</button>
 ```
 
-There are a few important things happening here. First, the `echoValue()` function is used to set the `value` of the email field. If the submission of the form has failed, this restores already set fields. So in this case you don't have to enter the email address again when the page is reloaded. For more on the available functions, see [the functions section](#functions).
+There are a few important things happening here.
+
+First, the `echoValue()` function is used to set the `value` of the email field. If the submission of the form has failed, this restores already set fields. So in this case you don't have to enter the email address again when the page is reloaded. Also, the `hasError()` function is used to mark the email field with a special class if the server-side validation failed. For more on the available functions, see [the functions section](#functions).
 
 Secondly the honey pot field uses the `sendform__potty` class. If you check the `sendform.css` you'll see that it makes the field disappear visually but not in the souce code of the page, the spam-bots are accessing.
 
