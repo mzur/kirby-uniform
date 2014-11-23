@@ -2,7 +2,7 @@
 
 A simple, PHP-only [Kirby 2](http://getkirby.com) plugin to handle sending web forms by email.
 
-**Supports** server-side vaildation.
+**Supports** server-side vaildation and email templates.
 
 ## Installation
 
@@ -27,6 +27,8 @@ c::set('languages', array(
 ```
 
 For more information on the multi language support of Kirby, see [the docs](http://getkirby.com/docs/languages/setup).
+
+**Optional:** If you like to use email templates, put those snippets from the `snippets` directory that you like to use to `site/snippets/` (or make your own).
 
 For a **quick-start** jump directly to the [basic example](#basic) and paste it into your template.
 
@@ -81,6 +83,8 @@ Now you can add as many additional form fields as you like. Make sure not to use
 
 ## Options
 
+All of these options are, well, optional. The plugin still works if you don't specify any of them.
+
 ### subject
 
 The custom subject of the email to be sent by the form. If none is given, `sendform-default-subject` is chosen.
@@ -100,6 +104,10 @@ If a required field is missing, the form will not be sent.
 ### validate
 
 Like [`required`](#required) but sending of the form will *not* fail if one of these fields is missing. Only if one of these fields contains invalid data the form will not be sent.
+
+### snippet
+
+The name of the email snippet to use from the `site/snippets/` directory of your site. See the `snippets` directory of this repo for example snippets. If you like to write your own snippet, you can use the `$data` array containing all the data of the form field including the 'private' properties like `_subject` that all start with a `_`.
 
 ## Functions
 
@@ -204,6 +212,7 @@ From: `Martin<martin@example.com>`
 
 Subject: `Message from the web form.`
 
+Body:
 ```txt
 Name: Martin
 
@@ -212,7 +221,7 @@ Message: hello
 
 ### extended
 
-This form extends the basic example by radio buttons and `select` fields as well as a custom subject. It validates a non-required field, too.
+This form extends the basic example by radio buttons and `select` fields as well as a custom subject. It validates a non-required field, too. For the email body the `sendform-table` snippet provided by this repo is used.
 
 ```php
 <?php
@@ -226,7 +235,8 @@ This form extends the basic example by radio buttons and `select` fields as well
 			),
 			'validate'	=> array(
 				'attendees'	=> 'num'
-			)
+			),
+			'snippet'	=> 'sendform-table'
 		)
 	);
 ?>
@@ -289,16 +299,40 @@ From: `Martin<martin@example.com>`
 
 Subject: `Exhibition - New registration`
 
-```txt
-Name: Martin
-
-Expertise: JavaScript
-
-Attendees: 3
-
-Booth: 12 sqm
-
-Newsletter: no
-
-Message: hello
+Body:
+```html
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Name</td>
+			<td>Martin</td>
+		</tr>
+		<tr>
+			<td>Expertise</td>
+			<td>JavaScript</td>
+		</tr>
+		<tr>
+			<td>Attendees</td>
+			<td>3</td>
+		</tr>
+		<tr>
+			<td>Booth</td>
+			<td>12 sqm</td>
+		</tr>
+		<tr>
+			<td>Newsletter</td>
+			<td>no</td>
+		</tr>
+		<tr>
+			<td>Message</td>
+			<td>hello</td>
+		</tr>
+	</tbody>
+</table>
 ```

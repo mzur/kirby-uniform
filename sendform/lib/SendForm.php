@@ -79,6 +79,8 @@ class SendForm {
 			$this->data['_subject'] = a::get($options, 'subject',
 					l::get('sendform-default-subject'));
 
+			$this->data['_snippet'] = a::get($options, 'snippet');
+
 			$this->sentSuccessful = false;
 			$this->message = '';
 
@@ -169,22 +171,30 @@ class SendForm {
 	 * Bundles the form data to an e-mail body and sends it.
 	 */
 	private function sendForm() {
-		$mail_body = "";
+		$mailBody = "";
+		$snippet = a::get($this->data, '_snippet');
 
-		foreach ($this->data as $key => $value) {
-			if (str::startsWith($key, '_')) {
-				continue;
+		if (empty($snippet)) {
+			foreach ($this->data as $key => $value) {
+				if (str::startsWith($key, '_')) {
+					continue;
+				}
+
+				$mailBody .= ucfirst($key).': '.$value."\n\n";
 			}
-
-			$mail_body .= ucfirst($key).': '.$value."\n\n";
+		} else {
+			$mailBody = snippet($snippet, array('data' => $this->data), true);
+			if ($mailBody === false) {
+				throw new Exception("The email snippet '" . $snippet . "' does not exist!");
+			}
 		}
 
 		$email = email(array(
 			'to'			=> a::get($this->data, '_to'),
 			'from'		=> a::get($this->data, 'name', '') . ' <' .
-				$this->data['_from'] . '>',
+				a::get($this->data, '_from') . '>',
 			'subject'	=> a::get($this->data, '_subject'),
-			'body'		=> $mail_body
+			'body'		=> $mailBody
 		));
 
 		if($email->send()) {
