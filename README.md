@@ -51,10 +51,10 @@ You first have to initialize the form at the top of your contact form template l
 
 The **first** argument is a unique ID of the contact form on your site. The **second** one is the recipient's/your email address. In this case the `Email` field of the current page is used but of course you could hard code the address or get it elswhere. The **third** (optional) argument is the array of [options](#options).
 
-You then create a form element with the own url of the page as `action` target like this:
+You then create a form element with the own page as `action` target like this:
 
 ```php
-<form action="<?php echo $page->url()?>" method="post"></form>
+<form action="" method="post"></form>
 ```
 
 The plugin then requires the presence of a `_from` field containing the sender's email address, a `_potty` field acting as a honey pot and a `_submit` button. Note the `_` at the beginning of the field `name` attributes, marking them as "private" fields that are not put into the email body. Here is an example:
@@ -180,7 +180,7 @@ This form only asks for the name and email (both required) as well as a message.
 	);
 ?>
 
-<form action="<?php echo $page->url()?>#form" method="post">
+<form action="#form" method="post">
 
 	<label for="name" class="required">Name</label>
 	<input<?php e($form->hasError('name'), ' class="erroneous"')?> type="text" name="name" id="name" value="<?php $form->echoValue('name') ?>" required/>
@@ -241,7 +241,7 @@ This form extends the basic example by radio buttons and `select` fields as well
 	);
 ?>
 
-<form action="<?php echo $page->url()?>#form" method="post">
+<form action="#form" method="post">
 
 	<label for="name" class="required">Name</label>
 	<input<?php e($form->hasError('name'), ' class="erroneous"')?> type="text" name="name" id="name" value="<?php $form->echoValue('name') ?>" required/>
