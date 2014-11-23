@@ -53,11 +53,11 @@ class SendForm {
 	 */
 	public function __construct($id, $recipient, $options) {
 
-		if (str::length($id) === 0) {
+		if (empty($id)) {
 			throw new Error('No SendForm ID was given.');
 		}
 
-		if (str::length($recipient) === 0) {
+		if (empty($recipient)) {
 			throw new Error('No SendForm recipient was given.');
 		}
 
@@ -152,7 +152,7 @@ class SendForm {
 		foreach ($validateFields as $field => $method) {
 			$value = a::get($this->data, $field);
 			// validate only if a method is given and the field contains data
-			if ($method && $value && !call('v::' . $method, $value)) {
+			if (!empty($method) && !empty($value) && !call('v::' . $method, $value)) {
 				array_push($this->erroneousFields, $field);
 			}
 		}
@@ -256,7 +256,7 @@ class SendForm {
 	 * @return true if there is a success/error feedback message.
 	 */
 	public function hasMessage() {
-		return str::length($this->message) !== 0;
+		return !empty($this->message);
 	}
 
 	/**
@@ -267,11 +267,9 @@ class SendForm {
 	 *
 	 */
 	public function hasError($key) {
-		if (!$key) {
-			return !empty($this->erroneousFields);
-		} else {
-			return v::in($key, $this->erroneousFields);
-		}
+		return ($key)
+			? v::in($key, $this->erroneousFields)
+			: !empty($this->erroneousFields);
 	}
 
 	/**
