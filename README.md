@@ -2,7 +2,7 @@
 
 A simple, PHP-only [Kirby 2](http://getkirby.com) plugin to handle sending web forms by email.
 
-It does **not** support extensive server-side validation or email templates.
+**Supports** server-side vaildation and email templates.
 
 ## Installation
 
@@ -28,6 +28,8 @@ c::set('languages', array(
 
 For more information on the multi language support of Kirby, see [the docs](http://getkirby.com/docs/languages/setup).
 
+**Optional:** If you like to use email templates, put those snippets from the `snippets` directory that you like to use to `site/snippets/` (or make your own).
+
 For a **quick-start** jump directly to the [basic example](#basic) and paste it into your template.
 
 ## Usage
@@ -39,13 +41,15 @@ You first have to initialize the form at the top of your contact form template l
 	$form = sendform(
 		'contact-form-id',
 		$page->email(),
-		$site->title()->html() . ' - message from the contact form'
+		array(
+			'subject' => $site->title()->html().' - message from the contact form'
+		)
 	);
 ?>
 
 ```
 
-The **first** argument is a unique ID of the contact form on your site. The **second** one is the recipient's/your email address. In this case the `Email` field of the current page is used but of course you could hard code the address or get it elswhere. The **third** (optional) argument is the subject of the email to be sent. If none is specified, the default subject from the language definition is used.
+The **first** argument is a unique ID of the contact form on your site. The **second** one is the recipient's/your email address. In this case the `Email` field of the current page is used but of course you could hard code the address or get it elswhere. The **third** (optional) argument is the array of [options](#options).
 
 You then create a form element with the own url of the page as `action` target like this:
 
@@ -53,11 +57,11 @@ You then create a form element with the own url of the page as `action` target l
 <form action="<?php echo $page->url()?>" method="post"></form>
 ```
 
-The plugin then requires the presence of an `_email` field containing the sender's email address, a `_potty` field acting as a honey pot and a `_submit` button. Note the `_` at the beginning of the field `name` attributes, marking them as "private" fields that are not put into the email body. Here is an example:
+The plugin then requires the presence of a `_from` field containing the sender's email address, a `_potty` field acting as a honey pot and a `_submit` button. Note the `_` at the beginning of the field `name` attributes, marking them as "private" fields that are not put into the email body. Here is an example:
 
 ```php
 <label for="email" class="required">E-Mail</label>
-<input type="email" name="_from" id="email" value="<?php $form->echo_value('_from') ?>" required/>
+<input<?php e($form->hasError('_from'), ' class="erroneous"')?> type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
 <label class="sendform__potty" for="potty">Please leave this field blank</label>
 <input type="text" name="_potty" id="potty" class="sendform__potty" />
@@ -65,7 +69,9 @@ The plugin then requires the presence of an `_email` field containing the sender
 <button type="submit" name="_submit" value="<?php echo $form->token() ?>"<?php e($form->successful(), " disabled")?>>Submit</button>
 ```
 
-There are a few important things happening here. First, the `echo_value()` function is used to set the `value` of the email field. If the submission of the form has failed, this restores already set fields. So in this case you don't have to enter the email address again when the page is reloaded. For more on the available functions, see [the functions section](#functions).
+There are a few important things happening here.
+
+First, the `echoValue()` function is used to set the `value` of the email field. If the submission of the form has failed, this restores already set fields. So in this case you don't have to enter the email address again when the page is reloaded. Also, the `hasError()` function is used to mark the email field with a special class if the server-side validation failed. For more on the available functions, see [the functions section](#functions).
 
 Secondly the honey pot field uses the `sendform__potty` class. If you check the `sendform.css` you'll see that it makes the field disappear visually but not in the souce code of the page, the spam-bots are accessing.
 
@@ -75,6 +81,34 @@ The presence of these three elements with the exact `name` attributes and the to
 
 Now you can add as many additional form fields as you like. Make sure not to use `_` as a prefix of the `name` attributes, else they won't appear in the email being sent. If you add a `name="name"` field, the content will be used for the name of the sender of the email in addition to the email address.
 
+## Options
+
+All of these options are, well, optional. The plugin still works if you don't specify any of them.
+
+### subject
+
+The custom subject of the email to be sent by the form. If none is given, `sendform-default-subject` is chosen.
+
+### required
+
+Associative array of required form fields. The keys of the array are the `name` attributes of the required fields. The values of the entries are optional [validator functions](http://getkirby.com/docs/cheatsheet#validators) names. For example this array defaults to:
+
+```php
+array('_from' => 'email')
+```
+
+So the `_from` field is required and validated by the [`v::email`](http://getkirby.com/docs/cheatsheet/validators/email) validator function. Note, that this works only with validator functions that validate single strings. If a field is required but should not be validated, leave the function name empty.
+
+If a required field is missing, the form will not be sent.
+
+### validate
+
+Like [`required`](#required) but sending of the form will *not* fail if one of these fields is missing. Only if one of these fields contains invalid data the form will not be sent.
+
+### snippet
+
+The name of the email snippet to use from the `site/snippets/` directory of your site. See the `snippets` directory of this repo for example snippets. If you like to write your own snippet, you can use the `$data` array containing all the data of the form field including the 'private' properties like `_subject` that all start with a `_`.
+
 ## Functions
 
 ### value($key)
@@ -83,13 +117,13 @@ Returns the value of a form field in case the submission of the form has failed.
 
 `$key`: The `name` attribute of the form field.
 
-### echo_value($key)
+### echoValue($key)
 
 Echos [`value()`](#valuekey) directly as a HTML-safe string.
 
 `$key`: The `name` attribute of the form field.
 
-### is_value($key, $value)
+### isValue($key, $value)
 
 Checks if a form field has a certain value.
 
@@ -107,13 +141,19 @@ Returns `true` if the form was sent successfully, `false` otherwise.
 
 Returns the success/error feedback message.
 
-### echo_message()
+### echoMessage()
 
 Echos [`message()`](#message) directly as a HTML-safe string.
 
-### has_message()
+### hasMessage()
 
 Returns `true` if there is a success/error feedback message, `false` otherwise.
+
+### hasError($key)
+
+Retruns `true` if there are erroneous fields. If a key is given, returns `true` if this field is erroneous. Returns `false` otherwise.
+
+`$key`: (optional) The key / name attribute of the form field to check.
 
 ### token()
 
@@ -125,34 +165,39 @@ Here are a few full examples that you could directly put into your templates. Th
 
 ### basic
 
-This form only asks for the name and email as well as a message. It restores values if the submission fails and displays the feedback message in a separate container. Note the `#form` anchor for jumping down to the feedback message when the form was submitted (especially important on mobile). If the form was submitted successfully, the submit button is disabled.
+This form only asks for the name and email (both required) as well as a message. It restores values if the submission fails and displays the feedback message in a separate container. Note the `#form` anchor for jumping down to the feedback message when the form was submitted (especially important on mobile). This may be handled differently if the form is on your page root. If the form was submitted successfully, the submit button is disabled.
 
 ```php
 <?php
 	$form = sendform(
 		'contact-form',
-		'me@example.com'
+		'me@example.com',
+		array(
+			'required' => array(
+				'name' => ''
+			)
+		)
 	);
 ?>
 
 <form action="<?php echo $page->url()?>#form" method="post">
 
 	<label for="name" class="required">Name</label>
-	<input type="text" name="name" id="name" value="<?php $form->echo_value('name') ?>" required/>
+	<input<?php e($form->hasError('name'), ' class="erroneous"')?> type="text" name="name" id="name" value="<?php $form->echoValue('name') ?>" required/>
 
 	<label for="email" class="required">E-Mail</label>
-	<input type="email" name="_from" id="email" value="<?php $form->echo_value('_from') ?>" required/>
+	<input<?php e($form->hasError('_from'), ' class="erroneous"')?> type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
-	<label for="message" class="required">Message</label>
-	<textarea name="message" id="message" required><?php $form->echo_value('message') ?></textarea>
+	<label for="message">Message</label>
+	<textarea name="message" id="message"><?php $form->echoValue('message') ?></textarea>
 
 	<label class="sendform__potty" for="potty">Please leave this field blank</label>
 	<input type="text" name="_potty" id="potty" class="sendform__potty" />
 
 	<a name="form"></a>
-<?php if ($form->has_message()): ?>
+<?php if ($form->hasMessage()): ?>
 	<div class="message <?php e($form->successful(), 'success' , 'error')?>">
-		<?php $form->echo_message() ?>
+		<?php $form->echoMessage() ?>
 	</div>
 <?php endif; ?>
 
@@ -167,6 +212,7 @@ From: `Martin<martin@example.com>`
 
 Subject: `Message from the web form.`
 
+Body:
 ```txt
 Name: Martin
 
@@ -175,27 +221,39 @@ Message: hello
 
 ### extended
 
-This form extends the basic example by radio buttons and `select` fields as well as a custom subject.
+This form extends the basic example by radio buttons and `select` fields as well as a custom subject. It validates a non-required field, too. For the email body the `sendform-table` snippet provided by this repo is used.
 
 ```php
 <?php
 	$form = sendform(
 		'registration-form',
 		'me@example.com',
-		'Exhibition - New registration'
+		array(
+			'subject'	=> 'Exhibition - New registration',
+			'required'	=> array(
+				'name'	=> ''
+			),
+			'validate'	=> array(
+				'attendees'	=> 'num'
+			),
+			'snippet'	=> 'sendform-table'
+		)
 	);
 ?>
 
 <form action="<?php echo $page->url()?>#form" method="post">
 
 	<label for="name" class="required">Name</label>
-	<input type="text" name="name" id="name" value="<?php $form->echo_value('name') ?>" required/>
+	<input<?php e($form->hasError('name'), ' class="erroneous"')?> type="text" name="name" id="name" value="<?php $form->echoValue('name') ?>" required/>
 
 	<label for="email" class="required">E-Mail</label>
-	<input type="email" name="_from" id="email" value="<?php $form->echo_value('_from') ?>" required/>
+	<input<?php e($form->hasError('_from'), ' class="erroneous"')?> type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
 	<label for="expertise">Area of expertise</label>
-	<input type="text" name="expertise" id="expertise" value="<?php $form->echo_value('expertise') ?>"/>
+	<input type="text" name="expertise" id="expertise" value="<?php $form->echoValue('expertise') ?>"/>
+
+	<label for="attendees">Number of attendees</label>
+	<input<?php e($form->hasError('attendees'), ' class="erroneous"')?> type="number" name="attendees" id="attendees" value="<?php $form->echoValue('attendees') ?>"/>
 
 	<label for="booth">Booth size</label>
 	<select name="booth" id="booth">
@@ -217,16 +275,16 @@ This form extends the basic example by radio buttons and `select` fields as well
 		</label>
 	</div>
 
-	<label for="message" class="required">Message</label>
-	<textarea name="message" id="message" required><?php $form->echo_value('message') ?></textarea>
+	<label for="message">Message</label>
+	<textarea name="message" id="message"><?php $form->echoValue('message') ?></textarea>
 
 	<label class="sendform__potty" for="potty">Please leave this field blank</label>
 	<input type="text" name="_potty" id="potty" class="sendform__potty" />
 
 	<a name="form"></a>
-<?php if ($form->has_message()): ?>
+<?php if ($form->hasMessage()): ?>
 	<div class="message <?php e($form->successful(), 'success' , 'error')?>">
-		<?php $form->echo_message() ?>
+		<?php $form->echoMessage() ?>
 	</div>
 <?php endif; ?>
 
@@ -235,20 +293,46 @@ This form extends the basic example by radio buttons and `select` fields as well
 </form>
 ```
 
-In case "Martin" with email "martin@example.com" has "JavaScript" as area of expertise, wants a 12 m² booth, doesn't want to receive the newsletter and submitted the message "hello", the email would look like this:
+In case "Martin" with email "martin@example.com" has "JavaScript" as area of expertise, brings 3 attendees, wants a 12 m² booth, doesn't want to receive the newsletter and submitted the message "hello", the email would look like this:
 
 From: `Martin<martin@example.com>`
 
 Subject: `Exhibition - New registration`
 
-```txt
-Name: Martin
-
-Expertise: JavaScript
-
-Booth: 12 sqm
-
-Newsletter: no
-
-Message: hello
+Body:
+```html
+<table>
+	<thead>
+		<tr>
+			<th>Field</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Name</td>
+			<td>Martin</td>
+		</tr>
+		<tr>
+			<td>Expertise</td>
+			<td>JavaScript</td>
+		</tr>
+		<tr>
+			<td>Attendees</td>
+			<td>3</td>
+		</tr>
+		<tr>
+			<td>Booth</td>
+			<td>12 sqm</td>
+		</tr>
+		<tr>
+			<td>Newsletter</td>
+			<td>no</td>
+		</tr>
+		<tr>
+			<td>Message</td>
+			<td>hello</td>
+		</tr>
+	</tbody>
+</table>
 ```

@@ -31,27 +31,33 @@ class SendForm {
 	/**
 	 * Was this form sent succesfully?
 	 */
-	private $sent_successful;
+	private $sentSuccessful;
 
 	/**
 	 * Feedback success/error message.
 	 */
-	private $sent_message;
+	private $message;
 
 	/**
-	 * id: The unique ID of this form.
-	 *
-	 * recipient: e-mail adress the form content should be sent to.
-	 *
-	 * subject (optional): The subject of the e-mail.
+	 * Array of keys of form fields that were required and not given or failed
+	 * their validation.
 	 */
-	function __construct($id, $recipient, $subject='') {
+	private $erroneousFields;
 
-		if (str::length($id) === 0) {
+	/**
+	 * @param string $id The unique ID of this form.
+	 *
+	 * @param string $recipient e-mail adress the form content should be sent to.
+	 *
+	 * @param array $options Array of sendform options.
+	 */
+	public function __construct($id, $recipient, $options) {
+
+		if (empty($id)) {
 			throw new Error('No SendForm ID was given.');
 		}
 
-		if (str::length($recipient) === 0) {
+		if (empty($recipient)) {
 			throw new Error('No SendForm recipient was given.');
 		}
 
@@ -62,26 +68,44 @@ class SendForm {
 		$this->token = s::get($this->id);
 
 		if (!$this->token) {
-			$this->generate_token();
+			$this->generateToken();
 		}
 
 		// get the data to be sent (if there is any)
 		$this->data = get();
-		$this->data['_to'] = $recipient;
-		$this->data['_subject'] = $subject;
 
-		$this->sent_successful = false;
-		$this->sent_message = '';
+		if ($this->requestValid()) {
+			$this->data['_to'] = $recipient;
+			$this->data['_subject'] = a::get($options, 'subject',
+					l::get('sendform-default-subject'));
 
-		if ($this->data_valid()) {
-			$this->send_form();
+			$this->data['_snippet'] = a::get($options, 'snippet');
+
+			$this->sentSuccessful = false;
+			$this->message = '';
+
+			$requiredFields = a::merge(
+				a::get($options, 'required'),
+				// default required fields overwrite the fields of the options
+				array('_from' => 'email')
+			);
+
+			$validateFields = a::merge(
+				a::get($options, 'validate'),
+				// required fields will also be validated by default
+				$requiredFields
+			);
+
+			if ($this->dataValid($requiredFields, $validateFields)) {
+				$this->sendForm();
+			}
 		}
 	}
 
 	/**
 	 * Generates a new token for this form and session.
 	 */
-	private function generate_token() {
+	private function generateToken() {
 		$this->token = str::random(SendForm::TOKEN_LENGTH);
 		s::set($this->id, $this->token);
 	}
@@ -89,62 +113,97 @@ class SendForm {
 	/**
 	 * Destroys the current token of this form.
 	 */
-	private function destroy_token() {
+	private function destroyToken() {
 		s::remove($this->id);
 	}
 
 	/**
-	 * Checks if all required data is present to send the form. This includes
-	 * the session token, the sender's e-mail address and the hney pot still
-	 * being empty.
+	 * Quickly decides if the request is valid so the server is minimally
+	 * stressed by scripted attacks.
 	 */
-	private function data_valid() {
+	private function requestValid() {
+		if (a::get($this->data, '_submit') !== $this->token) {
+			return false;
+		}
 
-		if (a::get($this->data, '_submit') === $this->token) {
-			if (a::get($this->data, '_from')) {
-				if (!a::get($this->data, '_potty')) {
-					return true;
-				} else {
-					$this->sent_message = l::get('sendform-filled-potty');
-				}
-			} else {
-				$this->sent_message = l::get('sendform-no-email');
+		if (v::required('_potty', $this->data)) {
+			$this->message = l::get('sendform-filled-potty');
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks if all required data is present to send the form.
+	 */
+	private function dataValid($requiredFields, $validateFields) {
+
+		// check if all required fields are there
+		$this->erroneousFields = a::missing(
+			$this->data,
+			array_keys($requiredFields)
+		);
+
+		if (!empty($this->erroneousFields)) {
+			$this->message = l::get('sendform-fields-required');
+			return false;
+		}
+
+		// perform validation for all fields with a given validation method
+		foreach ($validateFields as $field => $method) {
+			$value = a::get($this->data, $field);
+			// validate only if a method is given and the field contains data
+			if (!empty($method) && !empty($value) && !call('v::' . $method, $value)) {
+				array_push($this->erroneousFields, $field);
 			}
 		}
 
-		return false;
+		if (!empty($this->erroneousFields)) {
+			$this->message = l::get('sendform-fields-not-valid');
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * Bundles the form data to an e-mail body and sends it.
 	 */
-	private function send_form() {
-		$mail_body = "";
+	private function sendForm() {
+		$mailBody = "";
+		$snippet = a::get($this->data, '_snippet');
 
-		foreach ($this->data as $key => $value) {
-			if (str::startsWith($key, '_')) {
-				continue;
+		if (empty($snippet)) {
+			foreach ($this->data as $key => $value) {
+				if (str::startsWith($key, '_')) {
+					continue;
+				}
+
+				$mailBody .= ucfirst($key).': '.$value."\n\n";
 			}
-
-			$mail_body .= ucfirst($key).': '.$value."\n\n";
+		} else {
+			$mailBody = snippet($snippet, array('data' => $this->data), true);
+			if ($mailBody === false) {
+				throw new Exception("The email snippet '" . $snippet . "' does not exist!");
+			}
 		}
 
 		$email = email(array(
 			'to'			=> a::get($this->data, '_to'),
 			'from'		=> a::get($this->data, 'name', '') . ' <' .
-				$this->data['_from'] . '>',
-			'subject'	=> a::get($this->data, '_subject',
-				l::get('sendform-default-subject')),
-			'body'		=> $mail_body
+				a::get($this->data, '_from') . '>',
+			'subject'	=> a::get($this->data, '_subject'),
+			'body'		=> $mailBody
 		));
 
 		if($email->send()) {
-			$this->sent_message = l::get('sendform-send-success');
-			$this->sent_successful = true;
+			$this->message = l::get('sendform-send-success');
+			$this->sentSuccessful = true;
 			// now this form send session is over, so destroy the token
-			$this->destroy_token();
+			$this->destroyToken();
 		} else {
-			$this->sent_message = l::get('sendform-send-error') . " " .
+			$this->message = l::get('sendform-send-error') . " " .
 				$email->error();
 		}
 	}
@@ -153,65 +212,78 @@ class SendForm {
 	 * Returns the value of a form field. The value is empty if the form was
 	 * sent successful.
 	 *
-	 * key: The "name" attribute of the form field.
+	 * @param string $key The "name" attribute of the form field.
 	 */
 	public function value($key) {
-		return ($this->sent_successful) ? '' : a::get($this->data, $key, '');
+		return ($this->sentSuccessful) ? '' : a::get($this->data, $key, '');
 	}
 
 	/**
 	 * Echos the value of a form field directly as a HTML-safe string.
 	 *
-	 * key: The "name" attribute of the form field.
+	 * @param string $key The "name" attribute of the form field.
 	 */
-	public function echo_value($key) {
+	public function echoValue($key) {
 		echo str::html($this->value($key));
 	}
 
 	/**
 	 * Checks if a form field has a certain value.
 	 *
-	 * key: The "name" attribute of the form field.
+	 * @param string $key The "name" attribute of the form field.
 	 *
-	 * value: The value tested against the actual content of the form field.
+	 * @param string $value The value tested against the actual content of the form field.
 	 *
-	 * returns: True if the value equals the content of the form field. false
+	 * @return True if the value equals the content of the form field. false
 	 * 	otherwise
 	 */
-	public function is_value($key, $value) {
+	public function isValue($key, $value) {
 		return $this->value($key) === $value;
 	}
 
 	/**
-	 * Returns true if the form was sent successfully. false otherwise.
+	 * @return true if the form was sent successfully. false otherwise.
 	 */
 	public function successful() {
-		return $this->sent_successful;
+		return $this->sentSuccessful;
 	}
 
 	/**
-	 * Returns the success/error feedback message.
+	 * @return the success/error feedback message.
 	 */
 	public function message() {
-		return $this->sent_message;
+		return $this->message;
 	}
 
 	/**
 	 * Echos the success/error feedback message directly as a HTML-safe string.
 	 */
-	public function echo_message() {
+	public function echoMessage() {
 		echo str::html($this->message());
 	}
 
 	/**
-	 * Returns true if there is a success/error feedback message.
+	 * @return true if there is a success/error feedback message.
 	 */
-	public function has_message() {
-		return str::length($this->sent_message) !== 0;
+	public function hasMessage() {
+		return !empty($this->message);
 	}
 
 	/**
-	 * Returns the current session token of this form.
+	 * @param string $key (optional) the key of the form field to check.
+	 *
+	 * @return true if there are erroneous fields. If a key is given, returns
+	 * true if this field is erroneous. Returns false otherwise.
+	 *
+	 */
+	public function hasError($key) {
+		return ($key)
+			? v::in($key, $this->erroneousFields)
+			: !empty($this->erroneousFields);
+	}
+
+	/**
+	 * @return the current session token of this form.
 	 */
 	public function token() {
 		return $this->token;
