@@ -81,6 +81,12 @@ class SendForm {
 
 			$this->data['_snippet'] = a::get($options, 'snippet');
 
+			$this->data['_copy'] = a::get($options, 'copy', array());
+			
+			if (array_key_exists('_receive_copy', $this->data)) {
+				array_unshift($this->data['_copy'], $this->data['_from']);
+			}
+
 			$this->sentSuccessful = false;
 			$this->message = '';
 
@@ -189,15 +195,25 @@ class SendForm {
 			}
 		}
 
-		$email = email(array(
+		$params = array(
 			'to'			=> a::get($this->data, '_to'),
 			'from'		=> a::get($this->data, 'name', '') . ' <' .
 				a::get($this->data, '_from') . '>',
 			'subject'	=> a::get($this->data, '_subject'),
 			'body'		=> $mailBody
-		));
+		);
+
+		$email = email($params);
 
 		if($email->send()) {
+			$params['subject'] = l::get('sendform-email-copy') . ' ' . $params['subject'];
+
+			// if everything was ok, send the copies
+			foreach (a::get($this->data, '_copy') as $address) {
+				$params['to'] = $address;
+				email($params)->send();
+			}
+
 			$this->message = l::get('sendform-send-success');
 			$this->sentSuccessful = true;
 			// now this form send session is over, so destroy the token

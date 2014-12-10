@@ -109,6 +109,12 @@ Like [`required`](#required) but sending of the form will *not* fail if one of t
 
 The name of the email snippet to use from the `site/snippets/` directory of your site. See the `snippets` directory of this repo for example snippets. If you like to write your own snippet, you can use the `$data` array containing all the data of the form field including the 'private' properties like `_subject` that all start with a `_`.
 
+### copy
+
+An array of additional email addresses the form data should be sent to. The subject of these emails gets the `sendform-email-copy` language variable as prefix.
+
+If there is a `_receive_copy` field present in the form data (e.g. from a checkbox, see the [extended example](#extended)), the sender's email address (`_from`) will receive a copy, too.
+
 ## Functions
 
 ### value($key)
@@ -223,6 +229,8 @@ Message: hello
 
 This form extends the basic example by radio buttons and `select` fields as well as a custom subject. It validates a non-required field, too. For the email body the `sendform-table` snippet provided by this repo is used.
 
+When the form is sent, a copy of the email will be sent to `me-too@example.com`, as well as to the sender of the form if they checked the `_receive_copy` checkbox.
+
 ```php
 <?php
 	$form = sendform(
@@ -236,7 +244,10 @@ This form extends the basic example by radio buttons and `select` fields as well
 			'validate'	=> array(
 				'attendees'	=> 'num'
 			),
-			'snippet'	=> 'sendform-table'
+			'snippet'	=> 'sendform-table',
+			'copy'		=> array(
+				'me-too@example.com'
+			)
 		)
 	);
 ?>
@@ -274,6 +285,10 @@ This form extends the basic example by radio buttons and `select` fields as well
 			<input type="radio" name="newsletter" id="newsletter-no" value="no"<?php e($value=='no', ' checked')?>/> No
 		</label>
 	</div>
+
+	<label for="receive-copy">
+		<input type="checkbox" name="_receive_copy" id="receive-copy" <?php e($form->value('_receive_copy'), ' checked')?>/> Receive a copy of the sent data
+	</label>
 
 	<label for="message">Message</label>
 	<textarea name="message" id="message"><?php $form->echoValue('message') ?></textarea>
