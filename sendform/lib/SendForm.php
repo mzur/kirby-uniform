@@ -63,6 +63,8 @@ class SendForm {
 
 		$this->id = $id;
 
+		$this->erroneousFields = array();
+
 		// the token is stored as session variable until the form is sent
 		// successfully
 		$this->token = s::get($this->id);
@@ -293,13 +295,9 @@ class SendForm {
 	 *
 	 */
 	public function hasError($key) {
-		if (empty($this->erroneousFields)) {
-			return false;
-		} else {
-			return ($key)
-				? v::in($key, $this->erroneousFields)
-				: !empty($this->erroneousFields);
-		}
+		return ($key)
+			? v::in($key, $this->erroneousFields)
+			: !empty($this->erroneousFields);
 	}
 
 	/**
