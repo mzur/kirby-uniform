@@ -63,6 +63,8 @@ class SendForm {
 
 		$this->id = $id;
 
+		$this->erroneousFields = array();
+
 		// the token is stored as session variable until the form is sent
 		// successfully
 		$this->token = s::get($this->id);
@@ -82,7 +84,7 @@ class SendForm {
 			$this->data['_snippet'] = a::get($options, 'snippet');
 
 			$this->data['_copy'] = a::get($options, 'copy', array());
-			
+
 			if (array_key_exists('_receive_copy', $this->data)) {
 				array_unshift($this->data['_copy'], $this->data['_from']);
 			}
