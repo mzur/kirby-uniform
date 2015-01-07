@@ -82,7 +82,7 @@ class SendForm {
 			$this->data['_snippet'] = a::get($options, 'snippet');
 
 			$this->data['_copy'] = a::get($options, 'copy', array());
-			
+
 			if (array_key_exists('_receive_copy', $this->data)) {
 				array_unshift($this->data['_copy'], $this->data['_from']);
 			}
@@ -293,9 +293,13 @@ class SendForm {
 	 *
 	 */
 	public function hasError($key) {
-		return ($key)
-			? v::in($key, $this->erroneousFields)
-			: !empty($this->erroneousFields);
+		if (empty($this->erroneousFields)) {
+			return false;
+		} else {
+			return ($key)
+				? v::in($key, $this->erroneousFields)
+				: !empty($this->erroneousFields);
+		}
 	}
 
 	/**
