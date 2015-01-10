@@ -115,6 +115,14 @@ An array of additional email addresses the form data should be sent to. The subj
 
 If there is a `_receive_copy` field present in the form data (e.g. from a checkbox, see the [extended example](#extended)), the sender's email address (`_from`) will receive a copy, too.
 
+### service
+
+The name of the email service to use, default is `mail`. If you use another email service, make sure to provide the [`service-options`](#service-options) as well.
+
+### service-options
+
+An array of options to pass along to the email service. This will be the `$email->options` array you can access in a custom email service. Or if you use the `amazon` service, for example, you need to provide the `key`, `secret` and `host` in this array.
+
 ## Functions
 
 ### value($key)

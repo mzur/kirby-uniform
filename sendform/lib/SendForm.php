@@ -45,6 +45,11 @@ class SendForm {
 	private $erroneousFields;
 
 	/**
+	 * The options array.
+	 */
+	private $options;
+
+	/**
 	 * @param string $id The unique ID of this form.
 	 *
 	 * @param string $recipient e-mail adress the form content should be sent to.
@@ -77,29 +82,37 @@ class SendForm {
 		$this->data = get();
 
 		if ($this->requestValid()) {
-			$this->data['_to'] = $recipient;
-			$this->data['_subject'] = a::get($options, 'subject',
-					l::get('sendform-default-subject'));
+			$this->options = array(
+				'subject' 			=> a::get($options, 'subject',
+						l::get('sendform-default-subject')),
+				'snippet'			=> a::get($options, 'snippet', false),
+				'copy'				=> a::get($options, 'copy', array()),
+				'required'			=> a::get($options, 'required', array()),
+				'validate'			=> a::get($options, 'validate', array()),
+				'to'					=> $recipient,
+				'service'			=> a::get($options, 'service', 'mail'),
+				'service-options'	=> a::get($options, 'service-options', array())
+			);
 
-			$this->data['_snippet'] = a::get($options, 'snippet');
-
-			$this->data['_copy'] = a::get($options, 'copy', array());
+			// extend the data array so email snippets get these fields, too
+			$this->data['_subject'] = $this->options['subject'];
+			$this->data['_to'] 		= $this->options['to'];
 
 			if (array_key_exists('_receive_copy', $this->data)) {
-				array_unshift($this->data['_copy'], $this->data['_from']);
+				array_unshift($this->options['copy'], $this->data['_from']);
 			}
 
 			$this->sentSuccessful = false;
 			$this->message = '';
 
 			$requiredFields = a::merge(
-				a::get($options, 'required'),
+				$this->options['required'],
 				// default required fields overwrite the fields of the options
 				array('_from' => 'email')
 			);
 
 			$validateFields = a::merge(
-				a::get($options, 'validate'),
+				$this->options['validate'],
 				// required fields will also be validated by default
 				$requiredFields
 			);
@@ -180,7 +193,7 @@ class SendForm {
 	 */
 	private function sendForm() {
 		$mailBody = "";
-		$snippet = a::get($this->data, '_snippet');
+		$snippet = $this->options['snippet'];
 
 		if (empty($snippet)) {
 			foreach ($this->data as $key => $value) {
@@ -198,20 +211,21 @@ class SendForm {
 		}
 
 		$params = array(
-			'to'			=> a::get($this->data, '_to'),
+			'service'	=> $this->options['service'],
+			'options'	=> $this->options['service-options'],
+			'to'			=> $this->options['to'],
 			'from'		=> a::get($this->data, 'name', '') . ' <' .
 				a::get($this->data, '_from') . '>',
-			'subject'	=> a::get($this->data, '_subject'),
+			'subject'	=> $this->options['subject'],
 			'body'		=> $mailBody
 		);
-
 		$email = email($params);
 
 		if($email->send()) {
 			$params['subject'] = l::get('sendform-email-copy') . ' ' . $params['subject'];
 
 			// if everything was ok, send the copies
-			foreach (a::get($this->data, '_copy') as $address) {
+			foreach ($this->options['copy'] as $address) {
 				$params['to'] = $address;
 				email($params)->send();
 			}
