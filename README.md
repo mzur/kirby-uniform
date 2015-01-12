@@ -87,7 +87,13 @@ All of these options are, well, optional. The plugin still works if you don't sp
 
 ### subject
 
-The custom subject of the email to be sent by the form. If none is given, `sendform-default-subject` is chosen.
+The custom subject of the email to be sent by the form. If none is given, `sendform-default-subject` is chosen from the language file.
+
+The subject can contain form data, too. For example if the subject should contain the value of a form field named `number-persons`, create a subject like this:
+
+```
+New reservation: {number-persons} persons!
+```
 
 ### required
 
@@ -114,6 +120,14 @@ The name of the email snippet to use from the `site/snippets/` directory of your
 An array of additional email addresses the form data should be sent to. The subject of these emails gets the `sendform-email-copy` language variable as prefix.
 
 If there is a `_receive_copy` field present in the form data (e.g. from a checkbox, see the [extended example](#extended)), the sender's email address (`_from`) will receive a copy, too.
+
+### service
+
+The name of the email service to use, default is `mail`. If you use another email service, make sure to provide the [`service-options`](#service-options) as well.
+
+### service-options
+
+An array of options to pass along to the email service. This will be the `$email->options` array you can access in a custom email service. Or if you use the `amazon` service, for example, you need to provide the `key`, `secret` and `host` in this array.
 
 ## Functions
 
