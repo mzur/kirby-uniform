@@ -96,6 +96,10 @@ class SendForm {
 				'service-options'	=> a::get($options, 'service-options', array())
 			);
 
+			// remove newlines to prevent malicious modifications of the email
+			// header
+			$this->options['subject'] = str_replace("\n", '', $this->options['subject']);
+
 			// extend the data array so email snippets get these fields, too
 			$this->data['_subject'] = $this->options['subject'];
 			$this->data['_to'] 		= $this->options['to'];
@@ -221,6 +225,7 @@ class SendForm {
 			'subject'	=> $this->options['subject'],
 			'body'		=> $mailBody
 		);
+
 		$email = email($params);
 
 		if($email->send()) {
