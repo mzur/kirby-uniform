@@ -87,7 +87,13 @@ All of these options are, well, optional. The plugin still works if you don't sp
 
 ### subject
 
-The custom subject of the email to be sent by the form. If none is given, `sendform-default-subject` is chosen.
+The custom subject of the email to be sent by the form. If none is given, `sendform-default-subject` is chosen from the language file.
+
+The subject can contain form data, too. For example if the subject should contain the value of a form field named `number-persons`, create a subject like this:
+
+```
+New reservation: {number-persons} persons!
+```
 
 ### required
 

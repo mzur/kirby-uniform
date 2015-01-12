@@ -83,8 +83,10 @@ class SendForm {
 
 		if ($this->requestValid()) {
 			$this->options = array(
-				'subject' 			=> a::get($options, 'subject',
-						l::get('sendform-default-subject')),
+				'subject' 			=>
+					// apply the dynamic subject (insert form data)
+					str::template(a::get($options, 'subject',
+						l::get('sendform-default-subject')), $this->data),
 				'snippet'			=> a::get($options, 'snippet', false),
 				'copy'				=> a::get($options, 'copy', array()),
 				'required'			=> a::get($options, 'required', array()),
