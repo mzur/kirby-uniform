@@ -34,6 +34,16 @@ class UniForm {
 	private $token;
 
 	/**
+	 * Array of required field names.
+	 */
+	private $requiredFields;
+
+	/**
+	 * Array of field names that should be validated.
+	 */
+	private $validateFields;
+
+	/**
 	 * Contains the returned values of the performed action callbacks as well as
 	 * 'success' and 'message' of the form plugin itself.
 	 */
@@ -60,6 +70,7 @@ class UniForm {
 
 		$this->erroneousFields = array();
 
+		// initialize output array with the output of the plugin itself
 		$this->actionOutput = array(
 			'_uniform' => array(
 				'success' => false,
@@ -85,19 +96,20 @@ class UniForm {
 				throw new Error('No actions were given.');
 			}
 			
-			$requiredFields = a::get($options, 'required', array());
+			$this->requiredFields = a::get($options, 'required', array());
 
-			$validateFields = a::merge(
+			$this->validateFields = a::merge(
 				a::get($options, 'validate', array()),
 				// required fields will also be validated by default
-				$requiredFields
+				$this->requiredFields
 			);
 
-			if ($this->dataValid($requiredFields, $validateFields)) {
+			if ($this->dataValid()) {
 				// unifor is done, now it's the actions turn
 				$this->actionOutput['_uniform']['success'] = true;
 
-				foreach ($actions as $action) {
+				foreach ($actions as $index => $action) {
+					// skip this array if it doesn't contain an action name
 					if (!($key = a::get($action, '_action'))) continue;
 
 					if (!isset(static::$actions[$key])) {
@@ -105,7 +117,7 @@ class UniForm {
 							'" does not exist.');
 					}
 
-					$this->actionOutput[$key] = call_user_func(
+					$this->actionOutput[$index] = call_user_func(
 						static::$actions[$key], $this->data, $action);
 				}
 
@@ -119,7 +131,7 @@ class UniForm {
 	 * Generates a new token for this form and session.
 	 */
 	private function generateToken() {
-		$this->token = str::random(uniform::TOKEN_LENGTH);
+		$this->token = str::random(static::TOKEN_LENGTH);
 		s::set($this->id, $this->token);
 	}
 
@@ -151,13 +163,11 @@ class UniForm {
 	/**
 	 * Checks if all required data is present to send the form.
 	 */
-	private function dataValid($requiredFields, $validateFields) {
+	private function dataValid() {
 
 		// check if all required fields are there
 		$this->erroneousFields = a::missing(
-			$this->data,
-			array_keys($requiredFields)
-		);
+			$this->data, array_keys($this->requiredFields));
 
 		if (!empty($this->erroneousFields)) {
 			$this->actionOutput['_uniform']['message'] =
@@ -166,7 +176,7 @@ class UniForm {
 		}
 
 		// perform validation for all fields with a given validation method
-		foreach ($validateFields as $field => $method) {
+		foreach ($this->validateFields as $field => $method) {
 			$value = a::get($this->data, $field);
 			// validate only if a method is given and the field contains data
 			if (!empty($method) && !empty($value) && !call('v::' . $method, $value)) {
@@ -237,7 +247,7 @@ class UniForm {
 	}
 
 	/**
-	 * @param string $action (optional) the name of the action to perform a
+	 * @param string $action (optional) the index of the action to perform a
 	 * successful check
 	 * @return if an <code>$action></code> was given, <code>true</code> if the
 	 * action was performed successfully, <code>false</code> otherwise. if no
@@ -245,7 +255,7 @@ class UniForm {
 	 * performed successfully, <code>false</code> otherwise.
 	 */
 	public function successful($action = false) {
-		if (!$action) {
+		if (!is_int($action) && !is_string($action)) {
 			foreach ($this->actionOutput as $output) {
 				if (!a::get($output, 'success')) return false;
 			}
@@ -258,7 +268,7 @@ class UniForm {
 	}
 
 	/**
-	 * @param string $action (optional) the name of the action to get the
+	 * @param string $action (optional) the index of the action to get the
 	 * feedback message from
 	 * @return if an <code>$action></code> was given, the success/error
 	 * feedback message of the action. if no <code>$action></code> was given, 
@@ -266,7 +276,7 @@ class UniForm {
 	 */
 	public function message($action = false) {
 		$message = '';
-		if (!$action) {
+		if (!is_int($action) && !is_string($action)) {
 			foreach ($this->actionOutput as $output) {
 				$message .= a::get($output, 'message', '') . "\n";
 			}
@@ -278,7 +288,7 @@ class UniForm {
 	}
 
 	/**
-	 * @param string $action (optional) the name of the action to get the
+	 * @param string $action (optional) the index of the action to get the
 	 * feedback message from
 	 *
 	 * Echos the success/error feedback message directly as a HTML-safe string.
@@ -289,14 +299,14 @@ class UniForm {
 	}
 
 	/**
-	 * @param string $action (optional) the name of the action to check for the
+	 * @param string $action (optional) the index of the action to check for the
 	 * presence of a feedback message.
 	 * @return true if there is a success/error feedback message for the 
 	 * specified action. of no action was specified, true if there is any 
 	 * message from any action, false otherwise.
 	 */
 	public function hasMessage($action = false) {
-		if (!$action) {
+		if (!is_int($action) && !is_string($action)) {
 			foreach ($this->actionOutput as $output) {
 				if (a::get($output, 'message')) return true;
 			}
