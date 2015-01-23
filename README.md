@@ -1,16 +1,18 @@
-# kirby-contact-form
+# kirby-uniform
 
-A simple, PHP-only [Kirby 2](http://getkirby.com) plugin to handle sending web forms by email.
+A versatile and powerful [Kirby 2](http://getkirby.com) to handle web form actions.
 
-**Supports** server-side vaildation and email templates.
+Default actions:
+
+- `email`: Send the form data by email.
 
 ## Installation
 
-1. Put the `sendform` directory to `site/plugins/`.
+1. Copy or link the `uniform` directory to `site/plugins/`.
 
-2. Add the content of `sendform.css` to your CSS.
+2. Add the content of `uniform.css` to your CSS.
 
-3. Put the language files of the `language` directory to `site/languages/`. If you already have existing language files, simply append the content to them. You only need to choose those languages that you actually want to support.
+3. Put the language files of the `languages` directory to `site/languages/`. If you already have existing language files, simply append the content to them (or use `include_once`). You only need to choose those languages that you actually want to support.
 
 4. Make sure you have the language support of Kirby activated (even, if you only want to support one language). Here is an example for activating the support with a single language in `site/config/config.php`:
 
@@ -28,28 +30,33 @@ c::set('languages', array(
 
 For more information on the multi language support of Kirby, see [the docs](http://getkirby.com/docs/languages/setup).
 
-**Optional:** If you like to use email templates, put those snippets from the `snippets` directory that you like to use to `site/snippets/` (or make your own).
-
 For a **quick-start** jump directly to the [basic example](#basic) and paste it into your template.
 
 ## Usage
 
-You first have to initialize the form at the top of your contact form template like this:
+You first have to initialize the form in your contact form controller like this:
 
 ```php
-<?php
-	$form = sendform(
-		'contact-form-id',
-		$page->email(),
-		array(
-			'subject' => $site->title()->html().' - message from the contact form'
+$form = uniform(
+	'contact-form',
+	array(
+		'required' => array(
+			'_from' => 'email'
+		),
+		'actions' => array(
+			array(
+				'_action' 	=> 'email',
+				'to'			=> (string) $page->email(),
+				'subject' 	=> $site->title()->html() . ' - message from the contact form'
+			)
 		)
-	);
-?>
-
+	)
+);
 ```
 
-The **first** argument is a unique ID of the contact form on your site. The **second** one is the recipient's/your email address. In this case the `Email` field of the current page is used but of course you could hard code the address or get it elswhere. The **third** (optional) argument is the array of [options](#options).
+The **first** argument is a unique ID of the contact form on your site.
+
+The **second** argument is the array of [options](#options). In this case the `_from` form field is required and validated as an email address. If the form data is correct, the `email` [action](#actions) is performed, sending the data to an email address specified in `$page->email()`.
 
 You then create a form element with the own url of the page as `action` target like this:
 
@@ -57,14 +64,16 @@ You then create a form element with the own url of the page as `action` target l
 <form action="<?php echo $page->url()?>" method="post"></form>
 ```
 
-The plugin then requires the presence of a `_from` field containing the sender's email address, a `_potty` field acting as a honey pot and a `_submit` button. Note the `_` at the beginning of the field `name` attributes, marking them as "private" fields that are not put into the email body. Here is an example:
+The plugin then requires the presence of a `_potty` field acting as a honey pot and a `_submit` button. Note the `_` at the beginning of the field `name` attributes, marking them as special fields that shouldn't be altered.
+
+Here is an example with an additional `_from` field required by the `email` action:
 
 ```php
 <label for="email" class="required">E-Mail</label>
 <input<?php e($form->hasError('_from'), ' class="erroneous"')?> type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
-<label class="sendform__potty" for="potty">Please leave this field blank</label>
-<input type="text" name="_potty" id="potty" class="sendform__potty" />
+<label class="uniform__potty" for="potty">Please leave this field blank</label>
+<input type="text" name="_potty" id="potty" class="uniform__potty" />
 
 <button type="submit" name="_submit" value="<?php echo $form->token() ?>"<?php e($form->successful(), " disabled")?>>Submit</button>
 ```
@@ -73,19 +82,63 @@ There are a few important things happening here.
 
 First, the `echoValue()` function is used to set the `value` of the email field. If the submission of the form has failed, this restores already set fields. So in this case you don't have to enter the email address again when the page is reloaded. Also, the `hasError()` function is used to mark the email field with a special class if the server-side validation failed. For more on the available functions, see [the functions section](#functions).
 
-Secondly the honey pot field uses the `sendform__potty` class. If you check the `sendform.css` you'll see that it makes the field disappear visually but not in the souce code of the page, the spam-bots are accessing.
+Second, the honey pot field uses the `uniform__potty` class. If you check the `uniform.css` you'll see that it makes the field disappear visually but not in the souce code of the page, the spam-bots are accessing.
 
-Lastly the submit button uses the `token()` function to set its value. The token is submitted along with all the other data of the form and ensures that the form can only be submitted directly from the website and not e.g. with an automated script.
+Last, the submit button uses the `token()` function to set its value. The token is submitted along with all the other data of the form and ensures that the form can only be submitted directly from the website and not e.g. with an automated script that doesn't know the token.
 
-The presence of these three elements with the exact `name` attributes and the token as a value of the submit button is critical for the plugin to work correctly!
+The presence of these two elements with the exact `name` attributes and the token as a value of the submit button is critical for the plugin to work correctly! Actions may require teir own fields like `_from`, too.
 
-Now you can add as many additional form fields as you like. Make sure not to use `_` as a prefix of the `name` attributes, else they won't appear in the email being sent. If you add a `name="name"` field, the content will be used for the name of the sender of the email in addition to the email address.
+Now you can add as many additional form fields as you like but you shouldn't use the `_` prefix for your own field names.
 
 ## Options
 
-All of these options are, well, optional. The plugin still works if you don't specify any of them.
+All of these options are, well, optional. The plugin still works if you don't specify any of them (but at least one action makes sense ;-) ).
 
-### subject
+### required
+
+Associative array of required form fields. The keys of the array are the `name` attributes of the required fields. The values of the entries are optional [validator functions](http://getkirby.com/docs/cheatsheet#validators) names. Example:
+
+```php
+array('_from' => 'email')
+```
+
+So the `_from` field is required and validated by the [`v::email`](http://getkirby.com/docs/cheatsheet/validators/email) validator function. Note, that this works only with validator functions that validate single strings. If a field is required but should not be validated, leave the validator function name empty.
+
+If a required field is missing, the form won't execute any actions.
+
+### validate
+
+Like [`required`](#required) but execution of the actions will *not* fail if one of these fields is missing. Only if one of these fields contains invalid data the actions will not be performed.
+
+### actions
+
+An array of [action](#actions) arrays. Each of these arrays needs to contain at least an `_action` key with the name of the action that should be performed as value. It can contain arbitrary additional data for the action function. Example:
+
+```php
+array(
+	'_action' 	=> 'email',
+	'to'			=> (string) $page->email(),
+	'subject' 	=> $site->title()->html() . ' - message from the contact form'
+)
+```
+
+## Actions
+
+Once all required fields are present and validated, the actions are performed. These can be completely arbitrary functions that receive the form data and action options as arguments. An example is the `email` action provided per default. You can create your own action, too, of course!
+
+-------OLD-------
+
+### email
+
+**Optional:** If you like to use email templates, put those snippets from the `snippets` directory that you like to use to `site/snippets/` (or make your own).
+
+Requires `_from`.
+
+Make sure not to use `_` as a prefix of the `name` attributes, else they won't appear in the email being sent. If you add a `name="name"` field, the content will be used for the name of the sender of the email in addition to the email address.
+
+#### Options
+
+##### subject
 
 The custom subject of the email to be sent by the form. If none is given, `sendform-default-subject` is chosen from the language file.
 
@@ -95,37 +148,21 @@ The subject can contain form data, too. For example if the subject should contai
 New reservation: {number-persons} persons!
 ```
 
-### required
-
-Associative array of required form fields. The keys of the array are the `name` attributes of the required fields. The values of the entries are optional [validator functions](http://getkirby.com/docs/cheatsheet#validators) names. For example this array defaults to:
-
-```php
-array('_from' => 'email')
-```
-
-So the `_from` field is required and validated by the [`v::email`](http://getkirby.com/docs/cheatsheet/validators/email) validator function. Note, that this works only with validator functions that validate single strings. If a field is required but should not be validated, leave the function name empty.
-
-If a required field is missing, the form will not be sent.
-
-### validate
-
-Like [`required`](#required) but sending of the form will *not* fail if one of these fields is missing. Only if one of these fields contains invalid data the form will not be sent.
-
-### snippet
+##### snippet
 
 The name of the email snippet to use from the `site/snippets/` directory of your site. See the `snippets` directory of this repo for example snippets. If you like to write your own snippet, you can use the `$data` array containing all the data of the form field including the 'private' properties like `_subject` that all start with a `_`.
 
-### copy
+##### copy
 
 An array of additional email addresses the form data should be sent to. The subject of these emails gets the `sendform-email-copy` language variable as prefix.
 
 If there is a `_receive_copy` field present in the form data (e.g. from a checkbox, see the [extended example](#extended)), the sender's email address (`_from`) will receive a copy, too.
 
-### service
+##### service
 
 The name of the email service to use, default is `mail`. If you use another email service, make sure to provide the [`service-options`](#service-options) as well.
 
-### service-options
+##### service-options
 
 An array of options to pass along to the email service. This will be the `$email->options` array you can access in a custom email service. Or if you use the `amazon` service, for example, you need to provide the `key`, `secret` and `host` in this array.
 

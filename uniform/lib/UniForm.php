@@ -319,17 +319,14 @@ class UniForm {
 	}
 }
 
-
-/*
- * DEFAULT ACTIONS
- */
+/* DEFAULT ACTIONS */
 
 uniform::$actions['email'] = function($form, $actionOptions) {
 
 	$options = array(
 		// apply the dynamic subject (insert form data)
 		'subject' 			=>	str::template(a::get($actionOptions, 'subject',
-				l::get('uniform-default-subject')), $form),
+				l::get('uniform-email-subject')), $form),
 		'snippet'			=> a::get($actionOptions, 'snippet', false),
 		'to'					=> a::get($actionOptions, 'to'),
 		'service'			=> a::get($actionOptions, 'service', 'mail'),
@@ -380,12 +377,12 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 	if($email->send()) {
         return array(
             'success' => true,
-            'message' => l::get('uniform-send-success')
+            'message' => l::get('uniform-email-success')
         );
     } else {
         return array(
             'success' => false,
-            'message' => l::get('uniform-send-error') . " " . $email->error()
+            'message' => l::get('uniform-email-error') . " " . $email->error()
         );
     }
 };
