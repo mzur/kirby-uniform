@@ -1,6 +1,6 @@
 # kirby-uniform
 
-A versatile and powerful [Kirby 2](http://getkirby.com) to handle web form actions.
+A versatile and powerful [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
 Builtin actions:
 
@@ -45,9 +45,9 @@ $form = uniform(
 		),
 		'actions' => array(
 			array(
-				'_action' 	=> 'email',
-				'to'			=> (string) $page->email(),
-				'subject' 	=> $site->title()->html() . ' - message from the contact form'
+				'_action' => 'email',
+				'to'      => (string) $page->email(),
+				'subject' => $site->title()->html() . ' - message from the contact form'
 			)
 		)
 	)
@@ -56,7 +56,7 @@ $form = uniform(
 
 The **first** argument is a unique ID of the form on your entire website.
 
-The **second** argument is the array of [options](#options). In this case the `_from` form field is required and validated as an email address. If the form data is correct, the `email` [action](#actions) is performed, sending the data to an email address specified in `$page->email()`.
+The **second** argument is the array of [options](#options). In this case the `_from` form field is required and validated as an email address. If the form data is correct, the `email` [action](#actions-1) is performed, sending the data to an email address specified in `$page->email()`.
 
 You then create a form element with the own url of the page as `action` target like this:
 
@@ -112,13 +112,13 @@ Like [`required`](#required) but execution of the actions will *not* fail if one
 
 ### actions
 
-An array of [action](#actions) arrays. Each of these action arrays needs to contain at least an `_action` key with the name of the action that should be performed as value. It can contain arbitrary additional data for the action function. Example:
+An array of [action](#actions-1) arrays. Each of these action arrays needs to contain at least an `_action` key with the name of the action that should be performed as value. It can contain arbitrary additional data for the action function. Example:
 
 ```php
 array(
-	'_action' 	=> 'email',
-	'to'			=> (string) $page->email(),
-	'subject' 	=> $site->title()->html() . ' - message from the contact form'
+	'_action' => 'email',
+	'to'      => (string) $page->email(),
+	'subject' => $site->title()->html() . ' - message from the contact form'
 )
 ```
 
@@ -154,7 +154,7 @@ The custom subject of the email to be sent by the form. If none is given, `unifo
 
 The subject can contain form data, too. For example if the subject should contain the value of a form field named `number-persons`, create a subject like this:
 
-```
+```php
 'subject' => 'New reservation: {number-persons} persons!'
 ```
 
@@ -182,7 +182,7 @@ Returns the value of a form field in case the submission of the form has failed.
 
 ### echoValue($key)
 
-Echos [`value()`](#valuekey) directly as a HTML-safe string.
+Echos [`value($key)`](#valuekey) directly as a HTML-safe string.
 
 `$key`: The `name` attribute of the form field.
 
@@ -220,7 +220,7 @@ Returns the success/error feedback message of a specific action or Uniform. If n
 
 ### echoMessage($action = false)
 
-Echos [`message($action)`](#message) directly as a HTML-safe string.
+Echos [`message($action)`](#messageaction-false) directly as a HTML-safe string.
 
 ### hasMessage($action = false)
 
@@ -243,13 +243,13 @@ $form = uniform(
 	'contact-form',
 	array(
 		'required' => array(
-			'name' => '',
+			'name'  => '',
 			'_from' => 'email'
 		),
 		'actions' => array(
 			array(
-				'_action' 	=> 'email',
-				'to'			=> 'me@example.com'
+				'_action' => 'email',
+				'to'      => 'me@example.com'
 			)
 		)
 	)
@@ -311,22 +311,22 @@ $form = uniform(
 	'registration-form',
 	array(
 		'required' => array(
-			'name' => '',
-			'_from' => 'email'
+			'name'   => '',
+			'_from'  => 'email'
 		),
-		'validate'	=> array(
+		'validate' => array(
 			'attendees'	=> 'num'
 		),
 		'actions' => array(
 			array(
-				'_action' 	=> 'email',
-				'to'			=> 'me@example.com',
-				'subject' 	=> 'Exhibition - New registration'
+				'_action' => 'email',
+				'to'      => 'me@example.com',
+				'subject' => 'Exhibition - New registration'
 			),
 			array(
-				'_action' 	=> 'email',
-				'to'			=> 'me-too@example.com',
-				'subject' 	=> 'Exhibition - New registration'
+				'_action' => 'email',
+				'to'      => 'me-too@example.com',
+				'subject' => 'Exhibition - New registration'
 			)
 		)
 	)
