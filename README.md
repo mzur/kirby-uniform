@@ -139,7 +139,7 @@ This way even the same actions can be performed multiple times when a form is su
 
 Once all required fields are present and validated, the actions are performed. These can be completely arbitrary functions that receive the form data and action options as arguments. An example is the builtin `email` action. You can create your own action, too, of course!
 
-Custom actions can be added in a page controller for example. Take a look at the `email` action in `UniForm.php` to see how to implement one.
+To add custom actions, create a `site/plugins/uniform-actions/uniform-actions.php` file and implement all your custom actions there. Take a look at the `email` action in `UniForm.php` to see how to implement one.
 
 Here are the builtin actions you can use by default:
 
@@ -181,7 +181,7 @@ The name of the email snippet to use from the `site/snippets/` directory of your
 
 ##### service
 
-The name of the email service to use; default is `mail`. If you use another email service, make sure to provide the [`service-options`](#service-options) as well.
+The name of the email service to use; default is `mail`. If you use another email service, make sure to provide the [`service-options`](#service-options) as well. You can implement custom services similar to custom actions in a `site/plugins/email-services/email-services.php` file.
 
 ##### service-options
 
