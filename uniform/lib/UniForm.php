@@ -21,6 +21,11 @@ class UniForm {
 	private $id;
 
 	/**
+	 * Array of uniform options, including the actions to be performed.
+	 */
+	private $options;
+
+	/**
 	 * POST data of the form.
 	 */
 	private $data;
@@ -32,16 +37,6 @@ class UniForm {
 	 * containing it.
 	 */
 	private $token;
-
-	/**
-	 * Array of required field names.
-	 */
-	private $requiredFields;
-
-	/**
-	 * Array of field names that should be validated.
-	 */
-	private $validateFields;
 
 	/**
 	 * Contains the returned values of the performed action callbacks as well as
@@ -56,11 +51,6 @@ class UniForm {
 	private $erroneousFields;
 
 	/**
-	 * Name of the honeypot field. Should be a legit name like 'website'.
-	 */
-	private $honeypotName;
-
-	/**
 	 * @param string $id The unique ID of this form.
 	 *
 	 * @param array $options Array of uniform options, including the actions.
@@ -68,15 +58,29 @@ class UniForm {
 	public function __construct($id, $options) {
 
 		if (empty($id)) {
-			throw new Error('No uniform ID was given.');
+			throw new Error('No Uniform ID was given.');
 		}
 
 		$this->id = $id;
 
 		$this->erroneousFields = array();
 
-		// default honeypot name is 'website'
-		$this->honeypotName = a::get($options, 'honeypot', 'website');
+		$this->options = array(
+			// honeypot field name, default is 'website'
+			'honeypot' => a::get($options, 'honeypot', 'website'),
+			// required field names
+			'required' => a::get($options, 'required', array()),
+			// field names to be validated
+			'validate' => a::get($options, 'validate', array()),
+			// action arrays
+			'actions'  => a::get($options, 'actions', array()),
+		);
+
+		// required fields will also be validated by default
+		$this->options['validate'] = a::merge(
+			$this->options['validate'],
+			$this->options['required']
+		);
 
 		// initialize output array with the output of the plugin itself
 		$this->actionOutput = array(
@@ -90,51 +94,23 @@ class UniForm {
 		// successfully
 		$this->token = s::get($this->id);
 
-		if (!$this->token) {
-			$this->generateToken();
-		}
+		if (!$this->token) $this->generateToken();
 
 		// get the data to be sent (if there is any)
 		$this->data = get();
 
 		if ($this->requestValid()) {
-			// remove uniform specific fields
+			// remove uniform specific fields from form data
 			unset($this->data['_submit']);
-			unset($this->data[$this->honeypotName]);
+			unset($this->data[$this->options['honeypot']]);
 
-			$actions = a::get($options, 'actions', array());
-
-			if (empty($actions)) {
-				throw new Error('No actions were given.');
+			if (empty($this->options['actions'])) {
+				throw new Error('No Uniform actions were given.');
 			}
-			
-			$this->requiredFields = a::get($options, 'required', array());
-
-			$this->validateFields = a::merge(
-				a::get($options, 'validate', array()),
-				// required fields will also be validated by default
-				$this->requiredFields
-			);
 
 			if ($this->dataValid()) {
-				// unifor is done, now it's the actions turn
+				// uniform is done, now it's the actions turn
 				$this->actionOutput['_uniform']['success'] = true;
-
-				foreach ($actions as $index => $action) {
-					// skip this array if it doesn't contain an action name
-					if (!($key = a::get($action, '_action'))) continue;
-
-					if (!isset(static::$actions[$key])) {
-						throw new Error('The uniform action "' . $key .
-							'" does not exist.');
-					}
-
-					$this->actionOutput[$index] = call_user_func(
-						static::$actions[$key], $this->data, $action);
-				}
-
-				// if all actions performed successfully, the session is over
-				if ($this->successful()) $this->destroyToken();
 			}
 		} else {
 			// generate new token to spite the bots }:-)
@@ -166,12 +142,12 @@ class UniForm {
 			return false;
 		}
 
-		if (!array_key_exists($this->honeypotName, $this->data)) {
-			throw new Error('Uniform honeypot "'.$this->honeypotName.
+		if (!array_key_exists($this->options['honeypot'], $this->data)) {
+			throw new Error('Uniform honeypot "'.$this->options['honeypot'].
 				'" is missing.');
 		}
 
-		if (v::required($this->honeypotName, $this->data)) {
+		if (v::required($this->options['honeypot'], $this->data)) {
 			$this->actionOutput['_uniform']['message'] =
 				l::get('uniform-filled-potty');
 			return false;
@@ -187,7 +163,9 @@ class UniForm {
 
 		// check if all required fields are there
 		$this->erroneousFields = a::missing(
-			$this->data, array_keys($this->requiredFields));
+			$this->data,
+			array_keys($this->options['required'])
+		);
 
 		if (!empty($this->erroneousFields)) {
 			$this->actionOutput['_uniform']['message'] =
@@ -196,10 +174,10 @@ class UniForm {
 		}
 
 		// perform validation for all fields with a given validation method
-		foreach ($this->validateFields as $field => $method) {
+		foreach ($this->options['validate'] as $field => $method) {
 			$value = a::get($this->data, $field);
 			// validate only if a method is given and the field contains data
-			if (!empty($method) && !empty($value) && !call('v::' . $method, $value)) {
+			if (!empty($method) && !empty($value) && !call('v::'.$method, $value)) {
 				array_push($this->erroneousFields, $field);
 			}
 		}
@@ -211,6 +189,36 @@ class UniForm {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Executes the form actions.
+	 *
+	 * @return true if all actions were performed successfully, false otherwise.
+	 */
+	public function execute() {
+		// don't execute if there were validation errors
+		if (!$this->actionOutput['_uniform']['success']) return false;
+
+		foreach ($this->options['actions'] as $index => $action) {
+			// skip this array if it doesn't contain an action name
+			if (!($key = a::get($action, '_action'))) continue;
+
+			if (!isset(static::$actions[$key])) {
+				throw new Error('The uniform action "'.$key.'" does not exist.');
+			}
+
+			$this->actionOutput[$index] = call_user_func(
+				static::$actions[$key],
+				$this->data,
+				$action
+			);
+		}
+
+		// if all actions performed successfully, the session is over
+		if ($this->successful()) $this->destroyToken();
+
+		return $this->successful();
 	}
 
 	/**
@@ -345,8 +353,10 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 
 	$options = array(
 		// apply the dynamic subject (insert form data)
-		'subject'         => str::template(a::get($actionOptions, 'subject',
-				l::get('uniform-email-subject')), $form),
+		'subject'         => str::template(
+			a::get($actionOptions, 'subject', l::get('uniform-email-subject')),
+			$form
+		),
 		'snippet'         => a::get($actionOptions, 'snippet', false),
 		'to'              => a::get($actionOptions, 'to'),
 		'sender'          => a::get($actionOptions, 'sender'),
@@ -372,8 +382,8 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 	} else {
 		$mailBody = snippet($snippet, compact('form', 'options'), true);
 		if ($mailBody === false) {
-			throw new Exception('Uniform email action: The email snippet "' .
-				$snippet . '" does not exist!');
+			throw new Exception('Uniform email action: The email snippet "'.
+				$snippet.'" does not exist!');
 		}
 	}
 
@@ -382,8 +392,7 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 		'options' => $options['service-options'],
 		'to'      => $options['to'],
 		'from'    => $options['sender'],
-		'replyTo' => a::get($form, 'name', '') . ' <' .
-			a::get($form, '_from') . '>',
+		'replyTo' => a::get($form, 'name', '').' <'.a::get($form, '_from').'>',
 		'subject' => $options['subject'],
 		'body'    => $mailBody
 	);
@@ -391,7 +400,7 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 	$email = email($params);
 
 	if (array_key_exists('_receive_copy', $form)) {
-		$params['subject'] = l::get('uniform-email-copy') . ' ' . $params['subject'];
+		$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
 		$params['to'] = $params['from'];
 		email($params)->send();
 	}
@@ -404,7 +413,7 @@ uniform::$actions['email'] = function($form, $actionOptions) {
     } else {
         return array(
             'success' => false,
-            'message' => l::get('uniform-email-error') . " " . $email->error()
+            'message' => l::get('uniform-email-error').' '.$email->error()
         );
     }
 };

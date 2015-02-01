@@ -8,5 +8,7 @@ if(!class_exists('UniForm')) {
 }
 
 function uniform($id, $options = array()) {
-	return new UniForm($id, $options);
+	$form = new UniForm($id, $options);
+	$form->execute();
+	return $form;
 }
