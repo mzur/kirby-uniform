@@ -2,6 +2,8 @@
 
 A versatile and powerful [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
+See the [upgrade guide from v1 to v2](https://github.com/mzur/kirby-contact-form/wiki/Upgrade-guide).
+
 Builtin actions:
 
 - `email`: Send the form data by email.
