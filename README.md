@@ -298,13 +298,15 @@ $form = uniform(
 				'_action' => 'email',
 				'to'      => 'me@example.com',
 				'sender'  => 'info@my-domain.tld',
-				'subject' => 'Exhibition - New registration'
+				'subject' => 'Exhibition - New registration',
+				'snippet' => 'uniform-email-table'
 			),
 			array(
 				'_action' => 'email',
 				'to'      => 'me-too@example.com',
 				'sender'  => 'info@my-domain.tld',
-				'subject' => 'Exhibition - New registration'
+				'subject' => 'Exhibition - New registration',
+				'snippet' => 'uniform-email-table'
 			)
 		)
 	)
