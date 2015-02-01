@@ -98,6 +98,10 @@ class UniForm {
 		$this->data = get();
 
 		if ($this->requestValid()) {
+			// remove uniform specific fields
+			unset($this->data['_submit']);
+			unset($this->data[$this->honeypotName]);
+
 			$actions = a::get($options, 'actions', array());
 
 			if (empty($actions)) {
