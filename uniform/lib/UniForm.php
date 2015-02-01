@@ -119,6 +119,26 @@ class UniForm {
 	}
 
 	/**
+	 * Custom implementation of a::missing().
+	 * see: https://github.com/getkirby/toolkit/issues/47
+	 *
+	 * @param   array  $array The source array
+	 * @param   array  $required An array of required keys
+	 * @return  array  An array of missing fields. If this is empty, nothing is
+	 *                 missing.
+	 */
+	private static function missing($array, $required = array()) {
+		$missing = array();
+		foreach($required as $r) {
+			if(array_key_exists($r, $array) && ($array[$r] || $array[$r]==="0")) {
+				continue;
+			}
+			$missing[] = $r;
+		}
+		return $missing;
+	}
+
+	/**
 	 * Generates a new token for this form and session.
 	 */
 	private function generateToken() {
@@ -162,7 +182,7 @@ class UniForm {
 	private function dataValid() {
 
 		// check if all required fields are there
-		$this->erroneousFields = a::missing(
+		$this->erroneousFields = static::missing(
 			$this->data,
 			array_keys($this->options['required'])
 		);
