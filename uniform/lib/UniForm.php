@@ -119,7 +119,9 @@ class UniForm {
 	}
 
 	/**
-	 * Custom implementation of a::missing().
+	 * Custom implementation of a::missing(). Only works with associative arrays
+	 * and string values.
+	 *
 	 * see: https://github.com/getkirby/toolkit/issues/47
 	 *
 	 * @param   array  $array The source array
@@ -130,10 +132,9 @@ class UniForm {
 	private static function missing($array, $required = array()) {
 		$missing = array();
 		foreach($required as $r) {
-			if(array_key_exists($r, $array) && ($array[$r] || $array[$r]==="0")) {
-				continue;
+			if(!array_key_exists($r, $array) || ($array[$r]==='')) {
+				$missing[] = $r;
 			}
-			$missing[] = $r;
 		}
 		return $missing;
 	}
