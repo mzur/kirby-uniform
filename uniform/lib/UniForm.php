@@ -345,12 +345,13 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 
 	$options = array(
 		// apply the dynamic subject (insert form data)
-		'subject' 			=>	str::template(a::get($actionOptions, 'subject',
+		'subject'         => str::template(a::get($actionOptions, 'subject',
 				l::get('uniform-email-subject')), $form),
-		'snippet'			=> a::get($actionOptions, 'snippet', false),
-		'to'					=> a::get($actionOptions, 'to'),
-		'service'			=> a::get($actionOptions, 'service', 'mail'),
-		'service-options'	=> a::get($actionOptions, 'service-options', array())
+		'snippet'         => a::get($actionOptions, 'snippet', false),
+		'to'              => a::get($actionOptions, 'to'),
+		'sender'          => a::get($actionOptions, 'sender'),
+		'service'         => a::get($actionOptions, 'service', 'mail'),
+		'service-options' => a::get($actionOptions, 'service-options', array())
 	);
 
 	// remove newlines to prevent malicious modifications of the email
@@ -377,13 +378,14 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 	}
 
 	$params = array(
-		'service'	=> $options['service'],
-		'options'	=> $options['service-options'],
-		'to'			=> $options['to'],
-		'from'		=> a::get($form, 'name', '') . ' <' .
+		'service' => $options['service'],
+		'options' => $options['service-options'],
+		'to'      => $options['to'],
+		'from'    => $options['sender'],
+		'replyTo' => a::get($form, 'name', '') . ' <' .
 			a::get($form, '_from') . '>',
-		'subject'	=> $options['subject'],
-		'body'		=> $mailBody
+		'subject' => $options['subject'],
+		'body'    => $mailBody
 	);
 
 	$email = email($params);

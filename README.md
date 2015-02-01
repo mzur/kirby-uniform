@@ -47,6 +47,7 @@ $form = uniform(
 			array(
 				'_action' => 'email',
 				'to'      => (string) $page->email(),
+				'sender'  => 'info@my-domain.tld',
 				'subject' => $site->title()->html() . ' - message from the contact form'
 			)
 		)
@@ -148,15 +149,21 @@ This action can send the form data by email. In its simplest form it just append
 
 If you like to use email templates, put those snippets from the `snippets` directory that you like to use to `site/snippets/` (or create your own snippets).
 
-Requires a `_from` form field providing the email address of the sender of the form.
-
-Make sure not to use `_` as a prefix of the form field names containing the data, else they won't appear in the default plain text email being sent.
+The action requires a `_from` form field providing the email address for the `replyTo` field of the email that will be sent. Make sure not to use `_` as a prefix of the form field names containing the data, else they won't appear in the default plain text email being sent.
 
 If you add a `name="name"` field, the content will be used for the name of the sender in addition to the email address in the email header. If there is a `_receive_copy` field present in the form data (e.g. from a checkbox, see the [extended example](#extended)), the sender's email address (`_from`) will receive a copy, too. The subject of this copy email will get the `uniform-email-copy` prefix.
 
 #### Options
 
 Here is a full list of options of the email action that can be included in the action array.
+
+##### to (required)
+
+The email address the form data should be sent to.
+
+##### sender (required)
+
+The email address used for the `from` field of the email that will be sent. This should be the address of your website, e.g. `info@your-domain.tld`. Some spam filters will cause problems if they discover an email with a `from` field that doesn't match the server of it's origin.
 
 ##### subject
 
@@ -259,7 +266,8 @@ $form = uniform(
 		'actions' => array(
 			array(
 				'_action' => 'email',
-				'to'      => 'me@example.com'
+				'to'      => 'me@example.com',
+				'sender'  => 'info@my-domain.tld'
 			)
 		)
 	)
@@ -297,7 +305,9 @@ Template:
 
 In case "Martin" with email "martin@example.com" submitted the message "hello", the email would look like this:
 
-From: `Martin<martin@example.com>`
+From: `info@my-domain.tld`
+
+ReplyTo: `Martin<martin@example.com>`
 
 Subject: `Message from the web form`
 
@@ -331,11 +341,13 @@ $form = uniform(
 			array(
 				'_action' => 'email',
 				'to'      => 'me@example.com',
+				'sender'  => 'info@my-domain.tld',
 				'subject' => 'Exhibition - New registration'
 			),
 			array(
 				'_action' => 'email',
 				'to'      => 'me-too@example.com',
+				'sender'  => 'info@my-domain.tld',
 				'subject' => 'Exhibition - New registration'
 			)
 		)
@@ -404,7 +416,9 @@ Template:
 
 In case "Martin" with email "martin@example.com" has "JavaScript" as area of expertise, brings 3 attendees, wants a 12 m² booth, doesn't want to receive the newsletter and submitted the message "hello", the email would look like this:
 
-From: `Martin<martin@example.com>`
+From: `info@my-domain.tld`
+
+ReplyTo: `Martin<martin@example.com>`
 
 Subject: `Exhibition - New registration`
 
