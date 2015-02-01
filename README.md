@@ -64,7 +64,7 @@ You then create a form element with the own url of the page as `action` target l
 <form action="<?php echo $page->url()?>" method="post"></form>
 ```
 
-The plugin then requires the presence of a `_potty` field acting as a honey pot and a `_submit` button. Note the `_` at the beginning of the field `name` attributes, marking them as special fields that shouldn't be altered.
+The plugin then by default requires the presence of a `website` field acting as a honey pot and a `_submit` button. Note the `_` at the beginning of the field `name` attribute, marking it as special field that shouldn't be altered.
 
 Here is an example with an additional `_from` field required by the `email` action:
 
@@ -72,8 +72,8 @@ Here is an example with an additional `_from` field required by the `email` acti
 <label for="email" class="required">Email</label>
 <input<?php e($form->hasError('_from'), ' class="erroneous"')?> type="email" name="_from" id="email" value="<?php $form->echoValue('_from') ?>" required/>
 
-<label class="uniform__potty" for="potty">Please leave this field blank</label>
-<input type="text" name="_potty" id="potty" class="uniform__potty" />
+<label class="uniform__potty" for="website">Please leave this field blank</label>
+<input type="text" name="website" id="website" class="uniform__potty" />
 
 <button type="submit" name="_submit" value="<?php echo $form->token() ?>"<?php e($form->successful(), " disabled")?>>Submit</button>
 ```
@@ -84,15 +84,25 @@ First, the `echoValue()` function is used to set the `value` of the email field.
 
 Second, the honey pot field uses the `uniform__potty` class. If you check the `uniform.css` you'll see that it makes the field disappear visually but not in the souce code of the page, the spam-bots are accessing.
 
-Last, the submit button uses the `token()` function to set its value. The token is submitted along with all the other data of the form and ensures that the form can only be submitted directly from the website and not e.g. with an automated script that doesn't know the token.
+Last, the submit button uses the `token()` function to set its value. The token is submitted along with all the other data of the form and ensures that the form can only be submitted directly from the website and not e.g. with an automated script that doesn't know the token. If the honeypot check fails, a new token is generated to make it harder to guess.
 
-The presence of the last two elements with the exact `name` attributes and the token as a value of the submit button is critical for the plugin to work correctly! Actions may require teir own fields like `_from`, too.
+The presence of the last two elements with the exact `name` attributes and the token as a value of the submit button is critical for the plugin to work correctly! Actions may require their own fields like `_from`, too.
 
 Now you can add as many additional form fields as you like but you shouldn't use the `_` prefix for your own field names.
 
 ## Options
 
 These are the options of the options array. You have to specify at least one action. Everything else is, well, optional.
+
+### honeypot
+
+The default name of the honeypot field is `website` to attract the attention of the bots. With the `honeypot` option you can change the default name to whatever you like but you should try to make it sound interesting for the bots. Example:
+
+```php
+'honeypot' => 'fill-me'
+//...
+<input type="text" name="fill-me" id="fill-me" class="uniform__potty" />
+```
 
 ### required
 
@@ -270,8 +280,8 @@ Template:
 	<label for="message">Message</label>
 	<textarea name="message" id="message"><?php $form->echoValue('message') ?></textarea>
 
-	<label class="sendform__potty" for="potty">Please leave this field blank</label>
-	<input type="text" name="_potty" id="potty" class="sendform__potty" />
+	<label class="sendform__potty" for="website">Please leave this field blank</label>
+	<input type="text" name="website" id="website" class="sendform__potty" />
 
 	<a name="form"></a>
 <?php if ($form->hasMessage()): ?>
@@ -377,8 +387,8 @@ Template:
 	<label for="message">Message</label>
 	<textarea name="message" id="message"><?php $form->echoValue('message') ?></textarea>
 
-	<label class="sendform__potty" for="potty">Please leave this field blank</label>
-	<input type="text" name="_potty" id="potty" class="sendform__potty" />
+	<label class="sendform__potty" for="website">Please leave this field blank</label>
+	<input type="text" name="website" id="website" class="sendform__potty" />
 
 	<a name="form"></a>
 <?php if ($form->hasMessage()): ?>

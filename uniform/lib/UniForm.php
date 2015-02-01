@@ -56,6 +56,11 @@ class UniForm {
 	private $erroneousFields;
 
 	/**
+	 * Name of the honeypot field. Should be a legit name like 'website'.
+	 */
+	private $honeypotName;
+
+	/**
 	 * @param string $id The unique ID of this form.
 	 *
 	 * @param array $options Array of uniform options, including the actions.
@@ -69,6 +74,9 @@ class UniForm {
 		$this->id = $id;
 
 		$this->erroneousFields = array();
+
+		// default honeypot name is 'website'
+		$this->honeypotName = a::get($options, 'honeypot', 'website');
 
 		// initialize output array with the output of the plugin itself
 		$this->actionOutput = array(
@@ -124,6 +132,9 @@ class UniForm {
 				// if all actions performed successfully, the session is over
 				if ($this->successful()) $this->destroyToken();
 			}
+		} else {
+			// generate new token to spite the bots }:-)
+			$this->generateToken();
 		}
 	}
 
@@ -151,7 +162,12 @@ class UniForm {
 			return false;
 		}
 
-		if (v::required('_potty', $this->data)) {
+		if (!array_key_exists($this->honeypotName, $this->data)) {
+			throw new Error('Uniform honeypot "'.$this->honeypotName.
+				'" is missing.');
+		}
+
+		if (v::required($this->honeypotName, $this->data)) {
 			$this->actionOutput['_uniform']['message'] =
 				l::get('uniform-filled-potty');
 			return false;
