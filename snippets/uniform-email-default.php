@@ -1,6 +1,6 @@
 <?php
 
-foreach ($data as $field => $value) {
+foreach ($form as $field => $value) {
 	if (str::startsWith($field, '_')) {
 		continue;
 	}
