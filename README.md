@@ -2,8 +2,9 @@
 
 A versatile and powerful [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
+See the [Kirby with Uniform](http://blog.the-inspired-ones.de/kirby-with-uniform) blog post for a complete tutorial on using Uniform!
 
-See the [upgrade guide from v1 to v2](https://github.com/mzur/kirby-contact-form/wiki/Upgrade-guide).
+[Upgrade guide from v1 to v2](https://github.com/mzur/kirby-contact-form/wiki/Upgrade-guide).
 
 Builtin actions:
 
