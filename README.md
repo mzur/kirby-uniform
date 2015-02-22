@@ -246,8 +246,8 @@ Template:
 	<label for="message">Message</label>
 	<textarea name="message" id="message"><?php $form->echoValue('message') ?></textarea>
 
-	<label class="sendform__potty" for="website">Please leave this field blank</label>
-	<input type="text" name="website" id="website" class="sendform__potty" />
+	<label class="uniform__potty" for="website">Please leave this field blank</label>
+	<input type="text" name="website" id="website" class="uniform__potty" />
 
 	<a name="form"></a>
 <?php if ($form->hasMessage()): ?>
@@ -278,7 +278,7 @@ Message: hello
 
 ### extended
 
-This form extends the basic example by radio buttons and `select` fields as well as a custom subject. It validates a non-required field, too. For the email body the `sendform-table` snippet provided by this repo is used. For the HTML snippet to work, a `html-mail` email service is used that is *not* provided by this repo.
+This form extends the basic example by radio buttons and `select` fields as well as a custom subject. It validates a non-required field, too. For the email body the `uniform-email-table` snippet provided by this repo is used. For the HTML snippet to work, a `html-mail` email service is used that is *not* provided by this repo.
 
 When the form is sent, a copy of the email will be sent to `me-too@example.com`, as well as to the sender of the form if they checked the `_receive_copy` checkbox.
 
@@ -359,8 +359,8 @@ Template:
 	<label for="message">Message</label>
 	<textarea name="message" id="message"><?php $form->echoValue('message') ?></textarea>
 
-	<label class="sendform__potty" for="website">Please leave this field blank</label>
-	<input type="text" name="website" id="website" class="sendform__potty" />
+	<label class="uniform__potty" for="website">Please leave this field blank</label>
+	<input type="text" name="website" id="website" class="uniform__potty" />
 
 	<a name="form"></a>
 <?php if ($form->hasMessage()): ?>
