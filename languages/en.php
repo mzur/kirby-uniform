@@ -8,3 +8,5 @@ l::set('uniform-email-subject', 'Message from the web form');
 l::set('uniform-email-success', 'Thank you, the form was sent successfully.');
 l::set('uniform-email-error', 'There was an error sending the form:');
 l::set('uniform-email-copy', 'Copy:');
+
+l::set('uniform-calc-plus', 'plus');

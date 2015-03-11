@@ -8,3 +8,5 @@ l::set('uniform-email-subject', 'Bericht van het webformulier');
 l::set('uniform-email-success', 'Hartelijk dank, het formulier is succesvol verzonden.');
 l::set('uniform-email-error', 'Er is een fout bij het verzenden van het formulier opgetreden:');
 l::set('uniform-email-copy', 'Kopie:');
+
+l::set('uniform-calc-plus', 'plus');

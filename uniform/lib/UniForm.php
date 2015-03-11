@@ -83,7 +83,9 @@ class UniForm {
 		$this->erroneousFields = array();
 
 		$this->options = array(
-			// honeypot field name, default is 'website'
+			// spam protection mechanism to use, default is 'honeypot'
+			'guard'    => a::get($options, 'guard', 'honeypot'),
+			// honeypot field name of the honeypot guard, default is 'website'
 			'honeypot' => a::get($options, 'honeypot', 'website'),
 			// required field names
 			'required' => a::get($options, 'required', array()),
@@ -119,7 +121,6 @@ class UniForm {
 		if ($this->requestValid()) {
 			// remove uniform specific fields from form data
 			unset($this->data['_submit']);
-			unset($this->data[$this->options['honeypot']]);
 
 			if (empty($this->options['actions'])) {
 				throw new Error('No Uniform actions were given.');
@@ -172,6 +173,16 @@ class UniForm {
 	}
 
 	/**
+	 * Generates a new captcha for the 'calc' guard.
+	 */
+	private function generateCaptcha() {
+		list($a, $b) = array(rand(0, 9), rand(0,9));
+		s::set($this->id.'-captcha-result', $a + $b);
+		s::set($this->id.'-captcha-label',
+			$a.' '.l::get('uniform-calc-plus').' '.$b);
+	}
+
+	/**
 	 * Quickly decides if the request is valid so the server is minimally
 	 * stressed by scripted attacks.
 	 * @return boolean
@@ -181,15 +192,30 @@ class UniForm {
 			return false;
 		}
 
-		if (!array_key_exists($this->options['honeypot'], $this->data)) {
-			throw new Error('Uniform honeypot "'.$this->options['honeypot'].
-				'" is missing.');
-		}
+		if ($this->options['guard'] == 'honeypot') {
 
-		if (v::required($this->options['honeypot'], $this->data)) {
-			$this->actionOutput['_uniform']['message'] =
-				l::get('uniform-filled-potty');
-			return false;
+			$honeypot = a::get($this->data, $this->options['honeypot']);
+			if (!empty($honeypot)) {
+				$this->actionOutput['_uniform']['message'] =
+					l::get('uniform-filled-potty');
+				return false;
+			}
+			// remove honeypot field from form data
+			unset($this->data[$this->options['honeypot']]);
+
+		} else if ($this->options['guard'] == 'calc') {
+
+			$result = s::get($this->id.'-captcha-result');
+
+			if (!empty($result) && a::get($this->data, '_captcha', '') != $result) {
+				array_push($this->erroneousFields, '_captcha');
+				$this->actionOutput['_uniform']['message'] =
+					l::get('uniform-fields-not-valid');
+				return false;
+			}
+
+			// remove captcha field from form data
+			unset($this->data['_captcha']);
 		}
 
 		return true;
@@ -324,6 +350,16 @@ class UniForm {
 	 */
 	public function token() {
 		return $this->token;
+	}
+
+	/**
+	 * Re-generates and returns the obfuscated captcha of the `calc` guard.
+	 * 
+	 * @return string
+	 */
+	public function captcha() {
+		$this->generateCaptcha();
+		return str::encode(s::get($this->id.'-captcha-label'));
 	}
 
 	/**

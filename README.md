@@ -109,6 +109,19 @@ The default name of the honeypot field is `website` to attract the attention of 
 <input type="text" name="fill-me" id="fill-me" class="uniform__potty" />
 ```
 
+### guard
+
+As an alternative to the default `honeypot` spam protection mechanism, you can specify the `calc` guard, too. Here, the user has to solve a simple arithmetic problem before the form will be submitted successfully. Example:
+
+```php
+'guard' => 'calc'
+//...
+<label for="_captcha" class="required">Please calculate <?php echo $form->captcha() ?></label>
+<input<?php e($form->hasError('_captcha'), ' class="erroneous"')?> type="number" name="_captcha" id="_captcha" required/>
+```
+
+You can disable the spam protection altogether by setting the guard to `''`.
+
 ### required
 
 Associative array of required form fields. The keys of the array are the `name` attributes of the required fields. The values of the entries are optional [validator function](http://getkirby.com/docs/cheatsheet#validators) names. Example:
@@ -182,6 +195,10 @@ Retruns `true` if there are erroneous fields. If a key is given, returns `true` 
 ### token()
 
 Returns the current session token of this form.
+
+### captcha()
+
+Returns the captcha of the `calc` spam protection mechanism as obfuscated HTML.
 
 ### successful($action = false)
 
