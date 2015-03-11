@@ -7,26 +7,36 @@
 class UniForm {
 	/**
 	 * Length of the token string unique for a session until the form is sent.
+	 * 
+	 * @var int
 	 */
 	const TOKEN_LENGTH = 20;
 
-	/*
+	/**
 	 * The array of all action callback functions.
+	 * 
+	 * @var array
 	 */
 	public static $actions = array();
 
 	/**
 	 * Unique ID/Key of this form.
+	 * 
+	 * @var string
 	 */
 	private $id;
 
 	/**
 	 * Array of uniform options, including the actions to be performed.
+	 * 
+	 * @var array
 	 */
 	private $options;
 
 	/**
 	 * POST data of the form.
+	 * 
+	 * @var array
 	 */
 	private $data;
 
@@ -35,24 +45,31 @@ class UniForm {
 	 * prevent arbitrary (scripted) post requests to be able to use the form.
 	 * It shuld only be possible to submit the form from the actual website 
 	 * containing it.
+	 * 
+	 * @var string
 	 */
 	private $token;
 
 	/**
 	 * Contains the returned values of the performed action callbacks as well as
 	 * 'success' and 'message' of the form plugin itself.
+	 * 
+	 * @var array
 	 */
 	private $actionOutput;
 
 	/**
 	 * Array of keys of form fields that were required and not given or failed
 	 * their validation.
+	 * 
+	 * @var array
 	 */
 	private $erroneousFields;
 
 	/**
+	 * Creates a new Uniform instance.
+	 * 
 	 * @param string $id The unique ID of this form.
-	 *
 	 * @param array $options Array of uniform options, including the actions.
 	 */
 	public function __construct($id, $options) {
@@ -157,6 +174,7 @@ class UniForm {
 	/**
 	 * Quickly decides if the request is valid so the server is minimally
 	 * stressed by scripted attacks.
+	 * @return boolean
 	 */
 	private function requestValid() {
 		if (a::get($this->data, '_submit') !== $this->token) {
@@ -179,6 +197,7 @@ class UniForm {
 
 	/**
 	 * Checks if all required data is present to send the form.
+	 * @return boolean
 	 */
 	private function dataValid() {
 
@@ -214,8 +233,11 @@ class UniForm {
 
 	/**
 	 * Executes the form actions.
+	 * 
+	 * Returns `true` if all actions were performed successfully, `false`
+	 * otherwise.
 	 *
-	 * @return true if all actions were performed successfully, false otherwise.
+	 * @return boolean
 	 */
 	public function execute() {
 		// don't execute if there were validation errors
@@ -247,6 +269,7 @@ class UniForm {
 	 * sent successful.
 	 *
 	 * @param string $key The "name" attribute of the form field.
+	 * @return string
 	 */
 	public function value($key) {
 		return ($this->successful()) ? '' : a::get($this->data, $key, '');
@@ -263,45 +286,56 @@ class UniForm {
 
 	/**
 	 * Checks if a form field has a certain value.
+	 * 
+	 * Returns `true` if the value equals the content of the form field, 
+	 * `false` otherwise.
 	 *
 	 * @param string $key The "name" attribute of the form field.
 	 *
 	 * @param string $value The value tested against the actual content of the form field.
 	 *
-	 * @return True if the value equals the content of the form field. false
-	 * 	otherwise
+	 * @return boolean
 	 */
 	public function isValue($key, $value) {
 		return $this->value($key) === $value;
 	}
 
 	/**
+	 * Checks if there were any errors when validating form fields.
+	 * 
+	 * Returns `true` if there are erroneous fields. If a key is given, returns
+	 * `true` if this field is erroneous. Returns `false` otherwise.
+	 * 
 	 * @param string $key (optional) the key of the form field to check.
 	 *
-	 * @return true if there are erroneous fields. If a key is given, returns
-	 * true if this field is erroneous. Returns false otherwise.
+	 * @return boolean
 	 *
 	 */
-	public function hasError($key) {
+	public function hasError($key = false) {
 		return ($key)
 			? v::in($key, $this->erroneousFields)
 			: !empty($this->erroneousFields);
 	}
 
 	/**
-	 * @return the current session token of this form.
+	 * Returns the current session token of this form.
+	 * 
+	 * @return string
 	 */
 	public function token() {
 		return $this->token;
 	}
 
 	/**
+	 * If an `$action` was given, returns `true` if the action was performed
+	 * successfully, `false` otherwise.
+	 * If no `$action` was given, returns `true` if all actions performed
+	 * successfully, `false` otherwise.
+	 * 
 	 * @param string $action (optional) the index of the action to perform a
 	 * successful check
-	 * @return if an <code>$action></code> was given, <code>true</code> if the
-	 * action was performed successfully, <code>false</code> otherwise. if no
-	 * <code>$action></code> was given, <code>true</code> if all actions
-	 * performed successfully, <code>false</code> otherwise.
+	 * 
+	 * @return boolean
 	 */
 	public function successful($action = false) {
 		if (!is_int($action) && !is_string($action)) {
@@ -317,11 +351,15 @@ class UniForm {
 	}
 
 	/**
+	 * If an `$action` was given, returns the success/error feedback message of
+	 * the action.
+	 * If no `$action` was given, returns the feedback messages of all actions;
+	 * one per line.
+	 * 
 	 * @param string $action (optional) the index of the action to get the
 	 * feedback message from
-	 * @return if an <code>$action></code> was given, the success/error
-	 * feedback message of the action. if no <code>$action></code> was given, 
-	 * the feedback messages of all actions; one per line.
+	 * 
+	 * @return string
 	 */
 	public function message($action = false) {
 		$message = '';
@@ -337,22 +375,26 @@ class UniForm {
 	}
 
 	/**
-	 * @param string $action (optional) the index of the action to get the
-	 * feedback message from
-	 *
 	 * Echos the success/error feedback message directly as a HTML-safe string.
 	 * Either from one specified action or from all actions.
+	 * 
+	 * @param string $action (optional) the index of the action to get the
+	 * feedback message from
 	 */
 	public function echoMessage($action = false) {
 		echo str::html($this->message($action));
 	}
 
 	/**
+	 * Returns `true` if there is a success/error feedback message for the 
+	 * specified action.
+	 * If no action was specified, `true` if there is any  message from any
+	 * action, `false` otherwise.
+	 * 
 	 * @param string $action (optional) the index of the action to check for the
 	 * presence of a feedback message.
-	 * @return true if there is a success/error feedback message for the 
-	 * specified action. of no action was specified, true if there is any 
-	 * message from any action, false otherwise.
+	 * 
+	 * @return boolean
 	 */
 	public function hasMessage($action = false) {
 		if (!is_int($action) && !is_string($action)) {
@@ -361,7 +403,7 @@ class UniForm {
 			}
 			return false;
 		} elseif (array_key_exists($action, $this->actionOutput)) {
-			return (bool) a::get($this->actionOutput[$action], 'message');
+			return (boolean) a::get($this->actionOutput[$action], 'message');
 		} else {
 			return false;
 		}
@@ -370,6 +412,9 @@ class UniForm {
 
 /* DEFAULT ACTIONS */
 
+/*
+ * The action to send the form data as an email.
+ */
 uniform::$actions['email'] = function($form, $actionOptions) {
 
 	$options = array(
