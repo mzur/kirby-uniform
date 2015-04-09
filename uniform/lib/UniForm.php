@@ -422,7 +422,7 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 
 	if (array_key_exists('_receive_copy', $form)) {
 		$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
-		$params['to'] = $params['from'];
+		$params['to'] = $params['replyTo'];
 		email($params)->send();
 	}
 
