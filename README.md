@@ -10,6 +10,7 @@ Builtin actions:
 
 - [email](https://github.com/mzur/kirby-contact-form/wiki/Action:-Email): Send the form data by email.
 - [log](https://github.com/mzur/kirby-contact-form/wiki/Action:-Log): Log the form data to a file.
+- [login](https://github.com/mzur/kirby-uniform/wiki/Action:-Login): Log in to the Kirby frontend.
 
 ## Installation
 
