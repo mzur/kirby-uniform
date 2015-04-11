@@ -72,11 +72,9 @@ class UniForm {
 	 * @param string $id The unique ID of this form.
 	 * @param array $options Array of uniform options, including the actions.
 	 */
-	public function __construct($id, $options) {
-
-		if (empty($id)) {
-			throw new Error('No Uniform ID was given.');
-		}
+	public function __construct($id, $options)
+	{
+		if (empty($id)) throw new Error('No Uniform ID was given.');
 
 		$this->id = $id;
 
@@ -118,19 +116,24 @@ class UniForm {
 		// get the data to be sent (if there is any)
 		$this->data = get();
 
-		if ($this->requestValid()) {
+		if ($this->requestValid())
+		{
 			// remove uniform specific fields from form data
 			unset($this->data['_submit']);
 
-			if (empty($this->options['actions'])) {
+			if (empty($this->options['actions']))
+			{
 				throw new Error('No Uniform actions were given.');
 			}
 
-			if ($this->dataValid()) {
+			if ($this->dataValid())
+			{
 				// uniform is done, now it's the actions turn
 				$this->actionOutput['_uniform']['success'] = true;
 			}
-		} else {
+		}
+		else
+		{
 			// generate new token to spite the bots }:-)
 			$this->generateToken();
 		}
@@ -147,10 +150,13 @@ class UniForm {
 	 * @return  array  An array of missing fields. If this is empty, nothing is
 	 *                 missing.
 	 */
-	private static function missing($array, $required = array()) {
+	private static function missing($array, $required = array())
+	{
 		$missing = array();
-		foreach($required as $r) {
-			if(!array_key_exists($r, $array) || ($array[$r]==='')) {
+		foreach($required as $r)
+		{
+			if(!array_key_exists($r, $array) || ($array[$r]===''))
+			{
 				$missing[] = $r;
 			}
 		}
@@ -160,7 +166,8 @@ class UniForm {
 	/**
 	 * Generates a new token for this form and session.
 	 */
-	private function generateToken() {
+	private function generateToken()
+	{
 		$this->token = str::random(static::TOKEN_LENGTH);
 		s::set($this->id, $this->token);
 	}
@@ -168,14 +175,16 @@ class UniForm {
 	/**
 	 * Destroys the current token of this form.
 	 */
-	private function destroyToken() {
+	private function destroyToken()
+	{
 		s::remove($this->id);
 	}
 
 	/**
 	 * Generates a new captcha for the 'calc' guard.
 	 */
-	private function generateCaptcha() {
+	private function generateCaptcha()
+	{
 		list($a, $b) = array(rand(0, 9), rand(0,9));
 		s::set($this->id.'-captcha-result', $a + $b);
 		s::set($this->id.'-captcha-label',
@@ -187,27 +196,31 @@ class UniForm {
 	 * stressed by scripted attacks.
 	 * @return boolean
 	 */
-	private function requestValid() {
-		if (a::get($this->data, '_submit') !== $this->token) {
+	private function requestValid()
+	{
+		if (a::get($this->data, '_submit') !== $this->token)
+		{
 			return false;
 		}
 
-		if ($this->options['guard'] == 'honeypot') {
-
+		if ($this->options['guard'] == 'honeypot')
+		{
 			$honeypot = a::get($this->data, $this->options['honeypot']);
-			if (!empty($honeypot)) {
+			if (!empty($honeypot))
+			{
 				$this->actionOutput['_uniform']['message'] =
 					l::get('uniform-filled-potty');
 				return false;
 			}
 			// remove honeypot field from form data
 			unset($this->data[$this->options['honeypot']]);
-
-		} else if ($this->options['guard'] == 'calc') {
-
+		}
+		else if ($this->options['guard'] == 'calc')
+		{
 			$result = s::get($this->id.'-captcha-result');
 
-			if (!empty($result) && a::get($this->data, '_captcha', '') != $result) {
+			if (!empty($result) && a::get($this->data, '_captcha', '') != $result)
+			{
 				array_push($this->erroneousFields, '_captcha');
 				$this->actionOutput['_uniform']['message'] =
 					l::get('uniform-fields-not-valid');
@@ -217,7 +230,6 @@ class UniForm {
 			// remove captcha field from form data
 			unset($this->data['_captcha']);
 		}
-
 		return true;
 	}
 
@@ -225,30 +237,34 @@ class UniForm {
 	 * Checks if all required data is present to send the form.
 	 * @return boolean
 	 */
-	private function dataValid() {
-
+	private function dataValid()
+	{
 		// check if all required fields are there
 		$this->erroneousFields = static::missing(
 			$this->data,
 			array_keys($this->options['required'])
 		);
 
-		if (!empty($this->erroneousFields)) {
+		if (!empty($this->erroneousFields))
+		{
 			$this->actionOutput['_uniform']['message'] =
 				l::get('uniform-fields-required');
 			return false;
 		}
 
 		// perform validation for all fields with a given validation method
-		foreach ($this->options['validate'] as $field => $method) {
+		foreach ($this->options['validate'] as $field => $method)
+		{
 			$value = a::get($this->data, $field);
 			// validate only if a method is given and the field contains data
-			if (!empty($method) && !empty($value) && !call('v::'.$method, $value)) {
+			if (!empty($method) && !empty($value) && !call('v::'.$method, $value))
+			{
 				array_push($this->erroneousFields, $field);
 			}
 		}
 
-		if (!empty($this->erroneousFields)) {
+		if (!empty($this->erroneousFields))
+		{
 			$this->actionOutput['_uniform']['message'] =
 				l::get('uniform-fields-not-valid');
 			return false;
@@ -265,15 +281,18 @@ class UniForm {
 	 *
 	 * @return boolean
 	 */
-	public function execute() {
+	public function execute()
+	{
 		// don't execute if there were validation errors
 		if (!$this->actionOutput['_uniform']['success']) return false;
 
-		foreach ($this->options['actions'] as $index => $action) {
+		foreach ($this->options['actions'] as $index => $action)
+		{
 			// skip this array if it doesn't contain an action name
 			if (!($key = a::get($action, '_action'))) continue;
 
-			if (!isset(static::$actions[$key])) {
+			if (!isset(static::$actions[$key]))
+			{
 				throw new Error('The uniform action "'.$key.'" does not exist.');
 			}
 
@@ -297,7 +316,8 @@ class UniForm {
 	 * @param string $key The "name" attribute of the form field.
 	 * @return string
 	 */
-	public function value($key) {
+	public function value($key)
+	{
 		return ($this->successful()) ? '' : a::get($this->data, $key, '');
 	}
 
@@ -306,7 +326,8 @@ class UniForm {
 	 *
 	 * @param string $key The "name" attribute of the form field.
 	 */
-	public function echoValue($key) {
+	public function echoValue($key)
+	{
 		echo str::html($this->value($key));
 	}
 
@@ -322,7 +343,8 @@ class UniForm {
 	 *
 	 * @return boolean
 	 */
-	public function isValue($key, $value) {
+	public function isValue($key, $value)
+	{
 		return $this->value($key) === $value;
 	}
 
@@ -337,7 +359,8 @@ class UniForm {
 	 * @return boolean
 	 *
 	 */
-	public function hasError($key = false) {
+	public function hasError($key = false)
+	{
 		return ($key)
 			? v::in($key, $this->erroneousFields)
 			: !empty($this->erroneousFields);
@@ -348,7 +371,8 @@ class UniForm {
 	 * 
 	 * @return string
 	 */
-	public function token() {
+	public function token()
+	{
 		return $this->token;
 	}
 
@@ -357,7 +381,8 @@ class UniForm {
 	 * 
 	 * @return string
 	 */
-	public function captcha() {
+	public function captcha()
+	{
 		$this->generateCaptcha();
 		return str::encode(s::get($this->id.'-captcha-label'));
 	}
@@ -373,15 +398,22 @@ class UniForm {
 	 * 
 	 * @return boolean
 	 */
-	public function successful($action = false) {
-		if (!is_int($action) && !is_string($action)) {
-			foreach ($this->actionOutput as $output) {
+	public function successful($action = false)
+	{
+		if (!is_int($action) && !is_string($action))
+		{
+			foreach ($this->actionOutput as $output)
+			{
 				if (!a::get($output, 'success')) return false;
 			}
 			return true;
-		} elseif (array_key_exists($action, $this->actionOutput)) {
+		}
+		else if (array_key_exists($action, $this->actionOutput))
+		{
 			return a::get($this->actionOutput[$action], 'success');
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -397,13 +429,18 @@ class UniForm {
 	 * 
 	 * @return string
 	 */
-	public function message($action = false) {
+	public function message($action = false)
+	{
 		$message = '';
-		if (!is_int($action) && !is_string($action)) {
-			foreach ($this->actionOutput as $output) {
+		if (!is_int($action) && !is_string($action))
+		{
+			foreach ($this->actionOutput as $output)
+			{
 				$message .= a::get($output, 'message', '') . "\n";
 			}
-		} elseif (array_key_exists($action, $this->actionOutput)) {
+		}
+		else if (array_key_exists($action, $this->actionOutput))
+		{
 			$message = a::get($this->actionOutput[$action], 'message', '');
 		}
 
@@ -417,7 +454,8 @@ class UniForm {
 	 * @param string $action (optional) the index of the action to get the
 	 * feedback message from
 	 */
-	public function echoMessage($action = false) {
+	public function echoMessage($action = false)
+	{
 		echo str::html($this->message($action));
 	}
 
@@ -432,15 +470,22 @@ class UniForm {
 	 * 
 	 * @return boolean
 	 */
-	public function hasMessage($action = false) {
-		if (!is_int($action) && !is_string($action)) {
-			foreach ($this->actionOutput as $output) {
+	public function hasMessage($action = false)
+	{
+		if (!is_int($action) && !is_string($action))
+		{
+			foreach ($this->actionOutput as $output)
+			{
 				if (a::get($output, 'message')) return true;
 			}
 			return false;
-		} elseif (array_key_exists($action, $this->actionOutput)) {
+		}
+		else if (array_key_exists($action, $this->actionOutput))
+		{
 			return (boolean) a::get($this->actionOutput[$action], 'message');
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -451,8 +496,8 @@ class UniForm {
 /*
  * The action to send the form data as an email.
  */
-uniform::$actions['email'] = function($form, $actionOptions) {
-
+uniform::$actions['email'] = function($form, $actionOptions)
+{
 	$options = array(
 		// apply the dynamic subject (insert form data)
 		'subject'         => str::template(
@@ -473,17 +518,19 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 	$mailBody = "";
 	$snippet = $options['snippet'];
 
-	if (empty($snippet)) {
-		foreach ($form as $key => $value) {
-			if (str::startsWith($key, '_')) {
-				continue;
-			}
-
+	if (empty($snippet))
+	{
+		foreach ($form as $key => $value)
+		{
+			if (str::startsWith($key, '_')) continue;
 			$mailBody .= ucfirst($key).': '.$value."\n\n";
 		}
-	} else {
+	}
+	else
+	{
 		$mailBody = snippet($snippet, compact('form', 'options'), true);
-		if ($mailBody === false) {
+		if ($mailBody === false)
+		{
 			throw new Exception('Uniform email action: The email snippet "'.
 				$snippet.'" does not exist!');
 		}
@@ -501,18 +548,22 @@ uniform::$actions['email'] = function($form, $actionOptions) {
 
 	$email = email($params);
 
-	if (array_key_exists('_receive_copy', $form)) {
+	if (array_key_exists('_receive_copy', $form))
+	{
 		$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
 		$params['to'] = $params['from'];
 		email($params)->send();
 	}
 
-	if($email->send()) {
+	if($email->send())
+	{
         return array(
             'success' => true,
             'message' => l::get('uniform-email-success')
         );
-    } else {
+    }
+    else
+    {
         return array(
             'success' => false,
             'message' => l::get('uniform-email-error').' '.$email->error()
