@@ -10,3 +10,6 @@ l::set('uniform-email-error', 'Es ist ein Fehler beim Senden aufgetreten:');
 l::set('uniform-email-copy', 'Kopie:');
 
 l::set('uniform-calc-plus', 'plus');
+
+l::set('uniform-log-success', 'Der Logeintrag wurde erfolgreich angelegt.');
+l::set('uniform-log-error', 'Beim Schreiben in die Log-Datei ist ein Fehler aufgetreten.');

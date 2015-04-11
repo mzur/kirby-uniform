@@ -10,3 +10,6 @@ l::set('uniform-email-error', 'Er is een fout bij het verzenden van het formulie
 l::set('uniform-email-copy', 'Kopie:');
 
 l::set('uniform-calc-plus', 'plus');
+
+l::set('uniform-log-success', 'The log entry was successfully created.');
+l::set('uniform-log-error', 'There was an error while writing the logfile.');

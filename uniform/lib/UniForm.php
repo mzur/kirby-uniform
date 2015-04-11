@@ -393,7 +393,7 @@ class UniForm {
 	 * If no `$action` was given, returns `true` if all actions performed
 	 * successfully, `false` otherwise.
 	 * 
-	 * @param string $action (optional) the index of the action to perform a
+	 * @param mixed $action (optional) the index of the action to perform a
 	 * successful check
 	 * 
 	 * @return boolean
@@ -424,7 +424,7 @@ class UniForm {
 	 * If no `$action` was given, returns the feedback messages of all actions;
 	 * one per line.
 	 * 
-	 * @param string $action (optional) the index of the action to get the
+	 * @param mixed $action (optional) the index of the action to get the
 	 * feedback message from
 	 * 
 	 * @return string
@@ -451,7 +451,7 @@ class UniForm {
 	 * Echos the success/error feedback message directly as a HTML-safe string.
 	 * Either from one specified action or from all actions.
 	 * 
-	 * @param string $action (optional) the index of the action to get the
+	 * @param mixed $action (optional) the index of the action to get the
 	 * feedback message from
 	 */
 	public function echoMessage($action = false)
@@ -465,7 +465,7 @@ class UniForm {
 	 * If no action was specified, `true` if there is any  message from any
 	 * action, `false` otherwise.
 	 * 
-	 * @param string $action (optional) the index of the action to check for the
+	 * @param mixed $action (optional) the index of the action to check for the
 	 * presence of a feedback message.
 	 * 
 	 * @return boolean
@@ -569,4 +569,40 @@ uniform::$actions['email'] = function($form, $actionOptions)
             'message' => l::get('uniform-email-error').' '.$email->error()
         );
     }
+};
+
+/*
+ * Action to log the form data to a file
+ */
+uniform::$actions['log'] = function($form, $actionOptions)
+{
+	$file = a::get($actionOptions, 'file', false);
+	if ($file === false)
+	{
+		throw new Exception('Uniform log action: No logfile specified!');
+	}
+
+	$data = '[' . date('c') . '] ' . visitor::ip() . ' ' . visitor::userAgent();
+
+	foreach ($form as $key => $value) {
+		$data .= "\n" . $key . ": " . $value;
+	}
+	$data .= "\n\n";
+
+	$success = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
+
+	if ($success === false)
+	{
+		return array(
+			'success' => false,
+			'message' => l::get('uniform-log-error')
+		);
+	}
+	else
+	{
+		return array(
+			'success' => true,
+			'message' => l::get('uniform-log-success')
+		);
+	}
 };
