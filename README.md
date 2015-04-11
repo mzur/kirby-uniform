@@ -8,7 +8,8 @@ See the [Kirby with Uniform](http://blog.the-inspired-ones.de/kirby-with-uniform
 
 Builtin actions:
 
-- `email`: Send the form data by email.
+- [email](https://github.com/mzur/kirby-contact-form/wiki/Action:-Email): Send the form data by email.
+- [log](https://github.com/mzur/kirby-contact-form/wiki/Action:-Log): Log the form data to a file.
 
 ## Installation
 
