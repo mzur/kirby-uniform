@@ -16,3 +16,6 @@ l::set('uniform-log-error', 'There was an error while writing the logfile.');
 
 l::set('uniform-login-error', 'Wrong username or password.');
 l::set('uniform-login-success', 'Login successful.');
+
+l::set('uniform-webhook-success', 'Calling webhook successful.');
+l::set('uniform-webhook-error', 'There was an error calling the webhook: ');
