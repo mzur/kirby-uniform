@@ -9,6 +9,7 @@ See the [Kirby with Uniform](http://blog.the-inspired-ones.de/kirby-with-uniform
 Builtin actions:
 
 - [email](https://github.com/mzur/kirby-contact-form/wiki/Action:-Email): Send the form data by email.
+- [email-select](https://github.com/mzur/kirby-uniform/wiki/Action:-Email-select): Choose from multiple recipients to send the form data by email.
 - [log](https://github.com/mzur/kirby-contact-form/wiki/Action:-Log): Log the form data to a file.
 - [login](https://github.com/mzur/kirby-uniform/wiki/Action:-Login): Log in to the Kirby frontend.
 - [webhook](https://github.com/mzur/kirby-uniform/wiki/Action:-Webhook): Send the form data as a HTTP request to a webhook.

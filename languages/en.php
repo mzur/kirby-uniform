@@ -19,3 +19,5 @@ l::set('uniform-login-success', 'Login successful.');
 
 l::set('uniform-webhook-success', 'Calling webhook successful.');
 l::set('uniform-webhook-error', 'There was an error calling the webhook: ');
+
+l::set('uniform-email-select-error', 'Invalid recipient.');
