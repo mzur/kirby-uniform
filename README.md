@@ -8,7 +8,11 @@ See the [Kirby with Uniform](http://blog.the-inspired-ones.de/kirby-with-uniform
 
 Builtin actions:
 
-- `email`: Send the form data by email.
+- [email](https://github.com/mzur/kirby-contact-form/wiki/Action:-Email): Send the form data by email.
+- [email-select](https://github.com/mzur/kirby-uniform/wiki/Action:-Email-select): Choose from multiple recipients to send the form data by email.
+- [log](https://github.com/mzur/kirby-contact-form/wiki/Action:-Log): Log the form data to a file.
+- [login](https://github.com/mzur/kirby-uniform/wiki/Action:-Login): Log in to the Kirby frontend.
+- [webhook](https://github.com/mzur/kirby-uniform/wiki/Action:-Webhook): Send the form data as a HTTP request to a webhook.
 
 ## Installation
 
@@ -109,6 +113,19 @@ The default name of the honeypot field is `website` to attract the attention of 
 <input type="text" name="fill-me" id="fill-me" class="uniform__potty" />
 ```
 
+### guard
+
+As an alternative to the default `honeypot` spam protection mechanism, you can specify the `calc` guard, too. Here, the user has to solve a simple arithmetic problem before the form will be submitted successfully. Example:
+
+```php
+'guard' => 'calc'
+//...
+<label for="_captcha" class="required">Please calculate <?php echo $form->captcha() ?></label>
+<input<?php e($form->hasError('_captcha'), ' class="erroneous"')?> type="number" name="_captcha" id="_captcha" required/>
+```
+
+You can disable the spam protection altogether by setting the guard to `''`.
+
 ### required
 
 Associative array of required form fields. The keys of the array are the `name` attributes of the required fields. The values of the entries are optional [validator function](http://getkirby.com/docs/cheatsheet#validators) names. Example:
@@ -182,6 +199,10 @@ Retruns `true` if there are erroneous fields. If a key is given, returns `true` 
 ### token()
 
 Returns the current session token of this form.
+
+### captcha()
+
+Returns the captcha of the `calc` spam protection mechanism as obfuscated HTML.
 
 ### successful($action = false)
 
