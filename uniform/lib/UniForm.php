@@ -173,14 +173,6 @@ class UniForm {
 	}
 
 	/**
-	 * Destroys the current token of this form.
-	 */
-	private function destroyToken()
-	{
-		s::remove($this->id);
-	}
-
-	/**
 	 * Generates a new captcha for the 'calc' guard.
 	 */
 	private function generateCaptcha()
@@ -304,7 +296,7 @@ class UniForm {
 		}
 
 		// if all actions performed successfully, the session is over
-		if ($this->successful()) $this->destroyToken();
+		if ($this->successful()) $this->generateToken();
 
 		return $this->successful();
 	}
