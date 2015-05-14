@@ -533,7 +533,7 @@ uniform::$actions['email'] = function($form, $actionOptions)
 		'options' => $options['service-options'],
 		'to'      => $options['to'],
 		'from'    => $options['sender'],
-		'replyTo' => a::get($form, 'name', '').' <'.a::get($form, '_from').'>',
+		'replyTo' => a::get($form, '_from'),
 		'subject' => $options['subject'],
 		'body'    => $mailBody
 	);
