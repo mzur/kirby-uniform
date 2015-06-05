@@ -136,6 +136,9 @@ class UniForm {
 		{
 			// generate new token to spite the bots }:-)
 			$this->generateToken();
+			// clear the data array
+			// see https://github.com/mzur/kirby-uniform/issues/48
+			$this->data = array();
 		}
 	}
 
