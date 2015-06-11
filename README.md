@@ -196,6 +196,12 @@ Returns `true` if the value equals the content of the form field, `false` otherw
 
 Retruns `true` if there are erroneous fields. If a key is given, returns `true` if this field is erroneous. Returns `false` otherwise.
 
+### isRequired($key)
+
+`$key`: The `name` attribute of the form field.
+
+Returns `true` if the field was in the list of required fields. Returns `false` otherwise.
+
 ### token()
 
 Returns the current session token of this form.
