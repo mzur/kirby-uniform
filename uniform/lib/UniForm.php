@@ -362,6 +362,23 @@ class UniForm {
 	}
 
 	/**
+	* Checks if a field is a required field or not.
+	*
+	* Returns `true` if the field was in the list of required fields.
+	* Returns `false` otherwise.
+	*
+	* @param string $key the key of the form field to check.
+	*
+	* @return boolean
+	*/
+	public function isRequired($key)
+	{
+		return 	!is_null($key) &&
+				array_key_exists('required', $this->options) &&
+				array_key_exists($key, $this->options['required']);
+	}
+
+	/**
 	 * Returns the current session token of this form.
 	 * 
 	 * @return string
