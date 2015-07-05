@@ -156,9 +156,9 @@ class UniForm {
 	private static function missing($array, $required = array())
 	{
 		$missing = array();
-		foreach($required as $r)
+		foreach ($required as $r)
 		{
-			if(!array_key_exists($r, $array) || ($array[$r]===''))
+			if (!array_key_exists($r, $array) || ($array[$r] === ''))
 			{
 				$missing[] = $r;
 			}
@@ -373,9 +373,7 @@ class UniForm {
 	*/
 	public function isRequired($key)
 	{
-		return 	!is_null($key) &&
-				array_key_exists('required', $this->options) &&
-				array_key_exists($key, $this->options['required']);
+		return $key !== null && !empty($this->options['required'][$key]);
 	}
 
 	/**
@@ -728,8 +726,8 @@ uniform::$actions['email-select'] = function($form, $actionOptions) {
 	if (!array_key_exists($recipient, $allowed))
 	{
 		return array(
-				'success' => false,
-				'message' => l::get('uniform-email-error').' '.l::get('uniform-email-select-error')
+			'success' => false,
+			'message' => l::get('uniform-email-error').' '.l::get('uniform-email-select-error')
 		);
 	}
 
