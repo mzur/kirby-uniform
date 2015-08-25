@@ -20,23 +20,11 @@ Builtin actions:
 
 2. Add the content of `uniform.css` to your CSS.
 
-3. Put the language files of the `languages` directory to `site/languages/`. If you already have existing language files, simply append the content to them (or use `include_once`). You only need to choose those languages that you actually want to support.
-
-4. Make sure you have the language support of Kirby activated (even, if you only want to support one language). Here is an example for activating the support with a single language in `site/config/config.php`:
+If you have a single language site you can choose the language Uniform should use in `site/config/config.php` (default is `en`):
 
 ```php
-c::set('languages', array(
-	array(
-		'code'    => 'en',
-		'name'    => 'English',
-		'locale'  => 'en_US',
-		'default' => true,
-		'url'     => '/'
-	)
-));
+c::set('uniform.language', 'de');
 ```
-
-For more information on the multi language support of Kirby, see [the docs](http://getkirby.com/docs/languages/setup).
 
 For a **quick-start** jump directly to the [basic example](#basic).
 
