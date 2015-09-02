@@ -7,35 +7,35 @@
 class UniForm {
 	/**
 	 * Length of the token string unique for a session until the form is sent.
-	 * 
+	 *
 	 * @var int
 	 */
 	const TOKEN_LENGTH = 20;
 
 	/**
 	 * The array of all action callback functions.
-	 * 
+	 *
 	 * @var array
 	 */
 	public static $actions = array();
 
 	/**
 	 * Unique ID/Key of this form.
-	 * 
+	 *
 	 * @var string
 	 */
 	private $id;
 
 	/**
 	 * Array of uniform options, including the actions to be performed.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $options;
 
 	/**
 	 * POST data of the form.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $data;
@@ -43,9 +43,9 @@ class UniForm {
 	/**
 	 * Token string unique for a session until the form is sent. It is used to
 	 * prevent arbitrary (scripted) post requests to be able to use the form.
-	 * It shuld only be possible to submit the form from the actual website 
+	 * It shuld only be possible to submit the form from the actual website
 	 * containing it.
-	 * 
+	 *
 	 * @var string
 	 */
 	private $token;
@@ -53,7 +53,7 @@ class UniForm {
 	/**
 	 * Contains the returned values of the performed action callbacks as well as
 	 * 'success' and 'message' of the form plugin itself.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $actionOutput;
@@ -61,14 +61,14 @@ class UniForm {
 	/**
 	 * Array of keys of form fields that were required and not given or failed
 	 * their validation.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $erroneousFields;
 
 	/**
 	 * Creates a new Uniform instance.
-	 * 
+	 *
 	 * @param string $id The unique ID of this form.
 	 * @param array $options Array of uniform options, including the actions.
 	 */
@@ -270,7 +270,7 @@ class UniForm {
 
 	/**
 	 * Executes the form actions.
-	 * 
+	 *
 	 * Returns `true` if all actions were performed successfully, `false`
 	 * otherwise.
 	 *
@@ -328,8 +328,8 @@ class UniForm {
 
 	/**
 	 * Checks if a form field has a certain value.
-	 * 
-	 * Returns `true` if the value equals the content of the form field, 
+	 *
+	 * Returns `true` if the value equals the content of the form field,
 	 * `false` otherwise.
 	 *
 	 * @param string $key The "name" attribute of the form field.
@@ -345,10 +345,10 @@ class UniForm {
 
 	/**
 	 * Checks if there were any errors when validating form fields.
-	 * 
+	 *
 	 * Returns `true` if there are erroneous fields. If a key is given, returns
 	 * `true` if this field is erroneous. Returns `false` otherwise.
-	 * 
+	 *
 	 * @param string $key (optional) the key of the form field to check.
 	 *
 	 * @return boolean
@@ -380,7 +380,7 @@ class UniForm {
 
 	/**
 	 * Returns the current session token of this form.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function token()
@@ -390,7 +390,7 @@ class UniForm {
 
 	/**
 	 * Re-generates and returns the obfuscated captcha of the `calc` guard.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function captcha()
@@ -404,10 +404,10 @@ class UniForm {
 	 * successfully, `false` otherwise.
 	 * If no `$action` was given, returns `true` if all actions performed
 	 * successfully, `false` otherwise.
-	 * 
+	 *
 	 * @param mixed $action (optional) the index of the action to perform a
 	 * successful check
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function successful($action = false)
@@ -435,10 +435,10 @@ class UniForm {
 	 * the action.
 	 * If no `$action` was given, returns the feedback messages of all actions;
 	 * one per line.
-	 * 
+	 *
 	 * @param mixed $action (optional) the index of the action to get the
 	 * feedback message from
-	 * 
+	 *
 	 * @return string
 	 */
 	public function message($action = false)
@@ -462,7 +462,7 @@ class UniForm {
 	/**
 	 * Echos the success/error feedback message directly as a HTML-safe string.
 	 * Either from one specified action or from all actions.
-	 * 
+	 *
 	 * @param mixed $action (optional) the index of the action to get the
 	 * feedback message from
 	 */
@@ -472,14 +472,14 @@ class UniForm {
 	}
 
 	/**
-	 * Returns `true` if there is a success/error feedback message for the 
+	 * Returns `true` if there is a success/error feedback message for the
 	 * specified action.
 	 * If no action was specified, `true` if there is any  message from any
 	 * action, `false` otherwise.
-	 * 
+	 *
 	 * @param mixed $action (optional) the index of the action to check for the
 	 * presence of a feedback message.
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function hasMessage($action = false)
@@ -560,15 +560,15 @@ uniform::$actions['email'] = function($form, $actionOptions)
 
 	$email = email($params);
 
-	if (array_key_exists('_receive_copy', $form))
-	{
-		$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
-		$params['to'] = $params['replyTo'];
-		email($params)->send();
-	}
-
 	if($email->send())
 	{
+		if (array_key_exists('_receive_copy', $form))
+		{
+			$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
+			$params['to'] = $params['replyTo'];
+			email($params)->send();
+		}
+
 		return array(
 				'success' => true,
 				'message' => l::get('uniform-email-success')
