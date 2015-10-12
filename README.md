@@ -146,6 +146,11 @@ To enable the recaptcha mechanism you need to set the guard to `recaptcha` and a
 <div class="g-recaptcha" data-sitekey="<?php echo $form->recaptchaSitekey(); ?>"></div>
 ```
 
+Before the closing `</body>` tag you have to insert the recaptcha javascript:
+```php
+<script src='https://www.google.com/recaptcha/api.js'></script>
+```
+
 ### required
 
 Associative array of required form fields. The keys of the array are the `name` attributes of the required fields. The values of the entries are optional [validator function](http://getkirby.com/docs/cheatsheet#validators) names. Example:
