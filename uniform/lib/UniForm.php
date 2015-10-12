@@ -271,7 +271,7 @@ class UniForm {
 				}
 			}
 
-			unset($this->data['g-recaptcha-response']);
+			unset($this->data[self::RECAPTCHA_KEY]);
 		}
 		return true;
 	}
