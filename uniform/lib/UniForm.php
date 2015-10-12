@@ -13,6 +13,34 @@ class UniForm {
 	const TOKEN_LENGTH = 20;
 
 	/**
+	 * Recaptcha sitekey config key
+	 *
+	 * @var string
+	 */
+	const RECAPTCHA_SITEKEY_CONFIG = 'uniform-recaptcha-sitekey';
+
+	/**
+	 * Recaptcha secret config key
+	 *
+	 * @var string
+	 */
+	const RECAPTCHA_SECRET_CONFIG = 'uniform-recaptcha-secret';
+
+	/**
+	 * Recaptcha validation url
+	 *
+	 * @var string
+	 */
+	const RECAPTCHA_URL = 'https://www.google.com/recaptcha/api/siteverify';
+
+	/**
+	 * Recaptcha post key
+	 *
+	 * @var string
+	 */
+	const RECAPTCHA_KEY = 'g-recaptcha-response';
+
+	/**
 	 * The array of all action callback functions.
 	 *
 	 * @var array
@@ -225,6 +253,26 @@ class UniForm {
 			// remove captcha field from form data
 			unset($this->data['_captcha']);
 		}
+		else if($this->options['guard'] == 'recaptcha') {
+			$response = a::get($this->data, self::RECAPTCHA_KEY);
+
+			if(!empty($response)) {
+				$secret = c::get(self::RECAPTCHA_SECRET_CONFIG);
+				$googleUrl = self::RECAPTCHA_URL . '?secret=' . $secret . '&response=' . $response;
+
+				$response = file_get_contents($googleUrl);
+				$response = json_decode($response, true);
+
+				if($response["success"] !== true) {
+
+					$this->actionOutput['_uniform']['message'] =
+						l::get('uniform-fields-not-valid');
+					return false;
+				}
+			}
+
+			unset($this->data['g-recaptcha-response']);
+		}
 		return true;
 	}
 
@@ -397,6 +445,15 @@ class UniForm {
 	{
 		$this->generateCaptcha();
 		return str::encode(s::get($this->id.'-captcha-label'));
+	}
+
+	/**
+	 * reads the recaptcha site key from config
+	 *
+	 * @return string
+	 */
+	public function recaptchaSitekey() {
+		return c::get(self::RECAPTCHA_SITEKEY_CONFIG);
 	}
 
 	/**
