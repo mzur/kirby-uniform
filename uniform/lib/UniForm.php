@@ -456,7 +456,7 @@ class UniForm {
 			$message = a::get($this->actionOutput[$action], 'message', '');
 		}
 
-		return $message;
+		return trim($message);
 	}
 
 	/**
