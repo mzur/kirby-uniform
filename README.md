@@ -114,6 +114,31 @@ As an alternative to the default `honeypot` spam protection mechanism, you can s
 
 You can disable the spam protection altogether by setting the guard to `''`.
 
+### recaptcha
+
+As an alternative to the default `honeypot` or the `calc` spam protection mechanism, you can specify the `recaptcha` guard. 
+
+To enable the `recaptcha` guard you need to define two config settings:
+```php
+c::set('uniform-recaptcha-sitekey', 'SITEKEY');
+c::set('uniform-recaptcha-secret', 'SECRET');
+```
+
+These config settings can be found on your site's recaptcha admin page.
+
+To enable the recaptcha mechanism you need to set the guard to `recaptcha` and add the frontend tag.
+
+```php
+'guard' => 'recaptcha'
+//...
+<div class="g-recaptcha" data-sitekey="<?php echo $form->recaptchaSitekey(); ?>"></div>
+```
+
+Before the closing `</body>` tag you have to insert the recaptcha javascript:
+```php
+<script src='https://www.google.com/recaptcha/api.js'></script>
+```
+
 ### required
 
 Associative array of required form fields. The keys of the array are the `name` attributes of the required fields. The values of the entries are optional [validator function](http://getkirby.com/docs/cheatsheet#validators) names. Example:
