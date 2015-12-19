@@ -391,7 +391,7 @@ class UniForm {
 	}
 
 	/**
-	 * Returns the ID of this form
+	 * Returns the ID of the form
 	 *
 	 * @return string
 	 */
@@ -401,7 +401,7 @@ class UniForm {
 	}
 
 	/**
-	 * Returns the options array of this form.
+	 * Returns the options (array) of the form.
 	 *
 	 * @param string $key (optional) Key of a specific option to return. If null, all options are returned.
 	 *
@@ -417,7 +417,7 @@ class UniForm {
 	}
 
 	/**
-	 * Remove a form field from this form.
+	 * Remove a form field from the form.
 	 *
 	 * @param string $key Form field name
 	 */
