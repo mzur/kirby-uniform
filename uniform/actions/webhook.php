@@ -39,7 +39,13 @@ uniform::$actions['webhook'] = function($form, $actionOptions)
 	// merge the optional 'static' data from the action array with the form data
 	$params['data'] = array_merge(a::get($params, 'data', array()), $data);
 
-	$headers = array('Content-Type: application/x-www-form-urlencoded');
+	if (a::get($actionOptions, 'json', false)) {
+		$headers = array('Content-Type: application/json');
+		$params['data'] = json_encode($params['data'], JSON_UNESCAPED_SLASHES);
+	} else {
+		$headers = array('Content-Type: application/x-www-form-urlencoded');
+	}
+
 	$params['headers'] = array_merge(
 		a::get($params, 'headers', array()),
 		$headers
