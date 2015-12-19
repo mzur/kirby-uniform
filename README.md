@@ -304,7 +304,7 @@ Message: hello
 
 This form extends the basic example by radio buttons and `select` fields as well as a custom subject. It validates a non-required field, too. For the email body the `uniform-email-table` snippet provided by this repo is used. For the HTML snippet to work, a `html-mail` email service is used that is *not* provided by this repo.
 
-When the form is sent, a copy of the email will be sent to `me-too@example.com`, as well as to the sender of the form if they checked the `_receive_copy` checkbox.
+When the form is sent, a copy of the email will be sent to `me-too@example.com`, as well as to the sender of the form if they checked the `_receive_copy` checkbox (but only once since we set the `receive-copy` property to `false` for the second email action).
 
 Controller:
 
@@ -331,11 +331,12 @@ return function($site, $pages, $page) {
 					'snippet' => 'uniform-email-table'
 				),
 				array(
-					'_action' => 'email',
-					'to'      => 'me-too@example.com',
-					'sender'  => 'info@my-domain.tld',
-					'subject' => 'Exhibition - New registration',
-					'snippet' => 'uniform-email-table'
+					'_action'      => 'email',
+					'to'           => 'me-too@example.com',
+					'sender'       => 'info@my-domain.tld',
+					'subject'      => 'Exhibition - New registration',
+					'snippet'      => 'uniform-email-table',
+					'receive-copy' => false
 				)
 			)
 		)

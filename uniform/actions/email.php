@@ -12,6 +12,7 @@ uniform::$actions['email'] = function($form, $actionOptions)
 			$form
 		),
 		'snippet'         => a::get($actionOptions, 'snippet', false),
+		'receive-copy'    => a::get($actionOptions, 'receive-copy', true),
 		'to'              => a::get($actionOptions, 'to'),
 		'sender'          => a::get($actionOptions, 'sender'),
 		'service'         => a::get($actionOptions, 'service', 'mail'),
@@ -55,7 +56,7 @@ uniform::$actions['email'] = function($form, $actionOptions)
 
 	$email = email($params);
 
-	if (array_key_exists('_receive_copy', $form))
+	if ($options['receive-copy'] && array_key_exists('_receive_copy', $form))
 	{
 		$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
 		$params['to'] = $params['replyTo'];
