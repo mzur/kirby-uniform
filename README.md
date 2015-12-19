@@ -231,22 +231,29 @@ This form only asks for the name and email (both required) as well as a message.
 Controller:
 
 ```php
-$form = uniform(
-	'contact-form',
-	array(
-		'required' => array(
-			'name'  => '',
-			'_from' => 'email'
-		),
-		'actions' => array(
-			array(
-				'_action' => 'email',
-				'to'      => 'me@example.com',
-				'sender'  => 'info@my-domain.tld'
+<?php
+
+return function($site, $pages, $page) {
+	$form = uniform(
+		'contact-form',
+		array(
+			'required' => array(
+				'name'  => '',
+				'_from' => 'email'
+			),
+			'actions' => array(
+				array(
+					'_action' => 'email',
+					'to'      => 'me@example.com',
+					'sender'  => 'info@my-domain.tld',
+					'subject' => 'New message from the contact form'
+				)
 			)
 		)
-	)
-);
+	);
+
+	return compact('form');
+};
 ```
 
 Template:
@@ -302,34 +309,40 @@ When the form is sent, a copy of the email will be sent to `me-too@example.com`,
 Controller:
 
 ```php
-$form = uniform(
-	'registration-form',
-	array(
-		'required' => array(
-			'name'   => '',
-			'_from'  => 'email'
-		),
-		'validate' => array(
-			'attendees'	=> 'num'
-		),
-		'actions' => array(
-			array(
-				'_action' => 'email',
-				'to'      => 'me@example.com',
-				'sender'  => 'info@my-domain.tld',
-				'subject' => 'Exhibition - New registration',
-				'snippet' => 'uniform-email-table'
+<?php
+
+return function($site, $pages, $page) {
+	$form = uniform(
+		'registration-form',
+		array(
+			'required' => array(
+				'name'   => '',
+				'_from'  => 'email'
 			),
-			array(
-				'_action' => 'email',
-				'to'      => 'me-too@example.com',
-				'sender'  => 'info@my-domain.tld',
-				'subject' => 'Exhibition - New registration',
-				'snippet' => 'uniform-email-table'
+			'validate' => array(
+				'attendees'	=> 'num'
+			),
+			'actions' => array(
+				array(
+					'_action' => 'email',
+					'to'      => 'me@example.com',
+					'sender'  => 'info@my-domain.tld',
+					'subject' => 'Exhibition - New registration',
+					'snippet' => 'uniform-email-table'
+				),
+				array(
+					'_action' => 'email',
+					'to'      => 'me-too@example.com',
+					'sender'  => 'info@my-domain.tld',
+					'subject' => 'Exhibition - New registration',
+					'snippet' => 'uniform-email-table'
+				)
 			)
 		)
-	)
-);
+	);
+
+	return compact('form');
+};
 ```
 
 Template:
