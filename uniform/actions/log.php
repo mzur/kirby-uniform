@@ -11,12 +11,18 @@ uniform::$actions['log'] = function($form, $actionOptions)
 		throw new Exception('Uniform log action: No logfile specified!');
 	}
 
-	$data = '[' . date('c') . '] ' . visitor::ip() . ' ' . visitor::userAgent();
+	$snippet = a::get($actionOptions, 'snippet', '');
 
-	foreach ($form as $key => $value) {
-		$data .= "\n" . $key . ": " . $value;
+	if (empty($snippet)) {
+		$data = '[' . date('c') . '] ' . visitor::ip() . ' ' . visitor::userAgent();
+
+		foreach ($form as $key => $value) {
+			$data .= "\n" . $key . ": " . $value;
+		}
+		$data .= "\n\n";
+	} else {
+		$data = snippet($snippet, compact('form', 'actionOptions'), true);
 	}
-	$data .= "\n\n";
 
 	$success = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
 
