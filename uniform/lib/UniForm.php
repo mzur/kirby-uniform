@@ -13,6 +13,13 @@ class UniForm {
 	const TOKEN_LENGTH = 20;
 
 	/**
+	 * The array of all guard callback functions.
+	 *
+	 * @var array
+	 */
+	public static $guards = array();
+
+	/**
 	 * The array of all action callback functions.
 	 *
 	 * @var array
@@ -83,8 +90,6 @@ class UniForm {
 		$this->options = array(
 			// spam protection mechanism to use, default is 'honeypot'
 			'guard'    => a::get($options, 'guard', 'honeypot'),
-			// honeypot field name of the honeypot guard, default is 'website'
-			'honeypot' => a::get($options, 'honeypot', 'website'),
 			// required field names
 			'required' => a::get($options, 'required', array()),
 			// field names to be validated
@@ -118,9 +123,6 @@ class UniForm {
 
 		if ($this->requestValid())
 		{
-			// remove uniform specific fields from form data
-			unset($this->data['_submit']);
-
 			if (empty($this->options['actions']))
 			{
 				throw new Error('No Uniform actions were given.');
@@ -131,14 +133,6 @@ class UniForm {
 				// uniform is done, now it's the actions turn
 				$this->actionOutput['_uniform']['success'] = true;
 			}
-		}
-		else
-		{
-			// generate new token to spite the bots }:-)
-			$this->generateToken();
-			// clear the data array
-			// see https://github.com/mzur/kirby-uniform/issues/48
-			$this->data = array();
 		}
 	}
 
@@ -176,17 +170,6 @@ class UniForm {
 	}
 
 	/**
-	 * Generates a new captcha for the 'calc' guard.
-	 */
-	private function generateCaptcha()
-	{
-		list($a, $b) = array(rand(0, 9), rand(0,9));
-		s::set($this->id.'-captcha-result', $a + $b);
-		s::set($this->id.'-captcha-label',
-			$a.' '.l::get('uniform-calc-plus').' '.$b);
-	}
-
-	/**
 	 * Quickly decides if the request is valid so the server is minimally
 	 * stressed by scripted attacks.
 	 * @return boolean
@@ -195,36 +178,51 @@ class UniForm {
 	{
 		if (a::get($this->data, '_submit') !== $this->token)
 		{
+			// clear the data array, too
+			// see https://github.com/mzur/kirby-uniform/issues/48
+			$this->reset();
 			return false;
 		}
 
-		if ($this->options['guard'] == 'honeypot')
-		{
-			$honeypot = a::get($this->data, $this->options['honeypot']);
-			if (!empty($honeypot))
-			{
-				$this->actionOutput['_uniform']['message'] =
-					l::get('uniform-filled-potty');
-				return false;
-			}
-			// remove honeypot field from form data
-			unset($this->data[$this->options['honeypot']]);
-		}
-		else if ($this->options['guard'] == 'calc')
-		{
-			$result = s::get($this->id.'-captcha-result');
+		// remove uniform specific fields from form data
+		$this->removeField('_submit');
 
-			if (!empty($result) && a::get($this->data, '_captcha', '') != $result)
-			{
-				array_push($this->erroneousFields, '_captcha');
-				$this->actionOutput['_uniform']['message'] =
-					l::get('uniform-fields-not-valid');
-				return false;
+		$guards = $this->options['guard'];
+
+		if (empty($guards)) {
+			// disabled spam protection
+			return true;
+		}
+
+		// multiple guards can be defines as array
+		if (!is_array($guards)) {
+			$guards = [$guards];
+		}
+
+		foreach ($guards as $guard) {
+			if (!array_key_exists($guard, static::$guards)) {
+				throw new Error("Uniform guard '{$guard}' is not defined!");
 			}
 
-			// remove captcha field from form data
-			unset($this->data['_captcha']);
+			$check = static::$guards[$guard]($this);
+
+			if (!$check['success']) {
+				// display validation error message
+				$this->actionOutput['_uniform']['message'] = a::get($check, 'message', '');
+
+				if (array_key_exists('fields', $check) && is_array($check['fields'])) {
+					// mark field(s) as erroneous
+					$this->erroneousFields = array_merge($this->erroneousFields, $check['fields']);
+				}
+
+				// reset the form but let the guard choose whether to clear the data
+				// see https://github.com/mzur/kirby-uniform/issues/54
+				$this->reset(a::get($check, 'clear', true));
+
+				return false;
+			}
 		}
+
 		return true;
 	}
 
@@ -242,8 +240,7 @@ class UniForm {
 
 		if (!empty($this->erroneousFields))
 		{
-			$this->actionOutput['_uniform']['message'] =
-				l::get('uniform-fields-required');
+			$this->actionOutput['_uniform']['message'] = l::get('uniform-fields-required');
 			return false;
 		}
 
@@ -260,12 +257,25 @@ class UniForm {
 
 		if (!empty($this->erroneousFields))
 		{
-			$this->actionOutput['_uniform']['message'] =
-				l::get('uniform-fields-not-valid');
+			$this->actionOutput['_uniform']['message'] = l::get('uniform-fields-not-valid');
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Reset the form token and clear the form data.
+	 *
+	 * @param bool $clear Clear the form data. Default is true.
+	 */
+	private function reset($clear = true)
+	{
+		// generate new token to spite the bots }:-)
+		$this->generateToken();
+		if ($clear) {
+			$this->data = array();
+		}
 	}
 
 	/**
@@ -291,15 +301,11 @@ class UniForm {
 				throw new Error('The uniform action "'.$key.'" does not exist.');
 			}
 
-			$this->actionOutput[$index] = call_user_func(
-				static::$actions[$key],
-				$this->data,
-				$action
-			);
+			$this->actionOutput[$index] = static::$actions[$key]($this->data, $action);
 		}
 
 		// if all actions performed successfully, the session is over
-		if ($this->successful()) $this->generateToken();
+		if ($this->successful()) $this->reset();
 
 		return $this->successful();
 	}
@@ -313,7 +319,7 @@ class UniForm {
 	 */
 	public function value($key)
 	{
-		return ($this->successful()) ? '' : a::get($this->data, $key, '');
+		return a::get($this->data, $key, '');
 	}
 
 	/**
@@ -356,9 +362,7 @@ class UniForm {
 	 */
 	public function hasError($key = false)
 	{
-		return ($key)
-			? v::in($key, $this->erroneousFields)
-			: !empty($this->erroneousFields);
+		return ($key) ? v::in($key, $this->erroneousFields) : !empty($this->erroneousFields);
 	}
 
 	/**
@@ -387,14 +391,41 @@ class UniForm {
 	}
 
 	/**
-	 * Re-generates and returns the obfuscated captcha of the `calc` guard.
+	 * Returns the ID of this form
 	 *
 	 * @return string
 	 */
-	public function captcha()
+	public function id()
 	{
-		$this->generateCaptcha();
-		return str::encode(s::get($this->id.'-captcha-label'));
+		return $this->id;
+	}
+
+	/**
+	 * Returns the options array of this form.
+	 *
+	 * @param string $key (optional) Key of a specific option to return. If null, all options are returned.
+	 *
+	 * @return mixed
+	 */
+	public function options($key = null)
+	{
+		if ($key) {
+			return a::get($this->options, $key, null);
+		} else {
+			return $this->options;
+		}
+	}
+
+	/**
+	 * Remove a form field from this form.
+	 *
+	 * @param string $key Form field name
+	 */
+	public function removeField($key)
+	{
+		if (array_key_exists($key, $this->data)) {
+			unset($this->data[$key]);
+		}
 	}
 
 	/**

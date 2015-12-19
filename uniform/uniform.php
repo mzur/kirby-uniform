@@ -21,6 +21,9 @@ function uniform($id, $options = array()) {
 	require_once __DIR__ . DS . 'actions' . DS . 'login.php';
 	require_once __DIR__ . DS . 'actions' . DS . 'webhook.php';
 
+	require_once __DIR__ . DS . 'guards' . DS . 'honeypot.php';
+	require_once __DIR__ . DS . 'guards' . DS . 'calc.php';
+
 	$form = new UniForm($id, $options);
 	$form->execute();
 	return $form;

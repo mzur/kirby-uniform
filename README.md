@@ -108,11 +108,11 @@ As an alternative to the default `honeypot` spam protection mechanism, you can s
 ```php
 'guard' => 'calc'
 //...
-<label for="_captcha" class="required">Please calculate <?php echo $form->captcha() ?></label>
+<label for="_captcha" class="required">Please calculate <?php echo uniform_captcha($form) ?></label>
 <input<?php e($form->hasError('_captcha'), ' class="erroneous"')?> type="number" name="_captcha" id="_captcha" required/>
 ```
 
-You can disable the spam protection altogether by setting the guard to `''`.
+You can combine guards by setting an array like `'guard' => ['honeypot', 'calc']`. To disable the spam protection altogether, set the guard to `''`.
 
 ### required
 
