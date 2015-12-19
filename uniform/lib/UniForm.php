@@ -13,6 +13,13 @@ class UniForm {
 	const TOKEN_LENGTH = 20;
 
 	/**
+	 * The array of all guard callback functions.
+	 *
+	 * @var array
+	 */
+	public static $guards = array();
+
+	/**
 	 * The array of all action callback functions.
 	 *
 	 * @var array
@@ -83,8 +90,6 @@ class UniForm {
 		$this->options = array(
 			// spam protection mechanism to use, default is 'honeypot'
 			'guard'    => a::get($options, 'guard', 'honeypot'),
-			// honeypot field name of the honeypot guard, default is 'website'
-			'honeypot' => a::get($options, 'honeypot', 'website'),
 			// required field names
 			'required' => a::get($options, 'required', array()),
 			// field names to be validated
@@ -118,9 +123,6 @@ class UniForm {
 
 		if ($this->requestValid())
 		{
-			// remove uniform specific fields from form data
-			unset($this->data['_submit']);
-
 			if (empty($this->options['actions']))
 			{
 				throw new Error('No Uniform actions were given.');
@@ -132,14 +134,6 @@ class UniForm {
 				$this->actionOutput['_uniform']['success'] = true;
 			}
 		}
-		else
-		{
-			// generate new token to spite the bots }:-)
-			$this->generateToken();
-			// clear the data array
-			// see https://github.com/mzur/kirby-uniform/issues/48
-			$this->data = array();
-		}
 	}
 
 	/**
@@ -147,6 +141,10 @@ class UniForm {
 	 * and string values.
 	 *
 	 * see: https://github.com/getkirby/toolkit/issues/47
+	 *
+	 * If a required value is an array, checks if at least one array item is not empty.
+	 *
+	 * see: https://github.com/mzur/kirby-uniform/issues/51
 	 *
 	 * @param   array  $array The source array
 	 * @param   array  $required An array of required keys
@@ -156,11 +154,23 @@ class UniForm {
 	private static function missing($array, $required = array())
 	{
 		$missing = array();
-		foreach($required as $r)
+		foreach ($required as $r)
 		{
-			if(!array_key_exists($r, $array) || ($array[$r]===''))
+			if (!array_key_exists($r, $array) || ($array[$r] === ''))
 			{
 				$missing[] = $r;
+			}
+			else if (is_array($array[$r]))
+			{
+				$hasValues = false;
+				foreach ($array[$r] as $value)
+				{
+					$hasValues |= $value !== '';
+				}
+				if (!$hasValues)
+				{
+					$missing[] = $r;
+				}
 			}
 		}
 		return $missing;
@@ -176,17 +186,6 @@ class UniForm {
 	}
 
 	/**
-	 * Generates a new captcha for the 'calc' guard.
-	 */
-	private function generateCaptcha()
-	{
-		list($a, $b) = array(rand(0, 9), rand(0,9));
-		s::set($this->id.'-captcha-result', $a + $b);
-		s::set($this->id.'-captcha-label',
-			$a.' '.l::get('uniform-calc-plus').' '.$b);
-	}
-
-	/**
 	 * Quickly decides if the request is valid so the server is minimally
 	 * stressed by scripted attacks.
 	 * @return boolean
@@ -195,36 +194,51 @@ class UniForm {
 	{
 		if (a::get($this->data, '_submit') !== $this->token)
 		{
+			// clear the data array, too
+			// see https://github.com/mzur/kirby-uniform/issues/48
+			$this->reset();
 			return false;
 		}
 
-		if ($this->options['guard'] == 'honeypot')
-		{
-			$honeypot = a::get($this->data, $this->options['honeypot']);
-			if (!empty($honeypot))
-			{
-				$this->actionOutput['_uniform']['message'] =
-					l::get('uniform-filled-potty');
-				return false;
-			}
-			// remove honeypot field from form data
-			unset($this->data[$this->options['honeypot']]);
-		}
-		else if ($this->options['guard'] == 'calc')
-		{
-			$result = s::get($this->id.'-captcha-result');
+		// remove uniform specific fields from form data
+		$this->removeField('_submit');
 
-			if (!empty($result) && a::get($this->data, '_captcha', '') != $result)
-			{
-				array_push($this->erroneousFields, '_captcha');
-				$this->actionOutput['_uniform']['message'] =
-					l::get('uniform-fields-not-valid');
-				return false;
+		$guards = $this->options['guard'];
+
+		if (empty($guards)) {
+			// disabled spam protection
+			return true;
+		}
+
+		// multiple guards can be defines as array
+		if (!is_array($guards)) {
+			$guards = [$guards];
+		}
+
+		foreach ($guards as $guard) {
+			if (!array_key_exists($guard, static::$guards)) {
+				throw new Error("Uniform guard '{$guard}' is not defined!");
 			}
 
-			// remove captcha field from form data
-			unset($this->data['_captcha']);
+			$check = static::$guards[$guard]($this);
+
+			if (!$check['success']) {
+				// display validation error message
+				$this->actionOutput['_uniform']['message'] = a::get($check, 'message', '');
+
+				if (array_key_exists('fields', $check) && is_array($check['fields'])) {
+					// mark field(s) as erroneous
+					$this->erroneousFields = array_merge($this->erroneousFields, $check['fields']);
+				}
+
+				// reset the form but let the guard choose whether to clear the data
+				// see https://github.com/mzur/kirby-uniform/issues/54
+				$this->reset(a::get($check, 'clear', true));
+
+				return false;
+			}
 		}
+
 		return true;
 	}
 
@@ -242,8 +256,7 @@ class UniForm {
 
 		if (!empty($this->erroneousFields))
 		{
-			$this->actionOutput['_uniform']['message'] =
-				l::get('uniform-fields-required');
+			$this->actionOutput['_uniform']['message'] = l::get('uniform-fields-required');
 			return false;
 		}
 
@@ -260,12 +273,25 @@ class UniForm {
 
 		if (!empty($this->erroneousFields))
 		{
-			$this->actionOutput['_uniform']['message'] =
-				l::get('uniform-fields-not-valid');
+			$this->actionOutput['_uniform']['message'] = l::get('uniform-fields-not-valid');
 			return false;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Reset the form token and clear the form data.
+	 *
+	 * @param bool $clear Clear the form data. Default is true.
+	 */
+	private function reset($clear = true)
+	{
+		// generate new token to spite the bots }:-)
+		$this->generateToken();
+		if ($clear) {
+			$this->data = array();
+		}
 	}
 
 	/**
@@ -291,15 +317,11 @@ class UniForm {
 				throw new Error('The uniform action "'.$key.'" does not exist.');
 			}
 
-			$this->actionOutput[$index] = call_user_func(
-				static::$actions[$key],
-				$this->data,
-				$action
-			);
+			$this->actionOutput[$index] = static::$actions[$key]($this->data, $action);
 		}
 
 		// if all actions performed successfully, the session is over
-		if ($this->successful()) $this->generateToken();
+		if ($this->successful()) $this->reset();
 
 		return $this->successful();
 	}
@@ -309,11 +331,11 @@ class UniForm {
 	 * sent successful.
 	 *
 	 * @param string $key The "name" attribute of the form field.
-	 * @return string
+	 * @return mixed
 	 */
 	public function value($key)
 	{
-		return ($this->successful()) ? '' : a::get($this->data, $key, '');
+		return a::get($this->data, $key, '');
 	}
 
 	/**
@@ -356,9 +378,7 @@ class UniForm {
 	 */
 	public function hasError($key = false)
 	{
-		return ($key)
-			? v::in($key, $this->erroneousFields)
-			: !empty($this->erroneousFields);
+		return ($key) ? v::in($key, $this->erroneousFields) : !empty($this->erroneousFields);
 	}
 
 	/**
@@ -373,9 +393,7 @@ class UniForm {
 	*/
 	public function isRequired($key)
 	{
-		return 	!is_null($key) &&
-				array_key_exists('required', $this->options) &&
-				array_key_exists($key, $this->options['required']);
+		return $key !== null && !empty($this->options['required'][$key]);
 	}
 
 	/**
@@ -389,14 +407,41 @@ class UniForm {
 	}
 
 	/**
-	 * Re-generates and returns the obfuscated captcha of the `calc` guard.
+	 * Returns the ID of the form
 	 *
 	 * @return string
 	 */
-	public function captcha()
+	public function id()
 	{
-		$this->generateCaptcha();
-		return str::encode(s::get($this->id.'-captcha-label'));
+		return $this->id;
+	}
+
+	/**
+	 * Returns the options (array) of the form.
+	 *
+	 * @param string $key (optional) Key of a specific option to return. If null, all options are returned.
+	 *
+	 * @return mixed
+	 */
+	public function options($key = null)
+	{
+		if ($key) {
+			return a::get($this->options, $key, null);
+		} else {
+			return $this->options;
+		}
+	}
+
+	/**
+	 * Remove a form field from the form.
+	 *
+	 * @param string $key Form field name
+	 */
+	public function removeField($key)
+	{
+		if (array_key_exists($key, $this->data)) {
+			unset($this->data[$key]);
+		}
 	}
 
 	/**
@@ -456,7 +501,7 @@ class UniForm {
 			$message = a::get($this->actionOutput[$action], 'message', '');
 		}
 
-		return $message;
+		return trim($message);
 	}
 
 	/**
@@ -502,240 +547,3 @@ class UniForm {
 		}
 	}
 }
-
-/* DEFAULT ACTIONS */
-
-/*
- * The action to send the form data as an email.
- */
-uniform::$actions['email'] = function($form, $actionOptions)
-{
-	$options = array(
-		// apply the dynamic subject (insert form data)
-		'subject'         => str::template(
-			a::get($actionOptions, 'subject', l::get('uniform-email-subject')),
-			$form
-		),
-		'snippet'         => a::get($actionOptions, 'snippet', false),
-		'to'              => a::get($actionOptions, 'to'),
-		'sender'          => a::get($actionOptions, 'sender'),
-		'service'         => a::get($actionOptions, 'service', 'mail'),
-		'service-options' => a::get($actionOptions, 'service-options', array())
-	);
-
-	// remove newlines to prevent malicious modifications of the email
-	// header
-	$options['subject'] = str_replace("\n", '', $options['subject']);
-
-	$mailBody = "";
-	$snippet = $options['snippet'];
-
-	if (empty($snippet))
-	{
-		foreach ($form as $key => $value)
-		{
-			if (str::startsWith($key, '_')) continue;
-			$mailBody .= ucfirst($key).': '.$value."\n\n";
-		}
-	}
-	else
-	{
-		$mailBody = snippet($snippet, compact('form', 'options'), true);
-		if ($mailBody === false)
-		{
-			throw new Exception('Uniform email action: The email snippet "'.
-				$snippet.'" does not exist!');
-		}
-	}
-
-	$params = array(
-		'service' => $options['service'],
-		'options' => $options['service-options'],
-		'to'      => $options['to'],
-		'from'    => $options['sender'],
-		'replyTo' => a::get($form, '_from'),
-		'subject' => $options['subject'],
-		'body'    => $mailBody
-	);
-
-	$email = email($params);
-
-	if($email->send())
-	{
-		if (array_key_exists('_receive_copy', $form))
-		{
-			$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
-			$params['to'] = $params['replyTo'];
-			email($params)->send();
-		}
-
-		return array(
-				'success' => true,
-				'message' => l::get('uniform-email-success')
-		);
-	}
-	else
-	{
-		return array(
-				'success' => false,
-				'message' => l::get('uniform-email-error').' '.$email->error()
-		);
-	}
-};
-
-/*
- * Action to log the form data to a file
- */
-uniform::$actions['log'] = function($form, $actionOptions)
-{
-	$file = a::get($actionOptions, 'file', false);
-	if ($file === false)
-	{
-		throw new Exception('Uniform log action: No logfile specified!');
-	}
-
-	$data = '[' . date('c') . '] ' . visitor::ip() . ' ' . visitor::userAgent();
-
-	foreach ($form as $key => $value) {
-		$data .= "\n" . $key . ": " . $value;
-	}
-	$data .= "\n\n";
-
-	$success = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
-
-	if ($success === false)
-	{
-		return array(
-			'success' => false,
-			'message' => l::get('uniform-log-error')
-		);
-	}
-	else
-	{
-		return array(
-			'success' => true,
-			'message' => l::get('uniform-log-success')
-		);
-	}
-};
-
-/*
- * Action to log in to the Kirby frontend
- */
-uniform::$actions['login'] = function($form, $actionOptions)
-{
-	$user = site()->user($form['username']);
-	$redirect = a::get($actionOptions, 'redirect', false);
-
-	if ($user && $user->login($form['password']))
-	{
-		if ($redirect !== false)
-		{
-			go($redirect);
-		}
-
-		return array(
-			'success' => true,
-			'message' => l::get('uniform-login-success')
-		);
-	}
-	else
-	{
-		return array(
-			'success' => false,
-			'message' => l::get('uniform-login-error')
-		);
-	}
-};
-
-/*
- * Action to log in to the Kirby frontend
- */
-uniform::$actions['webhook'] = function($form, $actionOptions)
-{
-	$url = a::get($actionOptions, 'url', false);
-
-	if ($url === false)
-	{
-		throw new Exception('Uniform webhook action: No url specified!');
-	}
-
-	$data = array();
-	$only = a::get($actionOptions, 'only');
-
-	// 'only' has higher priority than 'except'
-	if (is_array($only))
-	{
-		// take only the fields specified in 'only'
-		foreach ($only as $key)
-		{
-			$data[$key] = $form[$key];
-		}
-	}
-	else
-	{
-		$data = $form;
-		// remove those fields specified in 'except'
-		foreach (a::get($actionOptions, 'except', array()) as $key)
-		{
-			unset($data[$key]);
-		}
-	}
-
-	$params = a::get($actionOptions, 'params', array());
-
-	// merge the optional 'static' data from the action array with the form data
-	$params['data'] = array_merge(a::get($params, 'data', array()), $data);
-
-	$headers = array('Content-Type: application/x-www-form-urlencoded');
-	$params['headers'] = array_merge(
-		a::get($params, 'headers', array()),
-		$headers
-	);
-
-	$response = remote::request($url, $params);
-
-	if ($response->error === 0)
-	{
-		return array(
-			'success' => true,
-			'message' => l::get('uniform-webhook-success')
-		);
-	}
-	else
-	{
-		return array(
-			'success' => false,
-			'message' => l::get('uniform-webhook-error') . $response->message
-		);
-	}
-};
-
-/*
- * Action to choose from multiple recipients who should receive the form by
- * email.
- */
-uniform::$actions['email-select'] = function($form, $actionOptions) {
-	$allowed = a::get($actionOptions, 'allowed-recipients');
-
-	if (!is_array($allowed))
-	{
-		throw new Exception('Uniform email select action: No allowed recipients!');
-	}
-
-	$recipient = a::get($form, '_recipient');
-
-	if (!array_key_exists($recipient, $allowed))
-	{
-		return array(
-				'success' => false,
-				'message' => l::get('uniform-email-error').' '.l::get('uniform-email-select-error')
-		);
-	}
-
-	unset($form['_recipient']);
-	unset($actionOptions['allowed-recipients']);
-	$actionOptions['to'] = $allowed[$recipient];
-
-	return call_user_func(uniform::$actions['email'], $form, $actionOptions);
-};

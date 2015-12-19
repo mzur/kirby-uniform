@@ -20,23 +20,11 @@ Builtin actions:
 
 2. Add the content of `uniform.css` to your CSS.
 
-3. Put the language files of the `languages` directory to `site/languages/`. If you already have existing language files, simply append the content to them (or use `include_once`). You only need to choose those languages that you actually want to support.
-
-4. Make sure you have the language support of Kirby activated (even, if you only want to support one language). Here is an example for activating the support with a single language in `site/config/config.php`:
+If you have a single language site you can choose the language Uniform should use in `site/config/config.php` (default is `en`):
 
 ```php
-c::set('languages', array(
-	array(
-		'code'    => 'en',
-		'name'    => 'English',
-		'locale'  => 'en_US',
-		'default' => true,
-		'url'     => '/'
-	)
-));
+c::set('uniform.language', 'de');
 ```
-
-For more information on the multi language support of Kirby, see [the docs](http://getkirby.com/docs/languages/setup).
 
 For a **quick-start** jump directly to the [basic example](#basic).
 
@@ -120,11 +108,11 @@ As an alternative to the default `honeypot` spam protection mechanism, you can s
 ```php
 'guard' => 'calc'
 //...
-<label for="_captcha" class="required">Please calculate <?php echo $form->captcha() ?></label>
+<label for="_captcha" class="required">Please calculate <?php echo uniform_captcha($form) ?></label>
 <input<?php e($form->hasError('_captcha'), ' class="erroneous"')?> type="number" name="_captcha" id="_captcha" required/>
 ```
 
-You can disable the spam protection altogether by setting the guard to `''`.
+You can combine guards by setting an array like `'guard' => ['honeypot', 'calc']`. To disable the spam protection altogether, set the guard to `''`.
 
 ### required
 
@@ -166,71 +154,7 @@ To add custom actions, create a `site/plugins/uniform-actions/uniform-actions.ph
 
 ## Functions
 
-These are the functions provided by the plugin to create a dynamic web form.
-
-### value($key)
-
-Returns the value of a form field in case the submission of the form has failed. The value is empty if the form was submitted successfully. This will not work if the page was simply refreshed without submitting the form!
-
-`$key`: The `name` attribute of the form field.
-
-### echoValue($key)
-
-Echos [`value($key)`](#valuekey) directly as a HTML-safe string.
-
-`$key`: The `name` attribute of the form field.
-
-### isValue($key, $value)
-
-Checks if a form field has a certain value.
-
-`$key`: The `name` attribute of the form field.
-
-`$value`: The value tested against the actual content of the form field.
-
-Returns `true` if the value equals the content of the form field, `false` otherwise
-
-### hasError($key)
-
-`$key`: (optional) The `name` attribute of the form field.
-
-Retruns `true` if there are erroneous fields. If a key is given, returns `true` if this field is erroneous. Returns `false` otherwise.
-
-### isRequired($key)
-
-`$key`: The `name` attribute of the form field.
-
-Returns `true` if the field was in the list of required fields. Returns `false` otherwise.
-
-### token()
-
-Returns the current session token of this form.
-
-### captcha()
-
-Returns the captcha of the `calc` spam protection mechanism as obfuscated HTML.
-
-### successful($action = false)
-
-`$action`: (optional) the index of the action in the actions array or `'_uniform'`.
-
-Returns `true` if the action was performed successfully, `false` otherwise. If `'_uniform'` is used, `true` if the form data was successfully validated, `false` otherwise. If no action was specified, `true` if the form data was valid and all actions performed successfully, `false` otherwise.
-
-### message($action = false)
-
-`$action`: (optional) the index of the action in the actions array or `'_uniform'`.
-
-Returns the success/error feedback message of a specific action or Uniform. If no action was specified, all messages will be returned.
-
-### echoMessage($action = false)
-
-Echos [`message($action)`](#messageaction-false) directly as a HTML-safe string.
-
-### hasMessage($action = false)
-
-`$action`: (optional) the index of the action in the actions array or `'_uniform'`.
-
-Returns `true` if there is a success/error feedback message for the specified action or Uniform, `false` otherwise. If no action was specified, returns `true` if there is *any* message, `false` otherwise.
+[See the wiki](https://github.com/mzur/kirby-uniform/wiki/Functions) for a complete list of functions of the Uniform object.
 
 ## Examples
 
@@ -243,22 +167,29 @@ This form only asks for the name and email (both required) as well as a message.
 Controller:
 
 ```php
-$form = uniform(
-	'contact-form',
-	array(
-		'required' => array(
-			'name'  => '',
-			'_from' => 'email'
-		),
-		'actions' => array(
-			array(
-				'_action' => 'email',
-				'to'      => 'me@example.com',
-				'sender'  => 'info@my-domain.tld'
+<?php
+
+return function($site, $pages, $page) {
+	$form = uniform(
+		'contact-form',
+		array(
+			'required' => array(
+				'name'  => '',
+				'_from' => 'email'
+			),
+			'actions' => array(
+				array(
+					'_action' => 'email',
+					'to'      => 'me@example.com',
+					'sender'  => 'info@my-domain.tld',
+					'subject' => 'New message from the contact form'
+				)
 			)
 		)
-	)
-);
+	);
+
+	return compact('form');
+};
 ```
 
 Template:
@@ -309,39 +240,46 @@ Message: hello
 
 This form extends the basic example by radio buttons and `select` fields as well as a custom subject. It validates a non-required field, too. For the email body the `uniform-email-table` snippet provided by this repo is used. For the HTML snippet to work, a `html-mail` email service is used that is *not* provided by this repo.
 
-When the form is sent, a copy of the email will be sent to `me-too@example.com`, as well as to the sender of the form if they checked the `_receive_copy` checkbox.
+When the form is sent, a copy of the email will be sent to `me-too@example.com`, as well as to the sender of the form if they checked the `_receive_copy` checkbox (but only once since we set the `receive-copy` property to `false` for the second email action).
 
 Controller:
 
 ```php
-$form = uniform(
-	'registration-form',
-	array(
-		'required' => array(
-			'name'   => '',
-			'_from'  => 'email'
-		),
-		'validate' => array(
-			'attendees'	=> 'num'
-		),
-		'actions' => array(
-			array(
-				'_action' => 'email',
-				'to'      => 'me@example.com',
-				'sender'  => 'info@my-domain.tld',
-				'subject' => 'Exhibition - New registration',
-				'snippet' => 'uniform-email-table'
+<?php
+
+return function($site, $pages, $page) {
+	$form = uniform(
+		'registration-form',
+		array(
+			'required' => array(
+				'name'   => '',
+				'_from'  => 'email'
 			),
-			array(
-				'_action' => 'email',
-				'to'      => 'me-too@example.com',
-				'sender'  => 'info@my-domain.tld',
-				'subject' => 'Exhibition - New registration',
-				'snippet' => 'uniform-email-table'
+			'validate' => array(
+				'attendees'	=> 'num'
+			),
+			'actions' => array(
+				array(
+					'_action' => 'email',
+					'to'      => 'me@example.com',
+					'sender'  => 'info@my-domain.tld',
+					'subject' => 'Exhibition - New registration',
+					'snippet' => 'uniform-email-table'
+				),
+				array(
+					'_action'      => 'email',
+					'to'           => 'me-too@example.com',
+					'sender'       => 'info@my-domain.tld',
+					'subject'      => 'Exhibition - New registration',
+					'snippet'      => 'uniform-email-table',
+					'receive-copy' => false
+				)
 			)
 		)
-	)
-);
+	);
+
+	return compact('form');
+};
 ```
 
 Template:
