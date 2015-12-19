@@ -7,35 +7,35 @@
 class UniForm {
 	/**
 	 * Length of the token string unique for a session until the form is sent.
-	 * 
+	 *
 	 * @var int
 	 */
 	const TOKEN_LENGTH = 20;
 
 	/**
 	 * The array of all action callback functions.
-	 * 
+	 *
 	 * @var array
 	 */
 	public static $actions = array();
 
 	/**
 	 * Unique ID/Key of this form.
-	 * 
+	 *
 	 * @var string
 	 */
 	private $id;
 
 	/**
 	 * Array of uniform options, including the actions to be performed.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $options;
 
 	/**
 	 * POST data of the form.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $data;
@@ -43,9 +43,9 @@ class UniForm {
 	/**
 	 * Token string unique for a session until the form is sent. It is used to
 	 * prevent arbitrary (scripted) post requests to be able to use the form.
-	 * It shuld only be possible to submit the form from the actual website 
+	 * It shuld only be possible to submit the form from the actual website
 	 * containing it.
-	 * 
+	 *
 	 * @var string
 	 */
 	private $token;
@@ -53,7 +53,7 @@ class UniForm {
 	/**
 	 * Contains the returned values of the performed action callbacks as well as
 	 * 'success' and 'message' of the form plugin itself.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $actionOutput;
@@ -61,14 +61,14 @@ class UniForm {
 	/**
 	 * Array of keys of form fields that were required and not given or failed
 	 * their validation.
-	 * 
+	 *
 	 * @var array
 	 */
 	private $erroneousFields;
 
 	/**
 	 * Creates a new Uniform instance.
-	 * 
+	 *
 	 * @param string $id The unique ID of this form.
 	 * @param array $options Array of uniform options, including the actions.
 	 */
@@ -270,7 +270,7 @@ class UniForm {
 
 	/**
 	 * Executes the form actions.
-	 * 
+	 *
 	 * Returns `true` if all actions were performed successfully, `false`
 	 * otherwise.
 	 *
@@ -328,8 +328,8 @@ class UniForm {
 
 	/**
 	 * Checks if a form field has a certain value.
-	 * 
-	 * Returns `true` if the value equals the content of the form field, 
+	 *
+	 * Returns `true` if the value equals the content of the form field,
 	 * `false` otherwise.
 	 *
 	 * @param string $key The "name" attribute of the form field.
@@ -345,10 +345,10 @@ class UniForm {
 
 	/**
 	 * Checks if there were any errors when validating form fields.
-	 * 
+	 *
 	 * Returns `true` if there are erroneous fields. If a key is given, returns
 	 * `true` if this field is erroneous. Returns `false` otherwise.
-	 * 
+	 *
 	 * @param string $key (optional) the key of the form field to check.
 	 *
 	 * @return boolean
@@ -378,7 +378,7 @@ class UniForm {
 
 	/**
 	 * Returns the current session token of this form.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function token()
@@ -388,7 +388,7 @@ class UniForm {
 
 	/**
 	 * Re-generates and returns the obfuscated captcha of the `calc` guard.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function captcha()
@@ -402,10 +402,10 @@ class UniForm {
 	 * successfully, `false` otherwise.
 	 * If no `$action` was given, returns `true` if all actions performed
 	 * successfully, `false` otherwise.
-	 * 
+	 *
 	 * @param mixed $action (optional) the index of the action to perform a
 	 * successful check
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function successful($action = false)
@@ -433,10 +433,10 @@ class UniForm {
 	 * the action.
 	 * If no `$action` was given, returns the feedback messages of all actions;
 	 * one per line.
-	 * 
+	 *
 	 * @param mixed $action (optional) the index of the action to get the
 	 * feedback message from
-	 * 
+	 *
 	 * @return string
 	 */
 	public function message($action = false)
@@ -460,7 +460,7 @@ class UniForm {
 	/**
 	 * Echos the success/error feedback message directly as a HTML-safe string.
 	 * Either from one specified action or from all actions.
-	 * 
+	 *
 	 * @param mixed $action (optional) the index of the action to get the
 	 * feedback message from
 	 */
@@ -470,14 +470,14 @@ class UniForm {
 	}
 
 	/**
-	 * Returns `true` if there is a success/error feedback message for the 
+	 * Returns `true` if there is a success/error feedback message for the
 	 * specified action.
 	 * If no action was specified, `true` if there is any  message from any
 	 * action, `false` otherwise.
-	 * 
+	 *
 	 * @param mixed $action (optional) the index of the action to check for the
 	 * presence of a feedback message.
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function hasMessage($action = false)
@@ -500,240 +500,3 @@ class UniForm {
 		}
 	}
 }
-
-/* DEFAULT ACTIONS */
-
-/*
- * The action to send the form data as an email.
- */
-uniform::$actions['email'] = function($form, $actionOptions)
-{
-	$options = array(
-		// apply the dynamic subject (insert form data)
-		'subject'         => str::template(
-			a::get($actionOptions, 'subject', l::get('uniform-email-subject')),
-			$form
-		),
-		'snippet'         => a::get($actionOptions, 'snippet', false),
-		'to'              => a::get($actionOptions, 'to'),
-		'sender'          => a::get($actionOptions, 'sender'),
-		'service'         => a::get($actionOptions, 'service', 'mail'),
-		'service-options' => a::get($actionOptions, 'service-options', array())
-	);
-
-	// remove newlines to prevent malicious modifications of the email
-	// header
-	$options['subject'] = str_replace("\n", '', $options['subject']);
-
-	$mailBody = "";
-	$snippet = $options['snippet'];
-
-	if (empty($snippet))
-	{
-		foreach ($form as $key => $value)
-		{
-			if (str::startsWith($key, '_')) continue;
-			$mailBody .= ucfirst($key).': '.$value."\n\n";
-		}
-	}
-	else
-	{
-		$mailBody = snippet($snippet, compact('form', 'options'), true);
-		if ($mailBody === false)
-		{
-			throw new Exception('Uniform email action: The email snippet "'.
-				$snippet.'" does not exist!');
-		}
-	}
-
-	$params = array(
-		'service' => $options['service'],
-		'options' => $options['service-options'],
-		'to'      => $options['to'],
-		'from'    => $options['sender'],
-		'replyTo' => a::get($form, '_from'),
-		'subject' => $options['subject'],
-		'body'    => $mailBody
-	);
-
-	$email = email($params);
-
-	if (array_key_exists('_receive_copy', $form))
-	{
-		$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
-		$params['to'] = $params['replyTo'];
-		email($params)->send();
-	}
-
-	if($email->send())
-	{
-		return array(
-				'success' => true,
-				'message' => l::get('uniform-email-success')
-		);
-	}
-	else
-	{
-		return array(
-				'success' => false,
-				'message' => l::get('uniform-email-error').' '.$email->error()
-		);
-	}
-};
-
-/*
- * Action to log the form data to a file
- */
-uniform::$actions['log'] = function($form, $actionOptions)
-{
-	$file = a::get($actionOptions, 'file', false);
-	if ($file === false)
-	{
-		throw new Exception('Uniform log action: No logfile specified!');
-	}
-
-	$data = '[' . date('c') . '] ' . visitor::ip() . ' ' . visitor::userAgent();
-
-	foreach ($form as $key => $value) {
-		$data .= "\n" . $key . ": " . $value;
-	}
-	$data .= "\n\n";
-
-	$success = file_put_contents($file, $data, FILE_APPEND | LOCK_EX);
-
-	if ($success === false)
-	{
-		return array(
-			'success' => false,
-			'message' => l::get('uniform-log-error')
-		);
-	}
-	else
-	{
-		return array(
-			'success' => true,
-			'message' => l::get('uniform-log-success')
-		);
-	}
-};
-
-/*
- * Action to log in to the Kirby frontend
- */
-uniform::$actions['login'] = function($form, $actionOptions)
-{
-	$user = site()->user($form['username']);
-	$redirect = a::get($actionOptions, 'redirect', false);
-
-	if ($user && $user->login($form['password']))
-	{
-		if ($redirect !== false)
-		{
-			go($redirect);
-		}
-
-		return array(
-			'success' => true,
-			'message' => l::get('uniform-login-success')
-		);
-	}
-	else
-	{
-		return array(
-			'success' => false,
-			'message' => l::get('uniform-login-error')
-		);
-	}
-};
-
-/*
- * Action to log in to the Kirby frontend
- */
-uniform::$actions['webhook'] = function($form, $actionOptions)
-{
-	$url = a::get($actionOptions, 'url', false);
-
-	if ($url === false)
-	{
-		throw new Exception('Uniform webhook action: No url specified!');
-	}
-
-	$data = array();
-	$only = a::get($actionOptions, 'only');
-
-	// 'only' has higher priority than 'except'
-	if (is_array($only))
-	{
-		// take only the fields specified in 'only'
-		foreach ($only as $key)
-		{
-			$data[$key] = $form[$key];
-		}
-	}
-	else
-	{
-		$data = $form;
-		// remove those fields specified in 'except'
-		foreach (a::get($actionOptions, 'except', array()) as $key)
-		{
-			unset($data[$key]);
-		}
-	}
-
-	$params = a::get($actionOptions, 'params', array());
-
-	// merge the optional 'static' data from the action array with the form data
-	$params['data'] = array_merge(a::get($params, 'data', array()), $data);
-
-	$headers = array('Content-Type: application/x-www-form-urlencoded');
-	$params['headers'] = array_merge(
-		a::get($params, 'headers', array()),
-		$headers
-	);
-
-	$response = remote::request($url, $params);
-
-	if ($response->error === 0)
-	{
-		return array(
-			'success' => true,
-			'message' => l::get('uniform-webhook-success')
-		);
-	}
-	else
-	{
-		return array(
-			'success' => false,
-			'message' => l::get('uniform-webhook-error') . $response->message
-		);
-	}
-};
-
-/*
- * Action to choose from multiple recipients who should receive the form by
- * email.
- */
-uniform::$actions['email-select'] = function($form, $actionOptions) {
-	$allowed = a::get($actionOptions, 'allowed-recipients');
-
-	if (!is_array($allowed))
-	{
-		throw new Exception('Uniform email select action: No allowed recipients!');
-	}
-
-	$recipient = a::get($form, '_recipient');
-
-	if (!array_key_exists($recipient, $allowed))
-	{
-		return array(
-			'success' => false,
-			'message' => l::get('uniform-email-error').' '.l::get('uniform-email-select-error')
-		);
-	}
-
-	unset($form['_recipient']);
-	unset($actionOptions['allowed-recipients']);
-	$actionOptions['to'] = $allowed[$recipient];
-
-	return call_user_func(uniform::$actions['email'], $form, $actionOptions);
-};
