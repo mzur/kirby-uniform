@@ -59,21 +59,27 @@ uniform::$actions['email'] = function($form, $actionOptions)
 	{
 		$params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
 		$params['to'] = $params['replyTo'];
-		email($params)->send();
+		try {
+			email($params)->send();
+		} catch (Error $e) {
+			return array(
+				'success' => false,
+				'message' => l::get('uniform-email-error').' '.$e->getMessage()
+			);
+		}
 	}
 
-	if($email->send())
-	{
+	try {
+		$email->send();
+	} catch (Error $e) {
 		return array(
-				'success' => true,
-				'message' => l::get('uniform-email-success')
+			'success' => false,
+			'message' => l::get('uniform-email-error').' '.$e->getMessage()
 		);
 	}
-	else
-	{
-		return array(
-				'success' => false,
-				'message' => l::get('uniform-email-error').' '.$email->error()
-		);
-	}
+
+	return array(
+		'success' => true,
+		'message' => l::get('uniform-email-success')
+	);
 };
