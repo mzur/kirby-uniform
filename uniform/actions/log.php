@@ -17,7 +17,12 @@ uniform::$actions['log'] = function($form, $actionOptions)
 		$data = '[' . date('c') . '] ' . visitor::ip() . ' ' . visitor::userAgent();
 
 		foreach ($form as $key => $value) {
-			$data .= "\n" . $key . ": " . $value;
+			if (is_array($value)) {
+				$value = implode(', ', array_filter($value, function ($i) {
+					return $i !== '';
+				}));
+			}
+			$data .= "\n{$key}: {$value}";
 		}
 		$data .= "\n\n";
 	} else {

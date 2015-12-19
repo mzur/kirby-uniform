@@ -142,6 +142,10 @@ class UniForm {
 	 *
 	 * see: https://github.com/getkirby/toolkit/issues/47
 	 *
+	 * If a required value is an array, checks if at least one array item is not empty.
+	 *
+	 * see: https://github.com/mzur/kirby-uniform/issues/51
+	 *
 	 * @param   array  $array The source array
 	 * @param   array  $required An array of required keys
 	 * @return  array  An array of missing fields. If this is empty, nothing is
@@ -155,6 +159,18 @@ class UniForm {
 			if (!array_key_exists($r, $array) || ($array[$r] === ''))
 			{
 				$missing[] = $r;
+			}
+			else if (is_array($array[$r]))
+			{
+				$hasValues = false;
+				foreach ($array[$r] as $value)
+				{
+					$hasValues |= $value !== '';
+				}
+				if (!$hasValues)
+				{
+					$missing[] = $r;
+				}
 			}
 		}
 		return $missing;
@@ -315,7 +331,7 @@ class UniForm {
 	 * sent successful.
 	 *
 	 * @param string $key The "name" attribute of the form field.
-	 * @return string
+	 * @return mixed
 	 */
 	public function value($key)
 	{

@@ -5,11 +5,16 @@
  */
 uniform::$actions['email'] = function($form, $actionOptions)
 {
+	// the form could contain arrays which are incompatible with the template function
+	$templatableItems = array_filter($form, function ($item) {
+		return is_scalar($item);
+	});
+
 	$options = array(
 		// apply the dynamic subject (insert form data)
 		'subject'         => str::template(
 			a::get($actionOptions, 'subject', l::get('uniform-email-subject')),
-			$form
+			$templatableItems
 		),
 		'snippet'         => a::get($actionOptions, 'snippet', false),
 		'receive-copy'    => a::get($actionOptions, 'receive-copy', true),
@@ -31,6 +36,11 @@ uniform::$actions['email'] = function($form, $actionOptions)
 		foreach ($form as $key => $value)
 		{
 			if (str::startsWith($key, '_')) continue;
+			if (is_array($value)) {
+				$value = implode(', ', array_filter($value, function ($i) {
+					return $i !== '';
+				}));
+			}
 			$mailBody .= ucfirst($key).': '.$value."\n\n";
 		}
 	}
