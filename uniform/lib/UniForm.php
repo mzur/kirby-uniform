@@ -220,7 +220,7 @@ class UniForm {
 				throw new Error("Uniform guard '{$guard}' is not defined!");
 			}
 
-			$check = static::$guards[$guard]($this);
+			$check = call_user_func(static::$guards[$guard], $this);
 
 			if (!$check['success']) {
 				// display validation error message
@@ -317,7 +317,7 @@ class UniForm {
 				throw new Error('The uniform action "'.$key.'" does not exist.');
 			}
 
-			$this->actionOutput[$index] = static::$actions[$key]($this->data, $action);
+			$this->actionOutput[$index] = call_user_func(static::$actions[$key], $this->data, $action);
 		}
 
 		// if all actions performed successfully, the session is over
