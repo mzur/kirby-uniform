@@ -220,7 +220,7 @@ class UniForm {
 				throw new Error("Uniform guard '{$guard}' is not defined!");
 			}
 
-			$check = static::$guards[$guard]->__invoke($this);
+			$check = call_user_func(static::$guards[$guard], $this);
 
 			if (!$check['success']) {
 				// display validation error message
