@@ -34,7 +34,7 @@ uniform::$guards['calc'] = function(UniForm $form)
  * @return string A label like '4 plus 5'
  */
 function uniform_captcha(UniForm $form) {
-	list($a, $b) = array(rand(0, 9), rand(0,9));
+	list($a, $b) = [rand(0, 9), rand(0,9)];
 	s::set($form->id().'-captcha-result', $a + $b);
 	return str::encode($a.' '.l::get('uniform-calc-plus').' '.$b);
 }

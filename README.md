@@ -33,22 +33,19 @@ For a **quick-start** jump directly to the [basic example](#basic).
 You first have to initialize the form in your form page controller like this:
 
 ```php
-$form = uniform(
-	'contact-form',
-	array(
-		'required' => array(
-			'_from' => 'email'
-		),
-		'actions' => array(
-			array(
-				'_action' => 'email',
-				'to'      => (string) $page->email(),
-				'sender'  => 'info@my-domain.tld',
-				'subject' => $site->title()->html() . ' - message from the contact form'
-			)
-		)
-	)
-);
+$form = uniform('contact-form',[
+	'required' => [
+		'_from' => 'email'
+	],
+	'actions' => [
+		[
+			'_action' => 'email',
+			'to'      => (string) $page->email(),
+			'sender'  => 'info@my-domain.tld',
+			'subject' => $site->title()->html() . ' - message from the contact form'
+		]
+	]
+]);
 ```
 
 The **first** argument is a unique ID of the form on your entire website.
@@ -118,7 +115,7 @@ Or disable the spam protection:
 Associative array of required form fields. The keys of the array are the `name` attributes of the required fields. The values of the entries are optional [validator function](http://getkirby.com/docs/cheatsheet#validators) names. Example:
 
 ```php
-array('_from' => 'email')
+['_from' => 'email']
 ```
 
 So the `_from` field is required and validated by the [`v::email`](http://getkirby.com/docs/cheatsheet/validators/email) function. Note, that this works only with validator functions that validate single strings. If a field is required but should not be validated, leave the validator function name empty.
@@ -134,11 +131,11 @@ Like [`required`](#required) but execution of the actions will *not* fail if one
 An array of [action](#actions-1) arrays. Each of these action arrays needs to contain at least an `_action` key with the name of the action that should be performed as value. It can contain arbitrary additional data for the action function. Example:
 
 ```php
-array(
+[
 	'_action' => 'email',
 	'to'      => (string) $page->email(),
 	'subject' => $site->title()->html() . ' - message from the contact form'
-)
+]
 ```
 
 This way even the same actions can be performed multiple times when a form is submitted (like sending the form data to multiple email addresses).
@@ -175,23 +172,20 @@ Controller:
 <?php
 
 return function($site, $pages, $page) {
-	$form = uniform(
-		'contact-form',
-		array(
-			'required' => array(
-				'name'  => '',
-				'_from' => 'email'
-			),
-			'actions' => array(
-				array(
-					'_action' => 'email',
-					'to'      => 'me@example.com',
-					'sender'  => 'info@my-domain.tld',
-					'subject' => 'New message from the contact form'
-				)
-			)
-		)
-	);
+	$form = uniform('contact-form', [
+		'required' => [
+			'name'  => '',
+			'_from' => 'email'
+		],
+		'actions' => [
+			[
+				'_action' => 'email',
+				'to'      => 'me@example.com',
+				'sender'  => 'info@my-domain.tld',
+				'subject' => 'New message from the contact form'
+			]
+		]
+	]);
 
 	return compact('form');
 };
@@ -253,35 +247,32 @@ Controller:
 <?php
 
 return function($site, $pages, $page) {
-	$form = uniform(
-		'registration-form',
-		array(
-			'required' => array(
-				'name'   => '',
-				'_from'  => 'email'
-			),
-			'validate' => array(
-				'attendees'	=> 'num'
-			),
-			'actions' => array(
-				array(
-					'_action' => 'email',
-					'to'      => 'me@example.com',
-					'sender'  => 'info@my-domain.tld',
-					'subject' => 'Exhibition - New registration',
-					'snippet' => 'uniform-email-table'
-				),
-				array(
-					'_action'      => 'email',
-					'to'           => 'me-too@example.com',
-					'sender'       => 'info@my-domain.tld',
-					'subject'      => 'Exhibition - New registration',
-					'snippet'      => 'uniform-email-table',
-					'receive-copy' => false
-				)
-			)
-		)
-	);
+	$form = uniform('registration-form', [
+		'required' => [
+			'name'   => '',
+			'_from'  => 'email'
+		],
+		'validate' => [
+			'attendees'	=> 'num'
+		],
+		'actions' => [
+			[
+				'_action' => 'email',
+				'to'      => 'me@example.com',
+				'sender'  => 'info@my-domain.tld',
+				'subject' => 'Exhibition - New registration',
+				'snippet' => 'uniform-email-table'
+			],
+			[
+				'_action'      => 'email',
+				'to'           => 'me-too@example.com',
+				'sender'       => 'info@my-domain.tld',
+				'subject'      => 'Exhibition - New registration',
+				'snippet'      => 'uniform-email-table',
+				'receive-copy' => false
+			]
+		]
+	]);
 
 	return compact('form');
 };

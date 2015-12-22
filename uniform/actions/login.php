@@ -15,16 +15,16 @@ uniform::$actions['login'] = function($form, $actionOptions)
 			go($redirect);
 		}
 
-		return array(
+		return [
 			'success' => true,
 			'message' => l::get('uniform-login-success')
-		);
+		];
 	}
 	else
 	{
-		return array(
+		return [
 			'success' => false,
 			'message' => l::get('uniform-login-error')
-		);
+		];
 	}
 };

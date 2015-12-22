@@ -12,7 +12,7 @@ uniform::$actions['webhook'] = function($form, $actionOptions)
 		throw new Exception('Uniform webhook action: No url specified!');
 	}
 
-	$data = array();
+	$data = [];
 	$only = a::get($actionOptions, 'only');
 
 	// 'only' has higher priority than 'except'
@@ -28,26 +28,26 @@ uniform::$actions['webhook'] = function($form, $actionOptions)
 	{
 		$data = $form;
 		// remove those fields specified in 'except'
-		foreach (a::get($actionOptions, 'except', array()) as $key)
+		foreach (a::get($actionOptions, 'except', []) as $key)
 		{
 			unset($data[$key]);
 		}
 	}
 
-	$params = a::get($actionOptions, 'params', array());
+	$params = a::get($actionOptions, 'params', []);
 
 	// merge the optional 'static' data from the action array with the form data
-	$params['data'] = array_merge(a::get($params, 'data', array()), $data);
+	$params['data'] = array_merge(a::get($params, 'data', []), $data);
 
 	if (a::get($actionOptions, 'json', false)) {
-		$headers = array('Content-Type: application/json');
+		$headers = ['Content-Type: application/json'];
 		$params['data'] = json_encode($params['data'], JSON_UNESCAPED_SLASHES);
 	} else {
-		$headers = array('Content-Type: application/x-www-form-urlencoded');
+		$headers = ['Content-Type: application/x-www-form-urlencoded'];
 	}
 
 	$params['headers'] = array_merge(
-		a::get($params, 'headers', array()),
+		a::get($params, 'headers', []),
 		$headers
 	);
 
@@ -55,16 +55,16 @@ uniform::$actions['webhook'] = function($form, $actionOptions)
 
 	if ($response->error === 0)
 	{
-		return array(
+		return [
 			'success' => true,
 			'message' => l::get('uniform-webhook-success')
-		);
+		];
 	}
 	else
 	{
-		return array(
+		return [
 			'success' => false,
 			'message' => l::get('uniform-webhook-error') . $response->message
-		);
+		];
 	}
 };

@@ -16,10 +16,10 @@ uniform::$actions['email-select'] = function($form, $actionOptions) {
 
 	if (!array_key_exists($recipient, $allowed))
 	{
-		return array(
+		return [
 			'success' => false,
 			'message' => l::get('uniform-email-error').' '.l::get('uniform-email-select-error')
-		);
+		];
 	}
 
 	unset($form['_recipient']);

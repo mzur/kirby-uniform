@@ -10,7 +10,7 @@ uniform::$actions['email'] = function($form, $actionOptions)
 		return is_scalar($item);
 	});
 
-	$options = array(
+	$options = [
 		// apply the dynamic subject (insert form data)
 		'subject'         => str::template(
 			a::get($actionOptions, 'subject', l::get('uniform-email-subject')),
@@ -21,8 +21,8 @@ uniform::$actions['email'] = function($form, $actionOptions)
 		'to'              => a::get($actionOptions, 'to'),
 		'sender'          => a::get($actionOptions, 'sender'),
 		'service'         => a::get($actionOptions, 'service', 'mail'),
-		'service-options' => a::get($actionOptions, 'service-options', array())
-	);
+		'service-options' => a::get($actionOptions, 'service-options', [])
+	];
 
 	// remove newlines to prevent malicious modifications of the email
 	// header
@@ -54,7 +54,7 @@ uniform::$actions['email'] = function($form, $actionOptions)
 		}
 	}
 
-	$params = array(
+	$params = [
 		'service' => $options['service'],
 		'options' => $options['service-options'],
 		'to'      => $options['to'],
@@ -62,7 +62,7 @@ uniform::$actions['email'] = function($form, $actionOptions)
 		'replyTo' => a::get($form, '_from'),
 		'subject' => $options['subject'],
 		'body'    => $mailBody
-	);
+	];
 
 	$email = email($params);
 
@@ -76,14 +76,14 @@ uniform::$actions['email'] = function($form, $actionOptions)
 			email($params)->send();
 		}
 	} catch (Error $e) {
-		return array(
+		return [
 			'success' => false,
 			'message' => l::get('uniform-email-error').' '.$e->getMessage()
-		);
+		];
 	}
 
-	return array(
+	return [
 		'success' => true,
 		'message' => l::get('uniform-email-success')
-	);
+	];
 };

@@ -33,16 +33,16 @@ uniform::$actions['log'] = function($form, $actionOptions)
 
 	if ($success === false)
 	{
-		return array(
+		return [
 			'success' => false,
 			'message' => l::get('uniform-log-error')
-		);
+		];
 	}
 	else
 	{
-		return array(
+		return [
 			'success' => true,
 			'message' => l::get('uniform-log-success')
-		);
+		];
 	}
 };

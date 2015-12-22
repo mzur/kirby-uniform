@@ -17,14 +17,14 @@ class UniForm {
 	 *
 	 * @var array
 	 */
-	public static $guards = array();
+	public static $guards = [];
 
 	/**
 	 * The array of all action callback functions.
 	 *
 	 * @var array
 	 */
-	public static $actions = array();
+	public static $actions = [];
 
 	/**
 	 * Unique ID/Key of this form.
@@ -85,18 +85,18 @@ class UniForm {
 
 		$this->id = $id;
 
-		$this->erroneousFields = array();
+		$this->erroneousFields = [];
 
-		$this->options = array(
+		$this->options = [
 			// spam protection mechanism to use, default is 'honeypot'
 			'guard'    => a::get($options, 'guard', 'honeypot'),
 			// required field names
-			'required' => a::get($options, 'required', array()),
+			'required' => a::get($options, 'required', []),
 			// field names to be validated
-			'validate' => a::get($options, 'validate', array()),
+			'validate' => a::get($options, 'validate', []),
 			// action arrays
-			'actions'  => a::get($options, 'actions', array()),
-		);
+			'actions'  => a::get($options, 'actions', []),
+		];
 
 		// required fields will also be validated by default
 		$this->options['validate'] = a::merge(
@@ -105,12 +105,12 @@ class UniForm {
 		);
 
 		// initialize output array with the output of the plugin itself
-		$this->actionOutput = array(
-			'_uniform' => array(
+		$this->actionOutput = [
+			'_uniform' => [
 				'success' => false,
 				'message' => ''
-			)
-		);
+			]
+		];
 
 		// the token is stored as session variable until the form is sent
 		// successfully
@@ -151,9 +151,9 @@ class UniForm {
 	 * @return  array  An array of missing fields. If this is empty, nothing is
 	 *                 missing.
 	 */
-	private static function missing($array, $required = array())
+	private static function missing($array, $required = [])
 	{
-		$missing = array();
+		$missing = [];
 		foreach ($required as $r)
 		{
 			if (!array_key_exists($r, $array) || ($array[$r] === ''))
@@ -290,7 +290,7 @@ class UniForm {
 		// generate new token to spite the bots }:-)
 		$this->generateToken();
 		if ($clear) {
-			$this->data = array();
+			$this->data = [];
 		}
 	}
 
