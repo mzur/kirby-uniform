@@ -91,28 +91,27 @@ Now you can add as many additional form fields as you like but you shouldn't use
 
 These are the options of the options array. You have to specify at least one action. Everything else is, well, optional.
 
-### honeypot
-
-The default name of the honeypot field is `website` to attract the attention of the bots. With the `honeypot` option you can change the default name to whatever you like but you should try to make it sound interesting for the bots. Example:
-
-```php
-'honeypot' => 'fill-me'
-//...
-<input type="text" name="fill-me" id="fill-me" class="uniform__potty" />
-```
-
 ### guard
 
-As an alternative to the default `honeypot` spam protection mechanism, you can specify the `calc` guard, too. Here, the user has to solve a simple arithmetic problem before the form will be submitted successfully. Example:
+With this option you can configure which [Uniform guards](#guards) you wish to use. By default it is set to `honeypot` which will activate the [honeypot guard](https://github.com/mzur/kirby-uniform/wiki/Guard:-Honeypot).
+
+You can choose a different guard:
 
 ```php
 'guard' => 'calc'
-//...
-<label for="_captcha" class="required">Please calculate <?php echo uniform_captcha($form) ?></label>
-<input<?php e($form->hasError('_captcha'), ' class="erroneous"')?> type="number" name="_captcha" id="_captcha" required/>
 ```
 
-You can combine guards by setting an array like `'guard' => ['honeypot', 'calc']`. To disable the spam protection altogether, set the guard to `''`.
+Combine guards:
+
+```php
+'guard' => ['honeypot', 'calc']
+```
+
+Or disable the spam protection:
+
+```php
+'guard' => ''
+```
 
 ### required
 
@@ -144,11 +143,17 @@ array(
 
 This way even the same actions can be performed multiple times when a form is submitted (like sending the form data to multiple email addresses).
 
+## Guards
+
+Uniform offers several mechanisms for spam protection. Similar to actions, guards can be extended and combined. To add custom guards, create a `site/plugins/uniform-guards/uniform-guards.php` file and implement all your custom guards there. Take a look at the [`calc` guard](https://github.com/mzur/kirby-uniform/blob/v2.2.1/uniform/guards/calc.php) to see how to implement one.
+
+[See the wiki](https://github.com/mzur/kirby-contact-form/wiki#guards) for all the available guards.
+
 ## Actions
 
 Once all required fields are present and validated, the actions are performed. These can be completely arbitrary functions that receive the form data and action options as arguments. An example is the builtin `email` action. You can create your own action, too, of course!
 
-To add custom actions, create a `site/plugins/uniform-actions/uniform-actions.php` file and implement all your custom actions there. Take a look at the `email` action in `UniForm.php` to see how to implement one.
+To add custom actions, create a `site/plugins/uniform-actions/uniform-actions.php` file and implement all your custom actions there. Take a look at the [`email` action](https://github.com/mzur/kirby-uniform/blob/v2.2.1/uniform/actions/email.php) to see how to implement one.
 
 [See the wiki](https://github.com/mzur/kirby-contact-form/wiki#actions) for all the available actions.
 
