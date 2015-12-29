@@ -63,12 +63,17 @@ uniform::$actions['email'] = function ($form, $actionOptions) {
     $email = email($params);
 
     try {
-        $email->send();
+        if (!$email->send()) {
+            throw new Error('The email could not be sent');
+        }
 
         if ($options['receive-copy'] && array_key_exists('_receive_copy', $form)) {
             $params['subject'] = l::get('uniform-email-copy').' '.$params['subject'];
             $params['to'] = $params['replyTo'];
-            email($params)->send();
+
+            if (!email($params)->send()) {
+                throw new Error('The email copy could not be sent but the form has been submitted');
+            }
         }
     } catch (Error $e) {
         return [
