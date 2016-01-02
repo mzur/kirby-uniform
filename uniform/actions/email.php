@@ -18,6 +18,7 @@ uniform::$actions['email'] = function ($form, $actionOptions) {
         'snippet' => a::get($actionOptions, 'snippet', false),
         'receive-copy' => a::get($actionOptions, 'receive-copy', true),
         'to' => a::get($actionOptions, 'to'),
+        'replyTo' => a::get($actionOptions, 'replyTo'),
         'sender' => a::get($actionOptions, 'sender'),
         'service' => a::get($actionOptions, 'service', 'mail'),
         'service-options' => a::get($actionOptions, 'service-options', []),
@@ -55,7 +56,7 @@ uniform::$actions['email'] = function ($form, $actionOptions) {
         'options' => $options['service-options'],
         'to' => $options['to'],
         'from' => $options['sender'],
-        'replyTo' => a::get($form, '_from'),
+        'replyTo' => isset($options['replyTo']) ? $options['replyTo'] : a::get($form, '_from'),
         'subject' => $options['subject'],
         'body' => $mailBody,
     ];
