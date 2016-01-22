@@ -12,7 +12,7 @@ uniform::$guards['honeypot'] = function (UniForm $form) {
         $field = 'website';
     }
 
-    if (!empty($form->value($field))) {
+    if ($form->value($field)) {
         return [
             'success' => false,
             'message' => l::get('uniform-filled-potty'),
