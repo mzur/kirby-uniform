@@ -16,7 +16,7 @@ Builtin actions:
 
 ## Installation
 
-1. Copy or link the `uniform` directory to `site/plugins/`.
+1. Copy or link the `uniform` directory to `site/plugins/` **or** use the [Kirby CLI](https://github.com/getkirby/cli) `kirby plugin:install mzur/kirby-uniform`.
 
 2. Add the content of `uniform.css` to your CSS.
 
