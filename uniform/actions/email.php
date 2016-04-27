@@ -22,6 +22,7 @@ uniform::$actions['email'] = function ($form, $actionOptions) {
         'sender' => a::get($actionOptions, 'sender'),
         'service' => a::get($actionOptions, 'service', 'mail'),
         'service-options' => a::get($actionOptions, 'service-options', []),
+        'params' => a::get($actionOptions, 'params', []),
     ];
 
     // remove newlines to prevent malicious modifications of the email
