@@ -84,6 +84,8 @@ The presence of the last two elements with the exact `name` attributes and the t
 
 Now you can add as many additional form fields as you like but you shouldn't use the `_` prefix for your own field names.
 
+__Note:__ [Disable the kirby cache](https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use kirby-uniform to make sure the form is generated dynamically.
+
 ## Options
 
 These are the options of the options array. You have to specify at least one action. Everything else is, well, optional.
