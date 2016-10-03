@@ -4,7 +4,7 @@ l::set('uniform-filled-potty', 'Bos kalmasi gereken for alani doldurulmus. Spam-
 l::set('uniform-fields-required', 'Lutfen doldurulmasi gereken formlarin hepsini doldurun.');
 l::set('uniform-fields-not-valid', 'Bazi formlar olmasi gerektigi gibi doldurulmamis.');
 
-l::set('uniform-email-subject', 'Web-form'dan gelen mesaj');
+l::set('uniform-email-subject', 'Web-form\dan gelen mesaj');
 l::set('uniform-email-success', 'Tesekkurler. Form basariyla gönderildi.');
 l::set('uniform-email-error', 'Form gonderilirken bir hata olustu:');
 l::set('uniform-email-copy', 'Kopyala:');
