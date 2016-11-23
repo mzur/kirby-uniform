@@ -196,7 +196,7 @@ return function($site, $pages, $page) {
 Template:
 
 ```php
-<form action="<?php echo $page->url()?>#form" method="post">
+<form action="<?php echo $page->url()?>/#form" method="post">
 
 	<label for="name" class="required">Name</label>
 	<input<?php e($form->hasError('name'), ' class="erroneous"')?> type="text" name="name" id="name" value="<?php $form->echoValue('name') ?>" required/>
@@ -283,7 +283,7 @@ return function($site, $pages, $page) {
 Template:
 
 ```php
-<form action="<?php echo $page->url()?>#form" method="post">
+<form action="<?php echo $page->url()?>/#form" method="post">
 
 	<label for="name" class="required">Name</label>
 	<input<?php e($form->hasError('name'), ' class="erroneous"')?> type="text" name="name" id="name" value="<?php $form->echoValue('name') ?>" required/>
