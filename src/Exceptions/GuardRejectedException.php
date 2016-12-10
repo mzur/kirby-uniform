@@ -2,7 +2,7 @@
 
 namespace Uniform\Exceptions;
 
-class GuardDeniedException extends Exception
+class GuardRejectedException extends Exception
 {
     //
 }

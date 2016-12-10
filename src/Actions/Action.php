@@ -2,10 +2,12 @@
 
 namespace Uniform\Actions;
 
+use Uniform\HasOptions;
 use Uniform\Exceptions\ActionFailedException;
 
 class Action implements ActionInterface
 {
+    use HasOptions;
 
     /**
      * The form data
@@ -13,13 +15,6 @@ class Action implements ActionInterface
      * @var array
      */
     protected $data;
-
-    /**
-     * Action options
-     *
-     * @var array
-     */
-    protected $options;
 
     /**
      * Failed the action during execution?
@@ -45,6 +40,8 @@ class Action implements ActionInterface
     {
         $this->data = $data;
         $this->options = $options;
+        $this->failed = false;
+        $this->message = '';
     }
 
     /**
