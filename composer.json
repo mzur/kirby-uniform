@@ -1,0 +1,31 @@
+{
+    "name": "mzur/uniform",
+    "description": "A versatile Kirby 2 plugin to handle web form actions.",
+    "version": "3.0.0-beta",
+    "type": "library",
+    "keywords": ["kirby", "form"],
+    "authors": [
+        {
+            "name": "Martin Zurowietz",
+            "email": "martin@the-inspired-ones.de"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "jevets/kirby-form": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-form.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Uniform\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    }
+}
