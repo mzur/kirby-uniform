@@ -49,6 +49,30 @@ class Form extends BaseForm
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * Other than addErrors of Jevets\Kirby\Form this will add an array with error
+     * messages for each field because guards or actions can produce multiple error
+     * messages with the same key.
+     *
+     * @param  array  $data
+     */
+    public function addErrors($data)
+    {
+        $errors = $this->errors() ?: [];
+
+        foreach ($data as $key => $value) {
+            if (array_key_exists($key, $errors)) {
+                array_push($errors[$key], $value);
+            } else {
+                $errors[$key] = [$value];
+            }
+        }
+
+        $this->flash->set(BaseForm::FLASH_KEY_ERRORS, $errors);
+    }
+
+    /**
      * Don't run the guards
      */
     public function withoutGuards()
@@ -67,12 +91,13 @@ class Form extends BaseForm
 
         if (csrf(get('_token')) !== true) {
             $this->shouldFallThrough = true;
+            // TODO show a normal error message or simply ignore the request?
             throw new TokenMismatchException;
         }
 
         if (!parent::validates()) {
             $this->shouldFallThrough = true;
-            go(page()->url());
+            $this->redirectBack();
         }
 
         return $this;
@@ -103,13 +128,16 @@ class Form extends BaseForm
         try {
             $guard->check();
             $rejected = $guard->hasRejected();
+            $message = $guard->getMessage();
         } catch (GuardRejectedException $e) {
             $rejected = true;
+            $message = $e->getMessage();
         }
 
         if ($rejected) {
             $this->shouldFallThrough = true;
-            // TODO store guard rejection message
+            $this->addError($class, $message);
+            $this->redirectBack();
         }
 
         return $this;
@@ -142,13 +170,15 @@ class Form extends BaseForm
         try {
             $action->execute();
             $failed = $action->hasFailed();
+            $message = $action->getMessage();
         } catch (ActionFailedException $e) {
             $failed = true;
+            $message = $e->getMessage();
         }
 
         if ($failed) {
             $this->shouldFallThrough = $block;
-            // TODO store action error message
+            $this->addError($class, $message);
         }
 
         return $this;
@@ -162,5 +192,13 @@ class Form extends BaseForm
     public function forget($name)
     {
         unset($this->data[$name]);
+    }
+
+    /**
+     * Redirect back to the page of the form
+     */
+    protected function redirectBack()
+    {
+        go(page()->url());
     }
 }
