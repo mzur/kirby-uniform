@@ -14,13 +14,6 @@ use Uniform\Exceptions\GuardRejectedException;
 class Form extends BaseForm
 {
     /**
-     * Should no more guards/validation/actions be executed because one failed?
-     *
-     * @var boolean
-     */
-    protected $shouldFallThrough;
-
-    /**
      * Should the validation still be done?
      *
      * @var boolean
@@ -43,7 +36,6 @@ class Form extends BaseForm
     function __construct($rules = [])
     {
         parent::__construct($rules);
-        $this->shouldFallThrough = false;
         $this->shouldValidate = true;
         $this->shouldCallGuard = true;
     }
@@ -86,13 +78,11 @@ class Form extends BaseForm
         $this->shouldValidate = false;
 
         if (csrf(get('_token')) !== true) {
-            $this->shouldFallThrough = true;
             // TODO show a normal error message or simply ignore the request?
             throw new TokenMismatchException;
         }
 
         if (!parent::validates()) {
-            $this->shouldFallThrough = true;
             $this->redirectBack();
         }
 
@@ -109,7 +99,6 @@ class Form extends BaseForm
     {
         if ($this->shouldValidate) $this->validate();
         $this->shouldCallGuard = false;
-        if ($this->shouldFallThrough) return $this;
 
         $guard = new $class($this, $this->data, $options);
 
@@ -127,8 +116,8 @@ class Form extends BaseForm
         }
 
         if ($rejected) {
-            $this->shouldFallThrough = true;
             $this->addError($guard->getKey(), $message);
+            $this->saveData();
             $this->redirectBack();
         }
 
@@ -140,14 +129,12 @@ class Form extends BaseForm
      *
      * @param  string  $class   Action class
      * @param  array   $options Action options
-     * @param  boolean $block   Don't execute subsequent actions if this one failed
      * @return Form
      */
-    public function action($class, $options = [], $block = false)
+    public function action($class, $options = [])
     {
         if ($this->shouldValidate) $this->validate();
         if ($this->shouldCallGuard) $this->guard();
-        if ($this->shouldFallThrough) return $this;
 
         $action = new $class($this->data, $options);
 
@@ -165,8 +152,9 @@ class Form extends BaseForm
         }
 
         if ($failed) {
-            $this->shouldFallThrough = $block;
             $this->addError($class, $message);
+            $this->saveData();
+            $this->redirectBack();
         }
 
         return $this;
