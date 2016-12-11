@@ -6,7 +6,7 @@ use A;
 use L;
 
 /**
- * Action to dump the form data to the page.
+ * Action to set a recipient email address and send the form data via email.
  */
 class EmailSelectAction extends EmailAction
 {
@@ -16,22 +16,6 @@ class EmailSelectAction extends EmailAction
      * @var string
      */
     const RECIPIENT_KEY = '_recipient';
-
-    /**
-     * Allowed email addresses
-     *
-     * @var array
-     */
-    protected $allowed;
-
-     /**
-     * {@inheritDoc}
-     */
-    function __construct(array $data, array $options = [])
-    {
-        parent::__construct($data, $options);
-        $this->allowed = $this->requireOption('allowed-recipients');
-    }
 
     /**
      * Set the chosen recipient email address and send the form data via email.
@@ -53,11 +37,12 @@ class EmailSelectAction extends EmailAction
     protected function getRecipient()
     {
         $recipient = A::get($this->data, self::RECIPIENT_KEY);
+        $allowed = $this->requireOption('allowed-recipients');
 
-        if (!array_key_exists($recipient, $this->allowed)) {
+        if (!array_key_exists($recipient, $allowed)) {
             $this->fail(L::get('uniform-email-error').' '.L::get('uniform-email-select-error'));
         }
 
-        return $this->allowed[$recipient];
+        return $allowed[$recipient];
     }
 }

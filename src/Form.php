@@ -78,8 +78,7 @@ class Form extends BaseForm
         $this->shouldValidate = false;
 
         if (csrf(get('_token')) !== true) {
-            // TODO show a normal error message or simply ignore the request?
-            throw new TokenMismatchException;
+            throw new TokenMismatchException('The CSRF token was invalid.');
         }
 
         if (!parent::validates()) {

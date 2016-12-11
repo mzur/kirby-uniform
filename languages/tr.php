@@ -14,7 +14,6 @@ l::set('uniform-calc-plus', 'arti');
 l::set('uniform-log-error', 'Log dosyasi olusturulurken hata olustu.');
 
 l::set('uniform-login-error', 'Yanlis kullanici adi veya sifre.');
-l::set('uniform-login-success', 'Giris basarili.');
 
 l::set('uniform-webhook-success', 'Webhook basariyla cagirildi.');
 l::set('uniform-webhook-error', 'Webhook cagirilirken bir hata olustu: ');

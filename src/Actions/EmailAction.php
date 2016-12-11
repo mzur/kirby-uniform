@@ -27,30 +27,6 @@ class EmailAction extends Action
     const RECEIVE_COPY_KEY = '_receive_copy';
 
     /**
-     * Receiver email address
-     *
-     * @var string
-     */
-    protected $to;
-
-    /**
-     * Sender email address
-     *
-     * @var string
-     */
-    protected $sender;
-
-     /**
-     * {@inheritDoc}
-     */
-    function __construct(array $data, array $options = [])
-    {
-        parent::__construct($data, $options);
-        $this->to = $this->requireOption('to');
-        $this->sender = $this->requireOption('sender');
-    }
-
-    /**
      * Send the form data via email.
      */
     public function execute()
@@ -58,8 +34,8 @@ class EmailAction extends Action
         $params = [
             'service' => $this->option('service', 'mail'),
             'options' => $this->option('service-options', []),
-            'to' => $this->to,
-            'from' => $this->sender,
+            'to' => $this->requireOption('to'),
+            'from' => $this->requireOption('sender'),
             'replyTo' => $this->option('replyTo', A::get($this->data, self::FROM_KEY)),
             'subject' => $this->getSubject(),
             'body' => $this->getBody(),

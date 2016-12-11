@@ -11,29 +11,14 @@ use Visitor;
 class LogAction extends Action
 {
     /**
-     * Path to the logfile.
-     *
-     * @var string
-     */
-    protected $file;
-
-     /**
-     * {@inheritDoc}
-     */
-    function __construct(array $data, array $options = [])
-    {
-        parent::__construct($data, $options);
-        $this->file = $this->requireOption('file');
-    }
-
-    /**
      * Append the form data to the log file.
      */
     public function execute()
     {
+        $file = $this->requireOption('file');
         $content = $this->getContent();
 
-        if (file_put_contents($this->file, $content, FILE_APPEND | LOCK_EX) === false) {
+        if (file_put_contents($file, $content, FILE_APPEND | LOCK_EX) === false) {
             $this->fail(L::get('uniform-log-error'));
         }
     }

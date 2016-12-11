@@ -14,7 +14,6 @@ l::set('uniform-calc-plus', 'plus');
 l::set('uniform-log-error', 'Se ha producido un error al escribir en el archivo de registro.');
 
 l::set('uniform-login-error', 'El usuario o la contraseña no son correctos.');
-l::set('uniform-login-success', 'Conectado.');
 
 l::set('uniform-webhook-success', 'La llamada al webhook se ha realizado con éxito.');
 l::set('uniform-webhook-error', 'Se ha producido un error al llamar el webhook: ');
