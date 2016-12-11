@@ -28,6 +28,13 @@ class Form extends BaseForm
     protected $shouldCallGuard;
 
     /**
+     * Was the form executed successfully?
+     *
+     * @var boolean
+     */
+    protected $success;
+
+    /**
      * Create a new instance
      *
      * @param  array  $rules  Form fields and their validation rules
@@ -38,6 +45,7 @@ class Form extends BaseForm
         parent::__construct($rules);
         $this->shouldValidate = true;
         $this->shouldCallGuard = true;
+        $this->success = false;
     }
 
     /**
@@ -69,6 +77,16 @@ class Form extends BaseForm
     }
 
     /**
+     * Check if the form was executed successfully.
+     *
+     * @return boolean
+     */
+    public function success()
+    {
+        return $this->success;
+    }
+
+    /**
      * Validate the form data
      *
      * @return Form
@@ -82,8 +100,10 @@ class Form extends BaseForm
         }
 
         if (!parent::validates()) {
-            $this->redirectBack();
+            $this->redirect();
         }
+
+        $this->success = true;
 
         return $this;
     }
@@ -117,7 +137,7 @@ class Form extends BaseForm
         if ($rejected) {
             $this->addError($guard->getKey(), $message);
             $this->saveData();
-            $this->redirectBack();
+            $this->redirect();
         }
 
         return $this;
@@ -153,7 +173,7 @@ class Form extends BaseForm
         if ($failed) {
             $this->addError($class, $message);
             $this->saveData();
-            $this->redirectBack();
+            $this->redirect();
         }
 
         return $this;
@@ -172,7 +192,7 @@ class Form extends BaseForm
     /**
      * Redirect back to the page of the form
      */
-    protected function redirectBack()
+    protected function redirect()
     {
         go(page()->url());
     }
