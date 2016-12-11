@@ -14,25 +14,25 @@ use Uniform\Exceptions\GuardRejectedException;
 class Form extends BaseForm
 {
     /**
+     * Should no more guards/validation/actions be executed because one failed?
+     *
+     * @var boolean
+     */
+    protected $shouldFallThrough;
+
+    /**
+     * Should the validation still be done?
+     *
+     * @var boolean
+     */
+    protected $shouldValidate;
+
+    /**
      * Should any guards still be executed?
      *
      * @var boolean
      */
     protected $shouldCallGuard;
-
-    /**
-     * Array of guards that should be called.
-     *
-     * @var array
-     */
-    protected $guards;
-
-    /**
-     * Array of actions that should be executed.
-     *
-     * @var array
-     */
-    protected $actions;
 
     /**
      * Create a new instance
@@ -43,9 +43,9 @@ class Form extends BaseForm
     function __construct($rules = [])
     {
         parent::__construct($rules);
+        $this->shouldFallThrough = false;
+        $this->shouldValidate = true;
         $this->shouldCallGuard = true;
-        $this->guards = [];
-        $this->actions = [];
     }
 
     /**
@@ -83,12 +83,16 @@ class Form extends BaseForm
      */
     public function validate()
     {
+        $this->shouldValidate = false;
+
         if (csrf(get('_token')) !== true) {
+            $this->shouldFallThrough = true;
             // TODO show a normal error message or simply ignore the request?
             throw new TokenMismatchException;
         }
 
         if (!parent::validates()) {
+            $this->shouldFallThrough = true;
             $this->redirectBack();
         }
 
@@ -103,7 +107,9 @@ class Form extends BaseForm
      */
     public function guard($class = HoneypotGuard::class, $options = [])
     {
+        if ($this->shouldValidate) $this->validate();
         $this->shouldCallGuard = false;
+        if ($this->shouldFallThrough) return $this;
 
         $guard = new $class($this, $this->data, $options);
 
@@ -111,7 +117,20 @@ class Form extends BaseForm
             throw new Exception('Guards must implement the '.GuardInterface::class.'.');
         }
 
-        $this->guards[] = $guard;
+        try {
+            $guard->check();
+            $rejected = $guard->hasRejected();
+            $message = $guard->getMessage();
+        } catch (GuardRejectedException $e) {
+            $rejected = true;
+            $message = $e->getMessage();
+        }
+
+        if ($rejected) {
+            $this->shouldFallThrough = true;
+            $this->addError($guard->getKey(), $message);
+            $this->redirectBack();
+        }
 
         return $this;
     }
@@ -121,11 +140,14 @@ class Form extends BaseForm
      *
      * @param  string  $class   Action class
      * @param  array   $options Action options
+     * @param  boolean $block   Don't execute subsequent actions if this one failed
      * @return Form
      */
-    public function action($class, $options = [])
+    public function action($class, $options = [], $block = false)
     {
+        if ($this->shouldValidate) $this->validate();
         if ($this->shouldCallGuard) $this->guard();
+        if ($this->shouldFallThrough) return $this;
 
         $action = new $class($this->data, $options);
 
@@ -133,7 +155,19 @@ class Form extends BaseForm
             throw new Exception('Actions must implement the '.ActionInterface::class.'.');
         }
 
-        $this->actions[] = $action;
+        try {
+            $action->execute();
+            $failed = $action->hasFailed();
+            $message = $action->getMessage();
+        } catch (ActionFailedException $e) {
+            $failed = true;
+            $message = $e->getMessage();
+        }
+
+        if ($failed) {
+            $this->shouldFallThrough = $block;
+            $this->addError($class, $message);
+        }
 
         return $this;
     }
@@ -149,64 +183,10 @@ class Form extends BaseForm
     }
 
     /**
-     * Execute the form
-     */
-    public function execute()
-    {
-        $this->validate();
-        $this->callGuards();
-        $this->executeActions();
-    }
-
-    /**
      * Redirect back to the page of the form
      */
     protected function redirectBack()
     {
         go(page()->url());
-    }
-
-    /**
-     * Call all the specified guards
-     */
-    protected function callGuards()
-    {
-        foreach ($this->guards as $guard) {
-            try {
-                $guard->check();
-                $rejected = $guard->hasRejected();
-                $message = $guard->getMessage();
-            } catch (GuardRejectedException $e) {
-                $rejected = true;
-                $message = $e->getMessage();
-            }
-
-            if ($rejected) {
-                $this->addError($guard->getKey(), $message);
-                $this->redirectBack();
-            }
-        }
-    }
-
-    /**
-     * Execute all the specified actions
-     */
-    protected function executeActions()
-    {
-        foreach ($this->actions as $action) {
-            try {
-                $action->execute();
-                $failed = $action->hasFailed();
-                $message = $action->getMessage();
-            } catch (ActionFailedException $e) {
-                $failed = true;
-                $message = $e->getMessage();
-            }
-
-            if ($failed) {
-                $this->addError($class, $message);
-                $this->redirectBack();
-            }
-        }
     }
 }
