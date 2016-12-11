@@ -25,7 +25,8 @@
             "Uniform\\": "src/"
         },
         "files": [
-            "src/helpers.php"
+            "src/helpers.php",
+            "uniform.php"
         ]
     }
 }

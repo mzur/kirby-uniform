@@ -59,7 +59,7 @@ class Form extends BaseForm
      */
     public function addErrors($data)
     {
-        $errors = $this->errors() ?: [];
+        $errors = $this->errors();
 
         foreach ($data as $key => $value) {
             $errors[$key][] = $value;
