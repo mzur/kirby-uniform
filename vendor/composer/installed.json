@@ -1,0 +1,70 @@
+[
+    {
+        "name": "jevets/kirby-flash",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-flash.git",
+            "reference": "408fce54ccb2ce92420c6d96fcdddd78addc61b0"
+        },
+        "time": "2015-12-14 18:09:49",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Jevets\\Kirby\\": "src/"
+            },
+            "files": [
+                "src/helpers.php"
+            ]
+        },
+        "authors": [
+            {
+                "name": "Steve Jamesson",
+                "email": "steve@evendev.com"
+            }
+        ],
+        "description": "Stores data in the session for the next request. Data is removed after the next page load.",
+        "keywords": [
+            "flash",
+            "kirby",
+            "session"
+        ]
+    },
+    {
+        "name": "jevets/kirby-form",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-form.git",
+            "reference": "29293a58a7a4db022ec9ff8e69e1765fb1938b48"
+        },
+        "require": {
+            "jevets/kirby-flash": "dev-master"
+        },
+        "time": "2015-12-23 13:53:49",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Jevets\\Kirby\\": "src/"
+            },
+            "files": [
+                "src/helpers.php"
+            ]
+        },
+        "authors": [
+            {
+                "name": "Steve Jamesson",
+                "email": "steve@evendev.com"
+            }
+        ],
+        "description": "A form helper for Kirby-based websites, using the GET/POST/GET pattern.",
+        "keywords": [
+            "form",
+            "kirby"
+        ]
+    }
+]

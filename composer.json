@@ -18,6 +18,10 @@
         {
             "type": "git",
             "url": "https://github.com/jevets/kirby-form.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-flash.git"
         }
     ],
     "autoload": {
@@ -26,7 +30,7 @@
         },
         "files": [
             "src/helpers.php",
-            "uniform.php"
+            "index.php"
         ]
     }
 }

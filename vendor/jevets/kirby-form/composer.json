@@ -1,0 +1,31 @@
+{
+    "name": "jevets/kirby-form",
+    "description": "A form helper for Kirby-based websites, using the GET/POST/GET pattern.",
+    "version": "0.0.1",
+    "type": "library",
+    "keywords": ["kirby", "form"],
+    "authors": [
+        {
+            "name": "Steve Jamesson",
+            "email": "steve@evendev.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "jevets/kirby-flash": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-flash.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jevets\\Kirby\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    }
+}
