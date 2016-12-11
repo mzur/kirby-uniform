@@ -7,7 +7,7 @@ use L;
 /**
  * Action to log in a user.
  */
-class EmailSelectAction extends Action
+class LoginAction extends Action
 {
     /**
      * Log in a user.
