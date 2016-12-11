@@ -4,7 +4,6 @@ namespace Uniform\Actions;
 
 use L;
 use Visitor;
-use Uniform\Exceptions\Exception;
 
 /**
  * Action to log the form data to a file
@@ -24,11 +23,7 @@ class LogAction extends Action
     function __construct(array $data, array $options = [])
     {
         parent::__construct($data, $options);
-
-        $this->file = $this->option('file');
-        if (!$this->file) {
-            throw new Exception('No logfile specified!');
-        }
+        $this->file = $this->requireOption('file');
     }
 
     /**
@@ -36,16 +31,7 @@ class LogAction extends Action
      */
     public function execute()
     {
-        $snippet = $this->option('snippet');
-
-        if (!$snippet) {
-            $content = $this->getContent();
-        } else {
-            $content = snippet($snippet, [
-                'data' => $this->data,
-                'options' => $this->options
-            ], true);
-        }
+        $content = $this->getContent();
 
         if (file_put_contents($this->file, $content, FILE_APPEND | LOCK_EX) === false) {
             $this->fail(L::get('uniform-log-error'));
@@ -59,17 +45,26 @@ class LogAction extends Action
      */
     protected function getContent()
     {
-        $content = '['.date('c').'] '.Visitor::ip().' '.Visitor::userAgent();
+        $snippet = $this->option('snippet');
 
-        foreach ($this->data as $key => $value) {
-            if (is_array($value)) {
-                $value = implode(', ', array_filter($value, function ($i) {
-                    return $i !== '';
-                }));
+        if ($snippet) {
+            $content = snippet($snippet, [
+                'data' => $this->data,
+                'options' => $this->options
+            ], true);
+        } else {
+            $content = '['.date('c').'] '.Visitor::ip().' '.Visitor::userAgent();
+
+            foreach ($this->data as $key => $value) {
+                if (is_array($value)) {
+                    $value = implode(', ', array_filter($value, function ($i) {
+                        return $i !== '';
+                    }));
+                }
+                $content .= "\n{$key}: {$value}";
             }
-            $content .= "\n{$key}: {$value}";
+            $content .= "\n\n";
         }
-        $content .= "\n\n";
 
         return $content;
     }

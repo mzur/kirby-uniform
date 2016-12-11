@@ -111,10 +111,6 @@ class Form extends BaseForm
         $this->shouldCallGuard = false;
         if ($this->shouldFallThrough) return $this;
 
-        if (!class_exists($class)) {
-            throw new Exception("Guard {$class} does not exist.");
-        }
-
         $guard = new $class($this, $this->data, $options);
 
         if (!($guard instanceof GuardInterface)) {
@@ -152,10 +148,6 @@ class Form extends BaseForm
         if ($this->shouldValidate) $this->validate();
         if ($this->shouldCallGuard) $this->guard();
         if ($this->shouldFallThrough) return $this;
-
-        if (!class_exists($class)) {
-            throw new Exception("Action {$class} does not exist.");
-        }
 
         $action = new $class($this->data, $options);
 
