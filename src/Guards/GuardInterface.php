@@ -22,4 +22,11 @@ interface GuardInterface
      * @return string
      */
     public function getMessage();
+
+    /**
+     * Get the key or form field name to store the error message to.
+     *
+     * @return string
+     */
+    public function getKey();
 }

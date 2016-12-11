@@ -132,7 +132,7 @@ class Form extends BaseForm
 
         if ($rejected) {
             $this->shouldFallThrough = true;
-            $this->addError($class, $message);
+            $this->addError($guard->getKey(), $message);
             $this->redirectBack();
         }
 

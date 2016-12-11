@@ -3,19 +3,27 @@
 namespace Uniform\Guards;
 
 use l;
+use s;
 use Uniform\Form;
 
-class HoneypotGuard extends Guard
+class CalcGuard extends Guard
 {
     /**
-     * Default name for the honeypot form field.
+     * Session key for the captcha result
      *
      * @var string
      */
-    const FIELD_NAME = 'website';
+    const FLASH_KEY = 'uniform-captcha-result';
 
     /**
-     * Name of the honeypot field
+     * Captcha field name
+     *
+     * @var string
+     */
+    const FIELD_NAME = '_captcha';
+
+    /**
+     * Name of the calc field
      *
      * @var string
      */
@@ -40,13 +48,14 @@ class HoneypotGuard extends Guard
 
     /**
      * {@inheritDoc}
-     * Check if the honeypot field contains data.
-     * Remove the honeypot field from the form data if it was empty.
+     * Check if the captcha field was filled in correctly
+     * Remove the field from the form data if it was empty.
      */
     public function check()
     {
-        if (!array_key_exists($this->field, $this->data) || $this->data[$this->field]) {
-            $this->reject(l::get('uniform-filled-potty'));
+        $result = s::get(self::FLASH_KEY, null);
+        if ($result === null || !array_key_exists($this->field, $this->data) || $this->data[$this->field] != $result) {
+            $this->reject(l::get('uniform-fields-not-valid'));
         }
         $this->form->forget($this->field);
     }

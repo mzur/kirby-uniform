@@ -79,6 +79,14 @@ class Guard implements GuardInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getKey()
+    {
+        return static::class;
+    }
+
+    /**
      * Make this guard reject the request by throwing a GuardRejectedException
      *
      * @param  string $message Rejection message
