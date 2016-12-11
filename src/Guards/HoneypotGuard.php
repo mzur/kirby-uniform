@@ -2,9 +2,12 @@
 
 namespace Uniform\Guards;
 
-use l;
+use L;
 use Uniform\Form;
 
+/**
+ * Guard that checks a honeypot form field.
+ */
 class HoneypotGuard extends Guard
 {
     /**
@@ -46,7 +49,7 @@ class HoneypotGuard extends Guard
     public function check()
     {
         if (!array_key_exists($this->field, $this->data) || $this->data[$this->field]) {
-            $this->reject(l::get('uniform-filled-potty'));
+            $this->reject(L::get('uniform-filled-potty'));
         }
         $this->form->forget($this->field);
     }

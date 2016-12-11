@@ -11,7 +11,6 @@ l::set('uniform-email-copy', 'Copia:');
 
 l::set('uniform-calc-plus', 'plus');
 
-l::set('uniform-log-success', 'La entrada en el registro ha sido correctamente creada.');
 l::set('uniform-log-error', 'Se ha producido un error al escribir en el archivo de registro.');
 
 l::set('uniform-login-error', 'El usuario o la contraseña no son correctos.');

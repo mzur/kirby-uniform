@@ -11,7 +11,6 @@ l::set('uniform-email-copy', 'Copy:');
 
 l::set('uniform-calc-plus', 'plus');
 
-l::set('uniform-log-success', 'The log entry was successfully created.');
 l::set('uniform-log-error', 'There was an error while writing to the logfile.');
 
 l::set('uniform-login-error', 'Wrong username or password.');

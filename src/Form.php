@@ -37,12 +37,12 @@ class Form extends BaseForm
     /**
      * Create a new instance
      *
-     * @param  array  $data
+     * @param  array  $rules  Form fields and their validation rules
      * @return void
      */
-    function __construct($data = [])
+    function __construct($rules = [])
     {
-        parent::__construct($data);
+        parent::__construct($rules);
         $this->shouldFallThrough = false;
         $this->shouldValidate = true;
         $this->shouldCallGuard = true;

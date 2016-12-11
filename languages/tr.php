@@ -11,7 +11,6 @@ l::set('uniform-email-copy', 'Kopyala:');
 
 l::set('uniform-calc-plus', 'arti');
 
-l::set('uniform-log-success', 'Log girisi basariyla olusturuldu.');
 l::set('uniform-log-error', 'Log dosyasi olusturulurken hata olustu.');
 
 l::set('uniform-login-error', 'Yanlis kullanici adi veya sifre.');

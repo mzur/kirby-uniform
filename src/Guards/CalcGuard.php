@@ -2,10 +2,13 @@
 
 namespace Uniform\Guards;
 
-use l;
-use s;
+use L;
+use S;
 use Uniform\Form;
 
+/**
+ * Guard that checks a simple arithmetic problem.
+ */
 class CalcGuard extends Guard
 {
     /**
@@ -53,9 +56,9 @@ class CalcGuard extends Guard
      */
     public function check()
     {
-        $result = s::get(self::FLASH_KEY, null);
+        $result = S::get(self::FLASH_KEY, null);
         if ($result === null || !array_key_exists($this->field, $this->data) || $this->data[$this->field] != $result) {
-            $this->reject(l::get('uniform-fields-not-valid'));
+            $this->reject(L::get('uniform-fields-not-valid'));
         }
         $this->form->forget($this->field);
     }
