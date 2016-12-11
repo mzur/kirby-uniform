@@ -51,7 +51,7 @@ class EmailAction extends Action
     }
 
     /**
-     * Append the form data to the log file.
+     * Send the form data via email.
      */
     public function execute()
     {

@@ -7,6 +7,9 @@ namespace Uniform\Actions;
  */
 class DumpAction extends Action
 {
+    /**
+     * Dump the form data.
+     */
     public function execute()
     {
         var_dump($this->data);
