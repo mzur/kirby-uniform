@@ -13,7 +13,7 @@ class LogAction extends Action
     /**
      * Append the form data to the log file.
      */
-    public function execute()
+    public function perform()
     {
         $file = $this->requireOption('file');
         $content = $this->getContent();

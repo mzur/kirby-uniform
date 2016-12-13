@@ -2,16 +2,35 @@
 
 namespace Uniform;
 
-use Uniform\Exceptions\Exception;
-
-trait HasOptions
+class Performer implements PerformerInterface
 {
+    /**
+     * Form data
+     *
+     * @var array
+     */
+    protected $data;
+
     /**
      * Options
      *
      * @var array
      */
     protected $options;
+
+    public function __construct(array $data, array $options = [])
+    {
+        $this->data = $data;
+        $this->options = $options;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function perform()
+    {
+        //
+    }
 
     /**
      * Get an option from the options array

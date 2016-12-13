@@ -2,83 +2,31 @@
 
 namespace Uniform\Actions;
 
-use Uniform\HasOptions;
-use Uniform\Exceptions\ActionFailedException;
+use Uniform\Performer;
+use Uniform\Exceptions\PerformerException;
 
-class Action implements ActionInterface
+class Action extends Performer
 {
-    use HasOptions;
-
-    /**
-     * The form data
-     *
-     * @var array
-     */
-    protected $data;
-
-    /**
-     * Failed the action during execution?
-     *
-     * @var boolean
-     */
-    protected $failed;
-
-    /**
-     * Error message in case of failure to execute
-     *
-     * @var string
-     */
-    protected $message;
-
-    /**
-     * Create a new instance
-     *
-     * @param  array  $data  Form data
-     * @param array  $options Action options
-     */
-    function __construct(array $data, array $options = [])
-    {
-        $this->data = $data;
-        $this->options = $options;
-        $this->failed = false;
-        $this->message = '';
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    public function perform()
     {
-        //
+        $this->fail();
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function hasFailed()
-    {
-        return $this->failed;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMessage()
-    {
-        return $this->message;
-    }
-
-    /**
-     * Make this action fail by throwing an ActionFailedException.
+     * Make this action fail by throwing an PerformerException.
      *
      * @param  string $message Error message
-     * @throws ActionFailedException
+     * @param string $key Key of the error (e.g. form field name)
+     * @throws PerformerException
      */
-    protected function fail($message = null)
+    protected function fail($message = null, $key = null)
     {
-        $this->failed = false;
-        $this->message = $message ?: static::class.' failed.';
+        $message = $message ?: static::class.' failed.';
+        $key = $key ?: static::class;
 
-        throw new ActionFailedException($this->message);
+        throw new PerformerException($message, $key);
     }
 }

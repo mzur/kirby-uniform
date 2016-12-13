@@ -29,7 +29,7 @@ class EmailAction extends Action
     /**
      * Send the form data via email.
      */
-    public function execute()
+    public function perform()
     {
         $params = [
             'service' => $this->option('service', 'mail'),

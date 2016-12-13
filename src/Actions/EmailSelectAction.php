@@ -20,7 +20,7 @@ class EmailSelectAction extends EmailAction
     /**
      * Set the chosen recipient email address and send the form data via email.
      */
-    public function execute()
+    public function perform()
     {
         $this->options['to'] = $this->getRecipient();
         unset($this->data[self::RECIPIENT_KEY]);

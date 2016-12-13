@@ -10,7 +10,7 @@ class DumpAction extends Action
     /**
      * Dump the form data.
      */
-    public function execute()
+    public function perform()
     {
         var_dump($this->data);
     }

@@ -2,14 +2,13 @@
 
 namespace Uniform;
 
+use Uniform\Guards\Guard;
+use Uniform\Actions\Action;
 use Uniform\Guards\HoneypotGuard;
 use Uniform\Exceptions\Exception;
-use Uniform\Guards\GuardInterface;
 use Jevets\Kirby\Form as BaseForm;
-use Uniform\Actions\ActionInterface;
-use Uniform\Exceptions\ActionFailedException;
+use Uniform\Exceptions\PerformerException;
 use Uniform\Exceptions\TokenMismatchException;
-use Uniform\Exceptions\GuardRejectedException;
 
 class Form extends BaseForm
 {
@@ -121,21 +120,14 @@ class Form extends BaseForm
 
         $guard = new $class($this, $this->data, $options);
 
-        if (!($guard instanceof GuardInterface)) {
-            throw new Exception('Guards must implement the '.GuardInterface::class.'.');
+        if (!($guard instanceof Guard)) {
+            throw new Exception('Guards must extend '.Guard::class.'.');
         }
 
         try {
-            $guard->check();
-            $rejected = $guard->hasRejected();
-            $message = $guard->getMessage();
-        } catch (GuardRejectedException $e) {
-            $rejected = true;
-            $message = $e->getMessage();
-        }
-
-        if ($rejected) {
-            $this->addError($guard->getKey(), $message);
+            $guard->perform();
+        } catch (PerformerException $e) {
+            $this->addError($e->getKey(), $e->getMessage());
             $this->saveData();
             $this->redirect();
         }
@@ -157,21 +149,14 @@ class Form extends BaseForm
 
         $action = new $class($this->data, $options);
 
-        if (!($action instanceof ActionInterface)) {
-            throw new Exception('Actions must implement the '.ActionInterface::class.'.');
+        if (!($action instanceof Action)) {
+            throw new Exception('Actions must extend '.Action::class.'.');
         }
 
         try {
-            $action->execute();
-            $failed = $action->hasFailed();
-            $message = $action->getMessage();
-        } catch (ActionFailedException $e) {
-            $failed = true;
-            $message = $e->getMessage();
-        }
-
-        if ($failed) {
-            $this->addError($class, $message);
+            $action->perform();
+        } catch (PerformerException $e) {
+            $this->addError($e->getKey(), $e->getMessage());
             $this->saveData();
             $this->redirect();
         }

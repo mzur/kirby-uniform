@@ -12,7 +12,7 @@ class LoginAction extends Action
     /**
      * Log in a user.
      */
-    public function execute()
+    public function perform()
     {
         $userField = $this->option('userField', 'username');
         $passwordField = $this->option('passwordField', 'password');

@@ -14,7 +14,7 @@ class WebhookAction extends Action
     /**
      * Call a webhook
      */
-    public function execute()
+    public function perform()
     {
         $url = $this->requireOption('url');
         $data = [];
