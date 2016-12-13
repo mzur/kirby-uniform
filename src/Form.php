@@ -118,19 +118,12 @@ class Form extends BaseForm
         if ($this->shouldValidate) $this->validate();
         $this->shouldCallGuard = false;
 
-        $guard = new $class($this, $this->data, $options);
-
-        if (!($guard instanceof Guard)) {
+        if (!is_subclass_of($class, Guard::class)) {
             throw new Exception('Guards must extend '.Guard::class.'.');
         }
 
-        try {
-            $guard->perform();
-        } catch (PerformerException $e) {
-            $this->addError($e->getKey(), $e->getMessage());
-            $this->saveData();
-            $this->redirect();
-        }
+        $guard = new $class($this, $this->data, $options);
+        $this->perform($guard);
 
         return $this;
     }
@@ -147,19 +140,12 @@ class Form extends BaseForm
         if ($this->shouldValidate) $this->validate();
         if ($this->shouldCallGuard) $this->guard();
 
-        $action = new $class($this->data, $options);
-
-        if (!($action instanceof Action)) {
+        if (!is_subclass_of($class, Action::class)) {
             throw new Exception('Actions must extend '.Action::class.'.');
         }
 
-        try {
-            $action->perform();
-        } catch (PerformerException $e) {
-            $this->addError($e->getKey(), $e->getMessage());
-            $this->saveData();
-            $this->redirect();
-        }
+        $action = new $class($this->data, $options);
+        $this->perform($action);
 
         return $this;
     }
@@ -180,5 +166,21 @@ class Form extends BaseForm
     protected function redirect()
     {
         go(page()->url());
+    }
+
+    /**
+     * Perform a performer and handle a possible exception
+     *
+     * @param  Performer $performer
+     */
+    protected function perform(Performer $performer)
+    {
+        try {
+            $performer->perform();
+        } catch (PerformerException $e) {
+            $this->addError($e->getKey(), $e->getMessage());
+            $this->saveData();
+            $this->redirect();
+        }
     }
 }
