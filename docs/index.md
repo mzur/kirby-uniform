@@ -10,9 +10,9 @@ Builtin actions:
 
 - [email](actions/email): Send the form data by email.
 - [email-select](actions/email-select): Choose from multiple recipients to send the form data by email.
-- [log](actions#log): Log the form data to a file.
-- [login](actions#login): Log in to the Kirby frontend.
-- [webhook](actions#webhook): Send the form data as a HTTP request to a webhook.
+- [log](actions/log): Log the form data to a file.
+- [login](actions/login): Log in to the Kirby frontend.
+- [webhook](actions/webhook): Send the form data as a HTTP request to a webhook.
 
 ## Installation
 
