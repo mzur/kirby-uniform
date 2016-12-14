@@ -2,17 +2,15 @@
 
 A versatile and powerful [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
-See the [Kirby with Uniform](http://blog.the-inspired-ones.de/kirby-with-uniform) blog post for a step by step tutorial on using Uniform.
-
-**Questions?** See the [answers](https://github.com/mzur/kirby-uniform/wiki/Answers) in the wiki, [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to use the `uniform` tag or mention `@mzur`).
+[![Kirby Uniform Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)](http://kirby-uniform.readthedocs.io)
 
 Builtin actions:
 
-- [email](https://github.com/mzur/kirby-contact-form/wiki/Action:-Email): Send the form data by email.
-- [email-select](https://github.com/mzur/kirby-uniform/wiki/Action:-Email-select): Choose from multiple recipients to send the form data by email.
-- [log](https://github.com/mzur/kirby-contact-form/wiki/Action:-Log): Log the form data to a file.
-- [login](https://github.com/mzur/kirby-uniform/wiki/Action:-Login): Log in to the Kirby frontend.
-- [webhook](https://github.com/mzur/kirby-uniform/wiki/Action:-Webhook): Send the form data as a HTTP request to a webhook.
+- [email](http://kirby-uniform.readthedocs.io/en/latest/actions/email/): Send the form data by email.
+- [email-select](http://kirby-uniform.readthedocs.io/en/latest/actions/email-select/): Choose from multiple recipients to send the form data by email.
+- [log](http://kirby-uniform.readthedocs.io/en/latest/actions/log/): Log the form data to a file.
+- [login](http://kirby-uniform.readthedocs.io/en/latest/actions/login/): Log in to the Kirby frontend.
+- [webhook](http://kirby-uniform.readthedocs.io/en/latest/actions/webhook/): Send the form data as a HTTP request to a webhook.
 
 ## Installation
 
@@ -30,7 +28,13 @@ For a **quick-start** see the example below.
 
 ## Documentation
 
-Head over to [Read the docs]().
+For the full documentation head over to [Read the Docs](http://kirby-uniform.readthedocs.io).
+
+See the [Kirby with Uniform](http://blog.the-inspired-ones.de/kirby-with-uniform) blog post for a step by step tutorial on using Uniform.
+
+## Questions
+
+See the [answers](http://kirby-uniform.readthedocs.io/en/latest/answers/) in the docs, [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to use the `uniform` tag or mention `@mzur`).
 
 ## Example
 
@@ -63,7 +67,7 @@ return function($site, $pages, $page) {
 
 Template:
 
-```php+html
+```html+php
 <form action="<?php echo $page->url()?>#form" method="post">
 
 	<label for="name" class="required">Name</label>
