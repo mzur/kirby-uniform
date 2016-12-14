@@ -6,7 +6,7 @@ If you like to use email templates, put those snippets from the `snippets` direc
 
 The action requires a `_from` form field providing the email address for the `replyTo` field of the email that will be sent. Make sure not to use `_` as a prefix of the form field names containing the data, else they won't appear in the default plain text email being sent.
 
-If there is a `_receive_copy` field present in the form data (e.g. from a checkbox, see the [extended example](examples#extended)), the sender's email address (`_from`) will receive a copy, too. The subject of this copy email will get the `uniform-email-copy` prefix.
+If there is a `_receive_copy` field present in the form data (e.g. from a checkbox, see the [extended example](examples/extended)), the sender's email address (`_from`) will receive a copy, too. The subject of this copy email will get the `uniform-email-copy` prefix.
 
 ## Options
 

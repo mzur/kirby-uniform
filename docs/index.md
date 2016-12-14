@@ -26,4 +26,4 @@ If you have a single language site you can choose the language Uniform should us
 c::set('uniform.language', 'de');
 ```
 
-For a **quick-start** jump directly to the [basic example](examples#basic).
+For a **quick-start** jump directly to the [basic example](examples/basic).

@@ -38,7 +38,7 @@ return function($site, $pages, $page) {
 };
 ```
 
-The template looks [as usual](examples#basic). In this case it has a `name`, `message` and `_from` field. The example above takes only the content of the `name` field, adds the given `token` and sends both to `http://example.com/myhook` as a `POST` request.
+The template looks [as usual](examples/basic). In this case it has a `name`, `message` and `_from` field. The example above takes only the content of the `name` field, adds the given `token` and sends both to `http://example.com/myhook` as a `POST` request.
 
 ## Options
 

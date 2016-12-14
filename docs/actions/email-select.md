@@ -34,7 +34,7 @@ return function($site, $pages, $page) {
 };
 ```
 
-The [form in the template](examples#basic) then has to contain a `_recipient` field that can look like this:
+The [form in the template](examples/basic) then has to contain a `_recipient` field that can look like this:
 
 ```php+html
 <select name="_recipient" id="_recipient">
