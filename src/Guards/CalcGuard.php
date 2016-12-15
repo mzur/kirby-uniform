@@ -4,7 +4,6 @@ namespace Uniform\Guards;
 
 use L;
 use S;
-use Uniform\Form;
 
 /**
  * Guard that checks a simple arithmetic problem.

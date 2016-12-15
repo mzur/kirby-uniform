@@ -3,7 +3,6 @@
 namespace Uniform\Guards;
 
 use L;
-use Uniform\Form;
 
 /**
  * Guard that checks a honeypot form field.
