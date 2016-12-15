@@ -46,7 +46,7 @@ return function ($site, $pages, $page) {
 Template:
 
 ```html+php
-<form method="POST">
+<form action="<?php echo $page->url() ?>" method="POST">
    <input name="_from" type="email" value="<?php echo $form->old('_from'); ?>">
    <textarea name="message"><?php echo $form->old('message'); ?></textarea>
    <?php echo csrf_field(); ?>
