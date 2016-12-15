@@ -16,6 +16,7 @@
         "docs": "http://kirby-uniform.readthedocs.io"
     },
     "require": {
+        "php": ">=5.5.0",
         "jevets/kirby-form": "dev-master"
     },
     "require-dev": {
