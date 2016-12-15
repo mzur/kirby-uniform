@@ -6,7 +6,7 @@
       "type": "git",
       "url": "https://github.com/mzur/kirby-uniform"
    },
-   "version": "2.2.6",
+   "version": "2.3.0",
    "type": "kirby-plugin",
    "license": "GPL-2.0"
 }
