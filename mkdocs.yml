@@ -1,0 +1,26 @@
+site_name: Kirby Uniform
+repo_url: https://github.com/mzur/kirby-uniform/
+pages:
+    - Home: index.md
+    - Usage: usage.md
+    - Methods: methods.md
+    - Guards:
+        - Guards: guards/guards.md
+        - Honeypot: guards/honeypot.md
+        - Calc: guards/calc.md
+        - reCAPTCHA: guards/recaptcha.md
+    - Actions:
+        - Actions: actions/actions.md
+        - Email: actions/email.md
+        - Email Select: actions/email-select.md
+        - Log: actions/log.md
+        - Login: actions/login.md
+        - Webhook: actions/webhook.md
+    - Examples:
+        - Basic: examples/basic.md
+        - Extended: examples/extended.md
+    - Answers: answers.md
+theme: readthedocs
+markdown_extensions:
+    - toc:
+        permalink: 

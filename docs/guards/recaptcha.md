@@ -1,0 +1,1 @@
+# reCAPTCHA Guard
