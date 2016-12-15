@@ -1,5 +1,7 @@
 language: php
-install: composer install
+install:
+    - rm -rf vendor
+    - composer install
 sudo: false
 php:
   - 5.4
