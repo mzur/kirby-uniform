@@ -14,17 +14,6 @@ class TestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-    }
-
-    protected function mockToolkit($class)
-    {
-        $mock = \Mockery::mock($class);
-        $ref = new \ReflectionProperty($class, 'set');
-        $ref->setAccessible(true);
-        $ref->setValue(null, function ($key, $value) {
-
-        });
-
-        return $mock;
+        $_POST = [];
     }
 }

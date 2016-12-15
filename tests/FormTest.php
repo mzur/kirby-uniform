@@ -19,7 +19,6 @@ class FormTest extends TestCase
 
     public function testValidateCsrfException()
     {
-        $token = csrf();
         $form = new Form;
         $this->setExpectedException(TokenMismatchException::class);
         $form->validate();
@@ -45,5 +44,12 @@ class FormTest extends TestCase
             $this->assertEquals('Redirected', $e->getMessage());
         }
         $this->assertFalse($form->success());
+    }
+
+    public function testGuardValidates()
+    {
+        $form = new Form;
+        $this->setExpectedException(TokenMismatchException::class);
+        $form->guard();
     }
 }
