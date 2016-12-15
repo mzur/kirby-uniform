@@ -1,0 +1,5 @@
+vendor
+!vendor/composer
+!vendor/jevets
+!vendor/autoload.php
+composer.lock

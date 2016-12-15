@@ -18,6 +18,9 @@
     "require": {
         "jevets/kirby-form": "dev-master"
     },
+    "require-dev": {
+        "getkirby/toolkit": "dev-master"
+    },
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
@@ -27,5 +30,20 @@
             "src/helpers.php",
             "index.php"
         ]
-    }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Uniform\\Tests\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-form.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-flash.git"
+        }
+    ]
 }
