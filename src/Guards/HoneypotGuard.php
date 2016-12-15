@@ -23,8 +23,9 @@ class HoneypotGuard extends Guard
      */
     public function perform()
     {
+        $data = $this->form->data();
         $field = $this->option('field', self::FIELD_NAME);
-        if (!array_key_exists($field, $this->data) || $this->data[$field] !== '') {
+        if (!array_key_exists($field, $data) || $data[$field] !== '') {
             $this->reject(L::get('uniform-filled-potty'), $field);
         }
         $this->form->forget($field);

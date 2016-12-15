@@ -31,16 +31,17 @@ class LogAction extends Action
     protected function getContent()
     {
         $snippet = $this->option('snippet');
+        $data = $this->form->data();
 
         if ($snippet) {
             $content = snippet($snippet, [
-                'data' => $this->data,
+                'data' => $data,
                 'options' => $this->options
             ], true);
         } else {
             $content = '['.date('c').'] '.Visitor::ip().' '.Visitor::userAgent();
 
-            foreach ($this->data as $key => $value) {
+            foreach ($data as $key => $value) {
                 if (is_array($value)) {
                     $value = implode(', ', array_filter($value, function ($i) {
                         return $i !== '';

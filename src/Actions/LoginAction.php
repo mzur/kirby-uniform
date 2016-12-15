@@ -17,9 +17,9 @@ class LoginAction extends Action
         $userField = $this->option('userField', 'username');
         $passwordField = $this->option('passwordField', 'password');
 
-        $user = site()->user($this->data[$userField]);
+        $user = site()->user($this->form->data($userField));
 
-        if (!$user || !$user->login($this->data[$passwordField])) {
+        if (!$user || !$user->login($this->form->data($passwordField))) {
             $this->fail(L::get('uniform-login-error'));
         }
 

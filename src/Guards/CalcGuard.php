@@ -33,7 +33,7 @@ class CalcGuard extends Guard
     {
         $field = $this->option('field', self::FIELD_NAME);
         $result = S::get(self::FLASH_KEY, null);
-        if ($result === null || !array_key_exists($field, $this->data) || $this->data[$field] != $result) {
+        if ($result === null || $this->form->data($field) != $result) {
             $this->reject(L::get('uniform-fields-not-valid'), $field);
         }
         $this->form->forget($field);

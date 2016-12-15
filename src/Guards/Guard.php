@@ -9,26 +9,6 @@ use Uniform\Exceptions\PerformerException;
 class Guard extends Performer
 {
     /**
-     * The form instance
-     *
-     * @var Form
-     */
-    protected $form;
-
-    /**
-     * Create a new instance
-     *
-     * @param Form $form Form instance
-     * @param  array $data Form data
-     * @param array $options Action options
-     */
-    public function __construct(Form $form, array $data, array $options = [])
-    {
-        parent::__construct($data, $options);
-        $this->form = $form;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function perform()

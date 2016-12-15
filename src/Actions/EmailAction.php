@@ -3,7 +3,6 @@
 namespace Uniform\Actions;
 
 use L;
-use A;
 use Str;
 use Error;
 
@@ -27,6 +26,17 @@ class EmailAction extends Action
     const RECEIVE_COPY_KEY = '_receive_copy';
 
     /**
+     * Create a new instance
+     * @param Form  $form
+     * @param array $options
+     */
+    public function __construct(Form $form, array $options = [])
+    {
+        parent::__construct($form, $options);
+        $this->data = $form->data();
+    }
+
+    /**
      * Send the form data via email.
      */
     public function perform()
@@ -36,7 +46,7 @@ class EmailAction extends Action
             'options' => $this->option('service-options', []),
             'to' => $this->requireOption('to'),
             'from' => $this->requireOption('sender'),
-            'replyTo' => $this->option('replyTo', A::get($this->data, self::FROM_KEY)),
+            'replyTo' => $this->option('replyTo', $this->form->data(self::FROM_KEY)),
             'subject' => $this->getSubject(),
             'body' => $this->getBody(),
         ];
@@ -71,7 +81,7 @@ class EmailAction extends Action
             return is_scalar($item);
         });
 
-        $subject = Str::template($this->option('subject', l::get('uniform-email-subject')), $templatableItems);
+        $subject = Str::template($this->option('subject', L::get('uniform-email-subject')), $templatableItems);
 
         // Remove newlines to prevent malicious modifications of the email header.
         return str_replace("\n", '', $subject);
@@ -116,6 +126,6 @@ class EmailAction extends Action
      */
     protected function shouldReceiveCopy()
     {
-        return $this->option('receive-copy') && array_key_exists(self::RECEIVE_COPY_KEY, $this->data);
+        return $this->option('receive-copy') && $this->form->data(self::RECEIVE_COPY_KEY);
     }
 }

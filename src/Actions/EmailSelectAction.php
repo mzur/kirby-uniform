@@ -2,7 +2,6 @@
 
 namespace Uniform\Actions;
 
-use A;
 use L;
 
 /**
@@ -36,7 +35,7 @@ class EmailSelectAction extends EmailAction
      */
     protected function getRecipient()
     {
-        $recipient = A::get($this->data, self::RECIPIENT_KEY);
+        $recipient = $this->form->data(self::RECIPIENT_KEY);
         $allowed = $this->requireOption('allowed-recipients');
 
         if (!array_key_exists($recipient, $allowed)) {

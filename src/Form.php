@@ -71,10 +71,14 @@ class Form extends BaseForm
 
     /**
      * Don't run the guards
+     *
+     * @return  Form
      */
     public function withoutGuards()
     {
         $this->shouldCallGuard = false;
+
+        return $this;
     }
 
     /**
@@ -112,19 +116,22 @@ class Form extends BaseForm
     /**
      * Call a guard
      *
-     * @param  string $class   Guard class
+     * @param  string|Guard $guard   Guard classname or object
      * @param  array  $options Guard options
      */
-    public function guard($class = HoneypotGuard::class, $options = [])
+    public function guard($guard = HoneypotGuard::class, $options = [])
     {
         if ($this->shouldValidate) $this->validate();
         $this->shouldCallGuard = false;
 
-        if (!is_subclass_of($class, Guard::class)) {
+        if (!is_subclass_of($guard, Guard::class)) {
             throw new Exception('Guards must extend '.Guard::class.'.');
         }
 
-        $guard = new $class($this, $this->data, $options);
+        if (!is_object($guard)) {
+            $guard = new $guard($this, $options);
+        }
+
         $this->perform($guard);
 
         return $this;
@@ -133,20 +140,23 @@ class Form extends BaseForm
     /**
      * Execute an action
      *
-     * @param  string  $class   Action class
+     * @param  string|Action  $action   Action classname or object
      * @param  array   $options Action options
      * @return Form
      */
-    public function action($class, $options = [])
+    public function action($action, $options = [])
     {
         if ($this->shouldValidate) $this->validate();
         if ($this->shouldCallGuard) $this->guard();
 
-        if (!is_subclass_of($class, Action::class)) {
+        if (!is_subclass_of($action, Action::class)) {
             throw new Exception('Actions must extend '.Action::class.'.');
         }
 
-        $action = new $class($this->data, $options);
+        if (!is_object($action)) {
+            $action = new $action($this, $options);
+        }
+
         $this->perform($action);
 
         return $this;

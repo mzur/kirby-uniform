@@ -5,11 +5,11 @@ namespace Uniform;
 class Performer implements PerformerInterface
 {
     /**
-     * Form data
+     * Form instance
      *
-     * @var array
+     * @var Form
      */
-    protected $data;
+    protected $form;
 
     /**
      * Options
@@ -18,9 +18,15 @@ class Performer implements PerformerInterface
      */
     protected $options;
 
-    public function __construct(array $data, array $options = [])
+    /**
+     * Create a new instance
+     *
+     * @param Form  $form
+     * @param array $options
+     */
+    public function __construct(Form $form, array $options = [])
     {
-        $this->data = $data;
+        $this->form = $form;
         $this->options = $options;
     }
 
