@@ -5,6 +5,8 @@ namespace Uniform\Actions;
 use L;
 use Str;
 use Error;
+use Email;
+use Uniform\Form;
 
 /**
  * Action to send the form data via email.
@@ -52,7 +54,7 @@ class EmailAction extends Action
         ];
 
         try {
-            if (!email($params)->send()) {
+            if (!$this->sendEmail($params)) {
                 $this->fail('The email could not be sent.');
             }
 
@@ -60,13 +62,26 @@ class EmailAction extends Action
                 $params['subject'] = L::get('uniform-email-copy').' '.$params['subject'];
                 $params['to'] = $params['replyTo'];
 
-                if (!email($params)->send()) {
+                if (!$this->sendEmail($params)) {
                     $this->fail('The email copy could not be sent but the form has been submitted.');
                 }
             }
         } catch (Error $e) {
             $this->fail(L::get('uniform-email-error').' '.$e->getMessage());
         }
+    }
+
+    /**
+     * Send an email
+     *
+     * @param  array  $params
+     * @return boolean
+     */
+    protected function sendEmail(array $params)
+    {
+        $email = new Email($params);
+
+        return $email->send();
     }
 
     /**
@@ -97,7 +112,7 @@ class EmailAction extends Action
         $snippet = $this->option('snippet');
 
         if ($snippet) {
-            $body = snippet($snippet, [
+            $body = $this->getSnippet($snippet, [
                 'data' => $this->data,
                 'options' => $this->options
             ], true);
@@ -117,6 +132,18 @@ class EmailAction extends Action
         }
 
         return $body;
+    }
+
+    /**
+     * Returns the a rendered snippet as string.
+     *
+     * @param  string $name
+     * @param  array  $data
+     * @return string
+     */
+    protected function getSnippet($name, array $data)
+    {
+        return snippet($name, $data);
     }
 
     /**
