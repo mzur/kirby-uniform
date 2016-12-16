@@ -15,7 +15,7 @@ class FormTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->form = new Form;
+        $this->form = new FormStub;
     }
 
     public function testAddErrors()
@@ -43,7 +43,7 @@ class FormTest extends TestCase
     {
         $_POST['_token'] = csrf();
         $_POST['email'] = '';
-        $this->form = new Form(['email' => ['rules' => ['required']]]);
+        $this->form = new FormStub(['email' => ['rules' => ['required']]]);
         try {
             $this->form->validate();
             $this->assertFalse(true);
@@ -69,7 +69,7 @@ class FormTest extends TestCase
             $this->assertEquals('Redirected', $e->getMessage());
         }
         $_POST['website'] = '';
-        $this->form = new Form(['website' => []]);
+        $this->form = new FormStub(['website' => []]);
         $this->form->guard();
     }
 
@@ -85,7 +85,7 @@ class FormTest extends TestCase
     public function testGuardReject()
     {
         $_POST['_token'] = csrf();
-        $this->form = new Form;
+        $this->form = new FormStub;
         $guard = new GuardStub2($this->form);
         try {
             $this->form->guard($guard);
@@ -104,7 +104,7 @@ class FormTest extends TestCase
     public function testActionCallsGuard()
     {
         $_POST['_token'] = csrf();
-        $this->form = new Form;
+        $this->form = new FormStub;
         try {
             $this->form->action(ActionStub::class);
             $this->assertFalse(true);
@@ -116,7 +116,7 @@ class FormTest extends TestCase
     public function testAction()
     {
         $_POST['_token'] = csrf();
-        $this->form = new Form;
+        $this->form = new FormStub;
         $action = new ActionStub($this->form);
         $this->form->withoutGuards()->action($action);
         $this->assertTrue($action->performed);
@@ -125,7 +125,7 @@ class FormTest extends TestCase
     public function testActionFail()
     {
         $_POST['_token'] = csrf();
-        $this->form = new Form;
+        $this->form = new FormStub;
         $action = new ActionStub2($this->form);
         try {
             $this->form->withoutGuards()->action($action);
@@ -133,6 +133,14 @@ class FormTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Redirected', $e->getMessage());
         }
+    }
+}
+
+class FormStub extends Form
+{
+    protected function redirect()
+    {
+        throw new Exception('Redirected');
     }
 }
 

@@ -143,14 +143,14 @@ class EmailActionTest extends TestCase
 class EmailActionStub extends EmailAction
 {
     public $calls = 0;
-    protected function sendEmail($params)
+    protected function sendEmail(array $params)
     {
         $this->calls++;
         $this->params = $params;
         return !isset($this->shouldFail);
     }
 
-    protected function getSnippet($name, $data)
+    protected function getSnippet($name, array $data)
     {
         if (!array_key_exists('data', $data) || !array_key_exists('options', $data)) {
             throw new Exception;

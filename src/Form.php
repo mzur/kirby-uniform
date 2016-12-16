@@ -173,26 +173,10 @@ class Form extends BaseForm
     }
 
     /**
-     * Check if the application is in testing mode
-     *
-     * @return boolean
-     */
-    protected function isTesting()
-    {
-        return defined('APP_ENV') && APP_ENV === 'testing';
-    }
-
-    /**
      * Redirect back to the page of the form
      */
     protected function redirect()
     {
-        if ($this->isTesting()) {
-            // Don't perform a redirect if in testing mode because the redirect
-            // compromises the tests.
-            throw new Exception('Redirected');
-        }
-
         Redirect::back();
     }
 
