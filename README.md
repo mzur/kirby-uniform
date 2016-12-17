@@ -2,7 +2,7 @@
 
 A versatile and powerful [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
-[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](http://kirby-uniform.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=v2.3.0)](http://kirby-uniform.readthedocs.io/en/v2.3.0/?badge=v2.3.0)
 
 Builtin actions:
 
