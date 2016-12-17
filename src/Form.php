@@ -100,7 +100,7 @@ class Form extends BaseForm
     {
         $this->shouldValidate = false;
 
-        if (csrf(R::postData('_token')) !== true) {
+        if (csrf(R::postData('csrf_token')) !== true) {
             throw new TokenMismatchException('The CSRF token was invalid.');
         }
 

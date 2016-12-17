@@ -20,25 +20,14 @@ class EmailAction extends Action
      *
      * @var string
      */
-    const FROM_KEY = '_from';
+    const FROM_KEY = 'email';
 
     /**
      * Name of the form field for the receie copy checkbox.
      *
      * @var string
      */
-    const RECEIVE_COPY_KEY = '_receive_copy';
-
-    /**
-     * Create a new instance
-     * @param Form  $form
-     * @param array $options
-     */
-    public function __construct(Form $form, array $options = [])
-    {
-        parent::__construct($form, $options);
-        $this->data = $form->data();
-    }
+    const RECEIVE_COPY_KEY = 'receive_copy';
 
     /**
      * Send the form data via email.
@@ -94,7 +83,7 @@ class EmailAction extends Action
     protected function getSubject()
     {
         // the form could contain arrays which are incompatible with the template function
-        $templatableItems = array_filter($this->data, function ($item) {
+        $templatableItems = array_filter($this->form->data(), function ($item) {
             return is_scalar($item);
         });
 
@@ -112,17 +101,18 @@ class EmailAction extends Action
     protected function getBody()
     {
         $snippet = $this->option('snippet');
+        $data = $this->form->data();
+        unset($data[self::FROM_KEY]);
+        unset($data[self::RECEIVE_COPY_KEY]);
 
         if ($snippet) {
             $body = $this->getSnippet($snippet, [
-                'data' => $this->data,
+                'data' => $data,
                 'options' => $this->options
             ]);
         } else {
             $body = '';
-            foreach ($this->data as $key => $value) {
-                if (Str::startsWith($key, '_')) continue;
-
+            foreach ($data as $key => $value) {
                 if (is_array($value)) {
                     $value = implode(', ', array_filter($value, function ($i) {
                         return $i !== '';

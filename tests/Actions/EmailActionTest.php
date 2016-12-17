@@ -33,7 +33,7 @@ class EmailActionTest extends TestCase
 
     public function testPerform()
     {
-        $this->form->data('_from', 'joe@user.com');
+        $this->form->data('email', 'joe@user.com');
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
             'sender' => 'info@user.com',
@@ -88,12 +88,12 @@ class EmailActionTest extends TestCase
 
     public function testSubjectTemplate()
     {
-        $this->form->data('_from', "joe@user.com\n\n");
+        $this->form->data('email', "joe@user.com\n\n");
         $this->form->data('data', ['somedata']);
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
             'sender' => 'info@user.com',
-            'subject' => 'Message from {_from} with {data}',
+            'subject' => 'Message from {email} with {data}',
         ]);
         $action->perform();
         $this->assertEquals('Message from joe@user.com with {data}', $action->params['subject']);
@@ -101,7 +101,7 @@ class EmailActionTest extends TestCase
 
     public function testBody()
     {
-        $this->form->data('_from', 'joe@user.com');
+        $this->form->data('email', 'joe@user.com');
         $this->form->data('message', 'hello');
         $this->form->data('data', ['some', 'data']);
         $action = new EmailActionStub($this->form, [
@@ -126,7 +126,7 @@ class EmailActionTest extends TestCase
 
     public function testReceiveCopy()
     {
-        $this->form->data('_from', 'joe@user.com');
+        $this->form->data('email', 'joe@user.com');
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
             'sender' => 'info@user.com',
@@ -134,7 +134,7 @@ class EmailActionTest extends TestCase
         ]);
         $action->perform();
         $this->assertEquals(1, $action->calls);
-        $this->form->data('_receive_copy', '1');
+        $this->form->data('receive_copy', '1');
         $action->perform();
         $this->assertEquals(3, $action->calls);
         $this->assertEquals('joe@user.com', $action->params['to']);

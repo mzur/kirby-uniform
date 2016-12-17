@@ -34,14 +34,14 @@ class FormTest extends TestCase
 
     public function testValidateCsrfSuccess()
     {
-        $_POST['_token'] = csrf();
+        $_POST['csrf_token'] = csrf();
         $this->form->validate();
         $this->assertTrue($this->form->success());
     }
 
     public function testValidateRedirect()
     {
-        $_POST['_token'] = csrf();
+        $_POST['csrf_token'] = csrf();
         $_POST['email'] = '';
         $this->form = new FormStub(['email' => ['rules' => ['required']]]);
         try {
@@ -61,7 +61,7 @@ class FormTest extends TestCase
 
     public function testGuardDefault()
     {
-        $_POST['_token'] = csrf();
+        $_POST['csrf_token'] = csrf();
         try {
             $this->form->guard();
             $this->assertFalse(true);
@@ -75,7 +75,7 @@ class FormTest extends TestCase
 
     public function testGuard()
     {
-        $_POST['_token'] = csrf();
+        $_POST['csrf_token'] = csrf();
         $this->form = new Form;
         $guard = new GuardStub($this->form);
         $this->form->guard($guard);
@@ -84,7 +84,7 @@ class FormTest extends TestCase
 
     public function testGuardReject()
     {
-        $_POST['_token'] = csrf();
+        $_POST['csrf_token'] = csrf();
         $this->form = new FormStub;
         $guard = new GuardStub2($this->form);
         try {
@@ -103,7 +103,7 @@ class FormTest extends TestCase
 
     public function testActionCallsGuard()
     {
-        $_POST['_token'] = csrf();
+        $_POST['csrf_token'] = csrf();
         $this->form = new FormStub;
         try {
             $this->form->action(ActionStub::class);
@@ -115,7 +115,7 @@ class FormTest extends TestCase
 
     public function testAction()
     {
-        $_POST['_token'] = csrf();
+        $_POST['csrf_token'] = csrf();
         $this->form = new FormStub;
         $action = new ActionStub($this->form);
         $this->form->withoutGuards()->action($action);
@@ -124,7 +124,7 @@ class FormTest extends TestCase
 
     public function testActionFail()
     {
-        $_POST['_token'] = csrf();
+        $_POST['csrf_token'] = csrf();
         $this->form = new FormStub;
         $action = new ActionStub2($this->form);
         try {

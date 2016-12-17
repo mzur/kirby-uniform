@@ -14,7 +14,7 @@ class EmailSelectAction extends EmailAction
      *
      * @var string
      */
-    const RECIPIENT_KEY = '_recipient';
+    const RECIPIENT_KEY = 'recipient';
 
     /**
      * Set the chosen recipient email address and send the form data via email.

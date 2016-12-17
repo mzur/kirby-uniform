@@ -23,7 +23,7 @@ class CalcGuard extends Guard
      *
      * @var string
      */
-    const FIELD_NAME = '_captcha';
+    const FIELD_NAME = 'captcha';
 
     /**
      * {@inheritDoc}

@@ -24,7 +24,7 @@ use Uniform\Actions\EmailAction;
 
 return function ($site, $pages, $page) {
    $form = new Form([
-      '_from' => [
+      'email' => [
          'rules' => ['required', 'email'],
          'message' => 'Email is required',
       ],
@@ -46,7 +46,7 @@ Template:
 
 ```html+php
 <form action="<?php echo $page->url() ?>" method="POST">
-   <input name="_from" type="email" value="<?php echo $form->old('_from'); ?>">
+   <input name="email" type="email" value="<?php echo $form->old('email'); ?>">
    <textarea name="message"><?php echo $form->old('message'); ?></textarea>
    <?php echo csrf_field(); ?>
    <?php echo honeypot_field(); ?>

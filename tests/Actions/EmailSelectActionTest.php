@@ -29,19 +29,19 @@ class EmailSelectActionTest extends TestCase
 
     public function testRecipient()
     {
-        $this->form->data('_recipient', 'jane');
+        $this->form->data('recipient', 'jane');
         $action = new EmailSelectActionStub($this->form, [
             'allowed-recipients' => ['jane' => 'jane@user.com'],
             'sender' => 'infor@user.com',
         ]);
         $action->perform();
         $this->assertEquals('jane@user.com', $action->params['to']);
-        $this->assertFalse(array_key_exists('_recipient', $action->params));
+        $this->assertFalse(array_key_exists('recipient', $action->params));
     }
 
     public function testRecipientNotAllowed()
     {
-        $this->form->data('_recipient', 'joe');
+        $this->form->data('recipient', 'joe');
         $action = new EmailSelectActionStub($this->form, [
             'allowed-recipients' => ['jane' => 'jane@user.com'],
             'sender' => 'infor@user.com',
