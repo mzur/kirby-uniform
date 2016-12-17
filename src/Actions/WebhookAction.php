@@ -17,17 +17,20 @@ class WebhookAction extends Action
     public function perform()
     {
         $url = $this->requireOption('url');
-        $data = [];
         $only = $this->option('only');
+        $except = $this->option('except');
 
-        // 'only' has higher priority than 'except'
         if (is_array($only)) {
+            $data = [];
             foreach ($only as $key) {
-                $data[$key] = $this->data[$key];
+                $data[$key] = $this->form->data($key);
             }
         } else {
-            $data = $this->data;
-            foreach ($this->option('except', []) as $key) {
+            $data = $this->form->data();
+        }
+
+        if (is_array($except)) {
+            foreach ($except as $key) {
                 unset($data[$key]);
             }
         }
@@ -45,10 +48,21 @@ class WebhookAction extends Action
 
         $params['headers'] = array_merge(A::get($params, 'headers', []), $headers);
 
-        $response = Remote::request($url, $params);
+        $response = $this->request($url, $params);
 
         if ($response->error !== 0) {
             $this->fail(L::get('uniform-webhook-error').$response->message);
         }
+    }
+
+    /**
+     * Perform the request
+     * @param  string $url
+     * @param  array $params
+     * @return RemoteResponse
+     */
+    protected function request($url, $params)
+    {
+        return Remote::request($url, $params);
     }
 }
