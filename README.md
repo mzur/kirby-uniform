@@ -29,7 +29,6 @@ return function ($site, $pages, $page) {
          'message' => 'Email is required',
       ],
       'message' => [],
-      'website' => [],
    ]);
 
    if (r::is('POST')) {

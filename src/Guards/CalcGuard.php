@@ -4,6 +4,7 @@ namespace Uniform\Guards;
 
 use L;
 use S;
+use R;
 
 /**
  * Guard that checks a simple arithmetic problem.
@@ -33,7 +34,7 @@ class CalcGuard extends Guard
     {
         $field = $this->option('field', self::FIELD_NAME);
         $result = S::get(self::FLASH_KEY, null);
-        if ($result === null || $this->form->data($field) != $result) {
+        if ($result === null || R::postData($field) != $result) {
             $this->reject(L::get('uniform-fields-not-valid'), $field);
         }
         $this->form->forget($field);

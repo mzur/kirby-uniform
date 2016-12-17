@@ -3,6 +3,7 @@
 namespace Uniform\Guards;
 
 use L;
+use R;
 
 /**
  * Guard that checks a honeypot form field.
@@ -23,9 +24,8 @@ class HoneypotGuard extends Guard
      */
     public function perform()
     {
-        $data = $this->form->data();
         $field = $this->option('field', self::FIELD_NAME);
-        if (!array_key_exists($field, $data) || $data[$field] !== '') {
+        if (R::postData($field) !== '') {
             $this->reject(L::get('uniform-filled-potty'), $field);
         }
         $this->form->forget($field);

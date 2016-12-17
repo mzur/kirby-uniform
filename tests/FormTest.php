@@ -69,7 +69,7 @@ class FormTest extends TestCase
             $this->assertEquals('Redirected', $e->getMessage());
         }
         $_POST['website'] = '';
-        $this->form = new FormStub(['website' => []]);
+        $this->form = new FormStub;
         $this->form->guard();
     }
 
