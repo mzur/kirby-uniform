@@ -4,7 +4,7 @@ namespace Uniform;
 
 use Exception;
 
-class Performer implements PerformerInterface
+class Performer
 {
     /**
      * Form instance

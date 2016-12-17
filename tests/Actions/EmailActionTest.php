@@ -13,6 +13,7 @@ class EmailActionTest extends TestCase
     protected $form;
     public function setUp()
     {
+        parent::setUp();
         $this->form = new Form;
     }
 

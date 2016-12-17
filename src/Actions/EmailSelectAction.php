@@ -25,7 +25,7 @@ class EmailSelectAction extends EmailAction
         unset($this->data[self::RECIPIENT_KEY]);
         unset($this->options['allowed-recipients']);
 
-        return parent::execute();
+        return parent::perform();
     }
 
     /**

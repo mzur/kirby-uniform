@@ -13,6 +13,8 @@ use Uniform\Form;
  */
 class EmailAction extends Action
 {
+    use UsesSnippet;
+
     /**
      * Name of the form field for the user's email address.
      *
@@ -115,7 +117,7 @@ class EmailAction extends Action
             $body = $this->getSnippet($snippet, [
                 'data' => $this->data,
                 'options' => $this->options
-            ], true);
+            ]);
         } else {
             $body = '';
             foreach ($this->data as $key => $value) {
@@ -132,18 +134,6 @@ class EmailAction extends Action
         }
 
         return $body;
-    }
-
-    /**
-     * Returns the a rendered snippet as string.
-     *
-     * @param  string $name
-     * @param  array  $data
-     * @return string
-     */
-    protected function getSnippet($name, array $data)
-    {
-        return snippet($name, $data);
     }
 
     /**

@@ -10,6 +10,8 @@ use Visitor;
  */
 class LogAction extends Action
 {
+    use UsesSnippet;
+
     /**
      * Append the form data to the log file.
      */
@@ -18,9 +20,21 @@ class LogAction extends Action
         $file = $this->requireOption('file');
         $content = $this->getContent();
 
-        if (file_put_contents($file, $content, FILE_APPEND | LOCK_EX) === false) {
+        if ($this->write($file, $content) === false) {
             $this->fail(L::get('uniform-log-error'));
         }
+    }
+
+    /**
+     * Append the content to the file or create it if it doesn't exist
+     *
+     * @param  string $filename
+     * @param  string $content
+     * @return boolean
+     */
+    protected function write($filename, $content)
+    {
+        return file_put_contents($filename, $content, FILE_APPEND | LOCK_EX);
     }
 
     /**
@@ -34,10 +48,10 @@ class LogAction extends Action
         $data = $this->form->data();
 
         if ($snippet) {
-            $content = snippet($snippet, [
+            $content = $this->getSnippet($snippet, [
                 'data' => $data,
                 'options' => $this->options
-            ], true);
+            ]);
         } else {
             $content = '['.date('c').'] '.Visitor::ip().' '.Visitor::userAgent();
 
