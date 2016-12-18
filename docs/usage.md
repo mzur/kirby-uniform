@@ -101,7 +101,7 @@ if (r::is('POST')) {
 
 ## Actions
 
-When Uniform is convinced that the submitted form data is no spam, the [actions](actions/actions) are executed. Similar to the guards you can choose from several built-in actions but you can easily [write your own](actions/actions), too. Most actions require some options in the options array. Multiple actions can be chained, too, but keep in mind that subsequent actions are not executed when an action fails:
+When Uniform is convinced that the submitted form data is no spam, the [actions](actions/actions) are executed. Similar to the guards you can choose from several built-in actions but you can easily [write your own](actions/actions#custom-actions), too. Most actions require some options in the options array. Multiple actions can be chained, too, but keep in mind that subsequent actions are not executed when an action fails:
 
 ```php
 if (r::is('POST')) {

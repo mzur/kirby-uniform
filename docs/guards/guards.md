@@ -91,6 +91,6 @@ A guard class has access to the following properties:
 There are two methods to conveniently retrieve options:
 
 - `option($key, $default = null)`: Returns an option from the options array or an optional default value. Example: `$this->option('field', self::FIELD_NAME)`
-- `requireOption($key)`: Returns an option from the options array or throws an exception of the option is not present. This can be used for mandatory options of a guard. Example: `$this->requireOption('file')`
+- `requireOption($key)`: Returns an option from the options array or throws an exception of the option is not present. This can be used for mandatory options. Example: `$this->requireOption('file')`
 
 Take a look at the [built-in guards](https://github.com/mzur/kirby-uniform/tree/master/src/Guards) for some examples.
