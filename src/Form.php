@@ -71,7 +71,13 @@ class Form extends BaseForm
         $errors = $this->errors();
 
         foreach ($data as $key => $value) {
-            $errors[$key][] = $value;
+            $errors[$key] = isset($errors[$key]) ? $errors[$key] : [];
+
+            if (is_array($value)) {
+                $errors[$key] = array_merge($errors[$key], $value);
+            } else {
+                $errors[$key][] = $value;
+            }
         }
 
         $this->flash->set(BaseForm::FLASH_KEY_ERRORS, $errors);

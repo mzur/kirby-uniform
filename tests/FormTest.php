@@ -24,6 +24,8 @@ class FormTest extends TestCase
         $this->assertEquals(['email' => ['Not set']], $this->form->errors());
         $this->form->addErrors(['email' => 'No email']);
         $this->assertEquals(['email' => ['Not set', 'No email']], $this->form->errors());
+        $this->form->addErrors(['email' => ['another', 'error']]);
+        $this->assertEquals(['email' => ['Not set', 'No email', 'another', 'error']], $this->form->errors());
     }
 
     public function testValidateCsrfException()
