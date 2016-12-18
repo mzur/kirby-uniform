@@ -4,11 +4,11 @@ A versatile [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
 Builtin actions:
 
-- [email](actions/email): Send the form data by email.
-- [email-select](actions/email-select): Choose from multiple recipients to send the form data by email.
-- [log](actions/log): Log the form data to a file.
-- [login](actions/login): Log in to the Kirby frontend.
-- [webhook](actions/webhook): Send the form data as an HTTP request to a webhook.
+- [Email](actions/email): Send the form data by email.
+- [EmailSelect](actions/email-select): Choose from multiple recipients to send the form data by email.
+- [Log](actions/log): Log the form data to a file.
+- [Login](actions/login): Log in to the Kirby frontend.
+- [Webhook](actions/webhook): Send the form data as an HTTP request to a webhook.
 
 ## Installation
 
@@ -51,6 +51,13 @@ c::set('uniform.language', 'de');
 ```
 
 See [here](https://github.com/mzur/kirby-uniform/tree/master/languages) for all supported languages.
+
+<div class="adminition warning">
+    <p class="first admonition-title">Note</p>
+    <p class="last">
+        <a href="https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages">Disable the Kirby cache</a> for pages where you use Uniform to make sure the form is generated dynamically.
+    </p>
+</div>
 
 ## Questions
 

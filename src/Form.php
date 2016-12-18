@@ -84,7 +84,7 @@ class Form extends BaseForm
     }
 
     /**
-     * Don't run the guards
+     * Don't run the default guard.
      *
      * @return  Form
      */
