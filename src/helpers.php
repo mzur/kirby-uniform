@@ -1,5 +1,6 @@
 <?php
 
+use Uniform\Form;
 use Uniform\Guards\CalcGuard;
 use Uniform\Guards\HoneypotGuard;
 
@@ -10,7 +11,7 @@ if (!function_exists('csrf_field')) {
      */
     function csrf_field()
     {
-        return '<input type="hidden" name="_token" value="'.csrf().'">';
+        return '<input type="hidden" name="'.Form::CSRF_FIELD.'" value="'.csrf().'">';
     }
 }
 

@@ -3,6 +3,7 @@
 namespace Uniform;
 
 use R;
+use Str;
 use Redirect;
 use Uniform\Guards\Guard;
 use Uniform\Actions\Action;
@@ -14,6 +15,13 @@ use Uniform\Exceptions\TokenMismatchException;
 
 class Form extends BaseForm
 {
+    /**
+     * Name of the form field containing the CSRF token.
+     *
+     * @var string
+     */
+    const CSRF_FIELD = 'csrf_token';
+
     /**
      * Should the validation still be done?
      *
@@ -100,7 +108,7 @@ class Form extends BaseForm
     {
         $this->shouldValidate = false;
 
-        if (csrf(R::postData('csrf_token')) !== true) {
+        if (csrf(R::postData(self::CSRF_FIELD)) !== true) {
             throw new TokenMismatchException('The CSRF token was invalid.');
         }
 
@@ -124,11 +132,15 @@ class Form extends BaseForm
         if ($this->shouldValidate) $this->validate();
         $this->shouldCallGuard = false;
 
+        if (is_string($guard) && !class_exists($guard)) {
+            throw new Exception("{$guard} does not exist.");
+        }
+
         if (!is_subclass_of($guard, Guard::class)) {
             throw new Exception('Guards must extend '.Guard::class.'.');
         }
 
-        if (!is_object($guard)) {
+        if (is_string($guard)) {
             $guard = new $guard($this, $options);
         }
 
@@ -149,11 +161,15 @@ class Form extends BaseForm
         if ($this->shouldValidate) $this->validate();
         if ($this->shouldCallGuard) $this->guard();
 
+        if (is_string($action) && !class_exists($action)) {
+            throw new Exception("{$action} does not exist.");
+        }
+
         if (!is_subclass_of($action, Action::class)) {
             throw new Exception('Actions must extend '.Action::class.'.');
         }
 
-        if (!is_object($action)) {
+        if (is_string($action)) {
             $action = new $action($this, $options);
         }
 
@@ -170,6 +186,37 @@ class Form extends BaseForm
     public function forget($name)
     {
         unset($this->data[$name]);
+    }
+
+    /**
+     * Call actions and gards as magic method.
+     *
+     * Usage:
+     * $form->calcGuard(...);
+     * instead of
+     * $form->guard(\Uniform\Guards\CalcGuard::class, ...);
+     *
+     * $form->emailAction(...);
+     * instead of
+     * $form->action(\Uniform\Actions\EmailAction::class, ...);
+     *
+     * @param  string $method
+     * @param  array  $parameters
+     * @return Form|null
+     */
+    public function __call($method, $parameters = [])
+    {
+        if (Str::endsWith($method, 'Guard')) {
+            $class = '\Uniform\Guards\\'.ucfirst($method);
+            $options = array_key_exists(0, $parameters) ? $parameters[0] : [];
+
+            return $this->guard($class, $options);
+        } else if (Str::endsWith($method, 'Action')) {
+            $class = '\Uniform\Actions\\'.ucfirst($method);
+            $options = array_key_exists(0, $parameters) ? $parameters[0] : [];
+
+            return $this->action($class, $options);
+        }
     }
 
     /**

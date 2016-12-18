@@ -20,7 +20,6 @@ Controller:
 <?php
 
 use Uniform\Form;
-use Uniform\Actions\EmailAction;
 
 return function ($site, $pages, $page) {
    $form = new Form([
@@ -32,7 +31,7 @@ return function ($site, $pages, $page) {
    ]);
 
    if (r::is('POST')) {
-      $form->action(EmailAction::class, [
+      $form->emailAction([
          'to' => $page->email(),
          'sender' => $site->email(),
       ]);

@@ -78,8 +78,9 @@ class FormTest extends TestCase
         $_POST['csrf_token'] = csrf();
         $this->form = new Form;
         $guard = new GuardStub($this->form);
-        $this->form->guard($guard);
+        $return = $this->form->guard($guard);
         $this->assertTrue($guard->performed);
+        $this->assertEquals($this->form, $return);
     }
 
     public function testGuardReject()
@@ -93,6 +94,21 @@ class FormTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Redirected', $e->getMessage());
         }
+    }
+
+    public function testGuardMagicMethod()
+    {
+        $_POST['csrf_token'] = csrf();
+        $this->form = new FormStub2;
+        $return = $this->form->honeypotGuard();
+        $this->assertEquals('\Uniform\Guards\HoneypotGuard', $this->form->guard);
+        $this->assertEquals([], $this->form->options);
+        $this->assertEquals($this->form, $return);
+
+        $options = ['field' => 'my_field'];
+        $this->form->honeypotGuard($options);
+        $this->assertEquals('\Uniform\Guards\HoneypotGuard', $this->form->guard);
+        $this->assertEquals($options, $this->form->options);
     }
 
     public function testActionValidates()
@@ -118,8 +134,9 @@ class FormTest extends TestCase
         $_POST['csrf_token'] = csrf();
         $this->form = new FormStub;
         $action = new ActionStub($this->form);
-        $this->form->withoutGuards()->action($action);
+        $return = $this->form->withoutGuards()->action($action);
         $this->assertTrue($action->performed);
+        $this->assertEquals($this->form, $return);
     }
 
     public function testActionFail()
@@ -134,6 +151,21 @@ class FormTest extends TestCase
             $this->assertEquals('Redirected', $e->getMessage());
         }
     }
+
+    public function testActionMagicMethod()
+    {
+        $_POST['csrf_token'] = csrf();
+        $this->form = new FormStub2;
+        $return = $this->form->emailAction();
+        $this->assertEquals('\Uniform\Actions\EmailAction', $this->form->action);
+        $this->assertEquals([], $this->form->options);
+        $this->assertEquals($this->form, $return);
+
+        $options = ['to' => 'jane@example.com'];
+        $this->form->emailAction($options);
+        $this->assertEquals('\Uniform\Actions\EmailAction', $this->form->action);
+        $this->assertEquals($options, $this->form->options);
+    }
 }
 
 class FormStub extends Form
@@ -141,6 +173,26 @@ class FormStub extends Form
     protected function redirect()
     {
         throw new Exception('Redirected');
+    }
+}
+
+class FormStub2 extends FormStub
+{
+    public $guard;
+    public $action;
+    public $options;
+    public function guard($guard = \Uniform\Guards\HoneypotGuard::class, $options = [])
+    {
+        $this->guard = $guard;
+        $this->options = $options;
+        return $this;
+    }
+
+    public function action($action, $options = [])
+    {
+        $this->action = $action;
+        $this->options = $options;
+        return $this;
     }
 }
 
