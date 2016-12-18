@@ -6,11 +6,11 @@ A versatile [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
 Builtin actions:
 
-- [email](http://kirby-uniform.readthedocs.io/en/latest/actions/email/): Send the form data by email.
-- [email-select](http://kirby-uniform.readthedocs.io/en/latest/actions/email-select/): Choose from multiple recipients to send the form data by email.
-- [log](http://kirby-uniform.readthedocs.io/en/latest/actions/log/): Log the form data to a file.
-- [login](http://kirby-uniform.readthedocs.io/en/latest/actions/login/): Log in to the Kirby frontend.
-- [webhook](http://kirby-uniform.readthedocs.io/en/latest/actions/webhook/): Send the form data as an HTTP request to a webhook.
+- [Email](http://kirby-uniform.readthedocs.io/en/latest/actions/email/): Send the form data by email.
+- [EmailSelect](http://kirby-uniform.readthedocs.io/en/latest/actions/email-select/): Choose from multiple recipients to send the form data by email.
+- [Log](http://kirby-uniform.readthedocs.io/en/latest/actions/log/): Log the form data to a file.
+- [Login](http://kirby-uniform.readthedocs.io/en/latest/actions/login/): Log in to the Kirby frontend.
+- [Webhook](http://kirby-uniform.readthedocs.io/en/latest/actions/webhook/): Send the form data as an HTTP request to a webhook.
 
 ## Quick example
 
