@@ -1,6 +1,6 @@
 # Guards
 
-Guards are the spam protection mechanism of Uniform. When no guard is explicitly specified, the [HoneypotGuard](guards/honeypot) is used. Guards can be combined to provide even more reliable ways to filter out spam:
+Guards are the spam protection mechanism of Uniform. When no guard is explicitly specified, the [HoneypotGuard](honeypot) is used. Guards can be combined to provide even more reliable ways to filter out spam:
 
 ```php
 use Uniform\Form;
