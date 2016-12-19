@@ -3,3 +3,4 @@ vendor
 !vendor/jevets
 !vendor/autoload.php
 composer.lock
+*.sublime-*
