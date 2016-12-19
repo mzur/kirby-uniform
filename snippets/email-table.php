@@ -7,8 +7,7 @@
 	</thead>
 	<tbody>
 <?php
-		foreach ($form as $field => $value):
-			if (str::startsWith($field, '_')) continue;
+		foreach ($data as $field => $value):
 			if (is_array($value)) {
 				$value = implode(', ', array_filter($value, function ($i) {
 					return $i !== '';
