@@ -14,7 +14,7 @@ class EmailSelectAction extends EmailAction
      *
      * @var string
      */
-    const RECIPIENT_KEY = 'recipient';
+    const RECIPIENT_FIELD = 'recipient';
 
     /**
      * Set the chosen recipient email address and send the form data via email.
@@ -22,7 +22,7 @@ class EmailSelectAction extends EmailAction
     public function perform()
     {
         $this->options['to'] = $this->getRecipient();
-        unset($this->data[self::RECIPIENT_KEY]);
+        unset($this->data[self::RECIPIENT_FIELD]);
         unset($this->options['allowed-recipients']);
 
         return parent::perform();
@@ -35,11 +35,11 @@ class EmailSelectAction extends EmailAction
      */
     protected function getRecipient()
     {
-        $recipient = $this->form->data(self::RECIPIENT_KEY);
+        $recipient = $this->form->data(self::RECIPIENT_FIELD);
         $allowed = $this->requireOption('allowed-recipients');
 
         if (!array_key_exists($recipient, $allowed)) {
-            $this->fail(L::get('uniform-email-error').' '.L::get('uniform-email-select-error'));
+            $this->fail(L::get('uniform-email-error').' '.L::get('uniform-email-select-error'), self::RECIPIENT_FIELD);
         }
 
         return $allowed[$recipient];
