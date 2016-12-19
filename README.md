@@ -33,7 +33,7 @@ return function ($site, $pages, $page) {
    if (r::is('POST')) {
       $form->emailAction([
          'to' => $page->email(),
-         'sender' => $site->email(),
+         'from' => $site->email(),
       ]);
    }
 

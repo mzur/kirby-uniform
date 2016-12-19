@@ -26,7 +26,7 @@ class EmailActionTest extends TestCase
 
     public function testToOptionRequired()
     {
-        $action = new EmailActionStub($this->form, ['sender' => 'mail']);
+        $action = new EmailActionStub($this->form, ['from' => 'mail']);
         $this->setExpectedException(Exception::class);
         $action->perform();
     }
@@ -36,7 +36,7 @@ class EmailActionTest extends TestCase
         $this->form->data('email', 'joe@user.com');
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'info@user.com',
+            'from' => 'info@user.com',
         ]);
         $action->perform();
         $expected = [
@@ -55,7 +55,7 @@ class EmailActionTest extends TestCase
     {
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'info@user.com',
+            'from' => 'info@user.com',
         ]);
         $action->shouldFail = true;
         $this->setExpectedException(PerformerException::class);
@@ -66,7 +66,7 @@ class EmailActionTest extends TestCase
     {
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'info@user.com',
+            'from' => 'info@user.com',
             'replyTo' => 'joe@user.com',
         ]);
         $action->perform();
@@ -77,7 +77,7 @@ class EmailActionTest extends TestCase
     {
          $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'info@user.com',
+            'from' => 'info@user.com',
             'service' => 'aws',
             'service-options' => ['someoptions'],
         ]);
@@ -92,7 +92,7 @@ class EmailActionTest extends TestCase
         $this->form->data('data', ['somedata']);
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'info@user.com',
+            'from' => 'info@user.com',
             'subject' => 'Message from {email} with {data}',
         ]);
         $action->perform();
@@ -106,7 +106,7 @@ class EmailActionTest extends TestCase
         $this->form->data('data', ['some', 'data']);
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'info@user.com',
+            'from' => 'info@user.com',
         ]);
         $action->perform();
         $expect = "Message: hello\n\nData: some, data\n\n";
@@ -117,7 +117,7 @@ class EmailActionTest extends TestCase
     {
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'info@user.com',
+            'from' => 'info@user.com',
             'snippet' => 'my snippet',
         ]);
         $action->perform();
@@ -129,7 +129,7 @@ class EmailActionTest extends TestCase
         $this->form->data('email', 'joe@user.com');
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'info@user.com',
+            'from' => 'info@user.com',
             'receive-copy' => true,
         ]);
         $action->perform();

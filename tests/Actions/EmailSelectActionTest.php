@@ -21,7 +21,7 @@ class EmailSelectActionTest extends TestCase
     {
         $action = new EmailSelectActionStub($this->form, [
             'to' => 'jane@user.com',
-            'sender' => 'infor@user.com',
+            'from' => 'infor@user.com',
         ]);
         $this->setExpectedException(Exception::class);
         $action->perform();
@@ -32,7 +32,7 @@ class EmailSelectActionTest extends TestCase
         $this->form->data('recipient', 'jane');
         $action = new EmailSelectActionStub($this->form, [
             'allowed-recipients' => ['jane' => 'jane@user.com'],
-            'sender' => 'infor@user.com',
+            'from' => 'infor@user.com',
         ]);
         $action->perform();
         $this->assertEquals('jane@user.com', $action->params['to']);
@@ -44,7 +44,7 @@ class EmailSelectActionTest extends TestCase
         $this->form->data('recipient', 'joe');
         $action = new EmailSelectActionStub($this->form, [
             'allowed-recipients' => ['jane' => 'jane@user.com'],
-            'sender' => 'infor@user.com',
+            'from' => 'infor@user.com',
         ]);
         $this->setExpectedException(PerformerException::class);
         $action->perform();

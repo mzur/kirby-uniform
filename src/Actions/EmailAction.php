@@ -38,7 +38,7 @@ class EmailAction extends Action
             'service' => $this->option('service', 'mail'),
             'options' => $this->option('service-options', []),
             'to' => $this->requireOption('to'),
-            'from' => $this->requireOption('sender'),
+            'from' => $this->requireOption('from'),
             'replyTo' => $this->option('replyTo', $this->form->data(self::FROM_KEY)),
             'subject' => $this->getSubject(),
             'body' => $this->getBody(),

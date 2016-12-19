@@ -23,7 +23,7 @@ return function ($site, $pages, $page) {
     if (r::is('POST')) {
         $form->emailAction([
             'to' => 'me@example.com',
-            'sender' => 'info@example.com',
+            'from' => 'info@example.com',
         ]);
     }
 
@@ -69,7 +69,7 @@ if (r::is('POST')) {
     $form->calcGuard(['field' => 'result'])
         ->emailAction([
             'to' => 'me@example.com',
-            'sender' => 'info@example.com',
+            'from' => 'info@example.com',
         ]);
 }
 ```
@@ -82,7 +82,7 @@ if (r::is('POST')) {
         ->calcGuard()
         ->emailAction([
             'to' => 'me@example.com',
-            'sender' => 'info@example.com',
+            'from' => 'info@example.com',
         ]);
 }
 ```
@@ -94,7 +94,7 @@ if (r::is('POST')) {
     $form->withoutGuards()
         ->emailAction([
             'to' => 'me@example.com',
-            'sender' => 'info@example.com',
+            'from' => 'info@example.com',
         ]);
 }
 ```
@@ -107,11 +107,11 @@ When Uniform is convinced that the submitted form data is no spam, the [actions]
 if (r::is('POST')) {
     $form->emailAction([
             'to' => 'me@example.com',
-            'sender' => 'info@example.com',
+            'from' => 'info@example.com',
         ])
         ->emailAction([
             'to' => 'you@example.com',
-            'sender' => 'info@example.com',
+            'from' => 'info@example.com',
         ])
         ->logAction(['file' => kirby()->roots()->site().'/messages.log']);
 }
