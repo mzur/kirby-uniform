@@ -20,8 +20,10 @@ if (!function_exists('honeypot_field')) {
      * Generate a honeypot form field.
      *
      */
-    function honeypot_field($name = HoneypotGuard::FIELD_NAME, $class = 'uniform__potty')
+    function honeypot_field($name = null, $class = null)
     {
+        $name = $name ?: HoneypotGuard::FIELD_NAME;
+        $class = $class ?: 'uniform__potty';
         return '<input type="text" name="'.$name.'" class="'.$class.'">';
     }
 }
@@ -46,8 +48,10 @@ if (!function_exists('captcha_field')) {
      * Generate a calc guard form field.
      *
      */
-    function captcha_field($name = CalcGuard::FIELD_NAME, $class = 'uniform__captcha')
+    function captcha_field($name = null, $class = null)
     {
+        $name = $name ?: CalcGuard::FIELD_NAME;
+        $class = $class ?: 'uniform__captcha';
         return '<input type="number" name="'.$name.'" class="'.$class.'">';
     }
 }
