@@ -51,7 +51,9 @@ class EmailAction extends Action
 
             if ($this->shouldReceiveCopy()) {
                 $params['subject'] = L::get('uniform-email-copy').' '.$params['subject'];
+                $to = $params['to'];
                 $params['to'] = $params['replyTo'];
+                $params['replyTo'] = $to;
 
                 if (!$this->sendEmail($params)) {
                     $this->fail('The email copy could not be sent but the form has been submitted.');
@@ -133,6 +135,7 @@ class EmailAction extends Action
      */
     protected function shouldReceiveCopy()
     {
-        return $this->option('receive-copy') && $this->form->data(self::RECEIVE_COPY_KEY);
+        return $this->option('receive-copy') === true
+            && $this->form->data(self::RECEIVE_COPY_KEY);
     }
 }
