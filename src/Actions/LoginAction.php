@@ -14,18 +14,24 @@ class LoginAction extends Action
      */
     public function perform()
     {
-        $userField = $this->option('userField', 'username');
-        $passwordField = $this->option('passwordField', 'password');
+        $userField = $this->option('user-field', 'username');
+        $passwordField = $this->option('password-field', 'password');
 
-        $user = site()->user($this->form->data($userField));
+        $user = $this->getUser($this->form->data($userField));
 
         if (!$user || !$user->login($this->form->data($passwordField))) {
-            $this->fail(L::get('uniform-login-error'));
+            $this->fail(L::get('uniform-login-error'), $userField);
         }
+    }
 
-        $redirect = $this->option('redirect');
-        if ($redirect !== null) {
-            go($redirect);
-        }
+    /**
+     * Get a user based on the username
+     *
+     * @param  string $name
+     * @return User
+     */
+    protected function getUser($name)
+    {
+        return site()->user($name);
     }
 }
