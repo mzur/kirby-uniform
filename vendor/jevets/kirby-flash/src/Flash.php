@@ -99,9 +99,9 @@ class Flash
      * @param  mixed  $default value to return if flash key doesn't exist
      * @return  mixed  $value or null
      */
-    public static function get($key, $default = '')
+    public static function get($key, $default = null)
     {
-        return isset(self::$data[$key]) ? self::$data[$key] : null;
+        return isset(self::$data[$key]) ? self::$data[$key] : $default;
     }
 
     /**
