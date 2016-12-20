@@ -74,7 +74,7 @@ class Form extends BaseForm
         $this->shouldCallGuard = true;
         $this->shouldRedirect = true;
         $this->shouldFallThrough = false;
-        $this->success = true;
+        $this->success = false;
     }
 
     /**
@@ -150,7 +150,9 @@ class Form extends BaseForm
             throw new TokenMismatchException('The CSRF token was invalid.');
         }
 
-        if (!parent::validates()) {
+        if (parent::validates()) {
+            $this->success = true;
+        } else {
             $this->fail();
         }
 

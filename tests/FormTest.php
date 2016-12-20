@@ -46,6 +46,7 @@ class FormTest extends TestCase
         $_POST['csrf_token'] = csrf();
         $_POST['email'] = '';
         $this->form = new FormStub(['email' => ['rules' => ['required']]]);
+        $this->assertFalse($this->form->success());
         try {
             $this->form->validate();
             $this->assertFalse(true);
