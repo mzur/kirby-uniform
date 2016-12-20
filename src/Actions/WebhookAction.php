@@ -57,6 +57,7 @@ class WebhookAction extends Action
 
     /**
      * Perform the request
+     *
      * @param  string $url
      * @param  array $params
      * @return RemoteResponse
