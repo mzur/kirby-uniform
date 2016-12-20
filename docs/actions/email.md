@@ -6,7 +6,7 @@ If there is an `email` field in the form data, the action will use it as `replyT
 
 ## Example
 
-Controller:
+### Controller
 
 ```php
 <?php
@@ -37,7 +37,7 @@ return function ($site, $pages, $page) {
 };
 ```
 
-Template:
+### Template
 ```html+php
 <form method="POST">
     <input name="email" type="email" value="<?php echo $form->old('email') ?>">

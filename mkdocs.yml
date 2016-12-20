@@ -3,7 +3,7 @@ site_description: A versatile Kirby 2 plugin to handle web form actions.
 site_author: Martin Zurowietz
 site_url: https://github.com/mzur/kirby-uniform/
 repo_url: https://github.com/mzur/kirby-uniform/
-edit_uri: edit/master/docs/
+edit_uri: blob/master/docs/
 pages:
     - Home: index.md
     - Usage: usage.md
@@ -29,4 +29,4 @@ theme: readthedocs
 markdown_extensions:
     - toc:
         permalink: 
-    - admonition
+    - admonition:

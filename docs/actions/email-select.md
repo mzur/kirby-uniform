@@ -4,7 +4,8 @@ This action can choose the `to` email address for the email action based on the 
 
 ## Example
 
-Controller:
+### Controller
+
 ```php
 <?php
 
@@ -42,7 +43,7 @@ return function ($site, $pages, $page) {
 };
 ```
 
-Template:
+### Template
 ```html+php
 <form method="POST">
     <input name="email" type="email" value="<?php echo $form->old('email') ?>">
