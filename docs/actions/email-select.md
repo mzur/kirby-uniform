@@ -1,6 +1,6 @@
 # Email Select Action
 
-This action can choose the `to` email address for the email action based on the form data. This can be used in forms where the user can choose to send the form to different departments for example. For this action the form needs a `recipient` field (e.g. select or radio) that has a key of the [allowed-recipients](#allowed-recipients-required) array as value.
+This action can choose the `to` email address for the email action based on the form data. This can be used with forms where the user can choose to send the form to different departments for example. For this action the form needs a `recipient` field (e.g. select or radio) that has a key of the [allowed-recipients](#allowed-recipients-required) array as value.
 
 ## Example
 

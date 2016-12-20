@@ -13,12 +13,8 @@ The required form field and the arithmetic problem can be added to a form with t
 </form>
 ```
 
-<div class="adminition warning">
-    <p class="first admonition-title">Note</p>
-    <p class="last">
-        Whenever <code>uniform_captcha</code> is called a new arithmetic problem will be generated so you should call it only once for each page!
-    </p>
-</div>
+!!! warning "Note"
+    Whenever `uniform_captcha` is called a new arithmetic problem will be generated so you should call it only once for each page!
 
 By default the captcha field will use `captcha` as name and `uniform__captcha` as CSS class. You can configure another field name or CSS class like this:
 

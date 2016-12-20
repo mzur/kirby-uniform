@@ -52,12 +52,8 @@ c::set('uniform.language', 'de');
 
 See [here](https://github.com/mzur/kirby-uniform/tree/master/languages) for all supported languages.
 
-<div class="adminition warning">
-    <p class="first admonition-title">Note</p>
-    <p class="last">
-        <a href="https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages">Disable the Kirby cache</a> for pages where you use Uniform to make sure the form is generated dynamically.
-    </p>
-</div>
+!!! warning "Note"
+    [Disable the Kirby cache](https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use Uniform to make sure the form is generated dynamically.
 
 ## Questions
 

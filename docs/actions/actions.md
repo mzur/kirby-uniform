@@ -71,7 +71,7 @@ As you can see we also place the action in the `Uniform\Actions` namespace. You 
 
 Each action must implement a `perform` method. In the method you do something with the form data. In case anything fails you can call the `fail` method. If an action fails the form will immediately redirect the request and display the form with an error message. The `fail` method takes two optional arguments:
 
-- `$message`: An error message to display to the user. Default is "{action class} failed".
+- `$message`: An error message to display to the user. Default is "{action class} failed.".
 - `$key`: A key to store the error message to. This can be a form field name if the error message should be displayed for a specific field only. Default is the class name of the action.
 
 An action class has access to the following properties:

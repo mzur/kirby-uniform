@@ -1,6 +1,6 @@
 # Methods
 
-These are only the most important methods of `Uniform\Form`. For all methods check the source. Be sure to check out `Jevets\Kirby\Form`, too, which is the base class of `Uniform\Form`.
+These are only the most important methods of `Uniform\Form`. For all methods check the [source](https://github.com/mzur/kirby-uniform/blob/master/src/Form.php). Be sure to [check out](https://github.com/jevets/kirby-form) `Jevets\Kirby\Form`, too, which is the base class of `Uniform\Form`.
 
 ## old($key)
 
@@ -16,7 +16,7 @@ Return: `mixed`
 
 Get a single error by key
 
-If no key is provided, the first error will be returned.
+If no key is provided, the first error will be returned. This method returns an array because there may be multiple error messages for a single field.
 
 Return: `array`
 
@@ -31,23 +31,23 @@ Return: `array`
 
 Get or set form data
 
-If a second argument is provided, the data for the key will be returned. Otherwise, all data will be returned.
+If no argument is provided, all data will be returned. If one argument is provided, the data for the key will be returned. If two arguments are provided, the data for the key will be set.
 
 Return: `mixed|array`
 
 ## forget($name)
 
-Forget a from field.
+Remove a form field from the form data.
 
 ## validate()
 
-Validate the form data.
+Validate the form data. This includes the CSRF token and form field validation.
 
 Return: `Form`
 
 ## guard($guard = HoneypotGuard::class, $options = [])
 
-Call a guard. Implicitly calls `validate()` if it wasn't called yet.
+Call a guard. Implicitly calls `validate()` if it wasn't called yet. The first argument can be a guard class name or a guard instance.
 
 Return: `Form`
 
@@ -80,7 +80,7 @@ if (r::is('POST')) {
 
 ## action($action, $options = [])
 
-Execute an action. Implicitly calls `guard()` if it wasn't called yet.
+Execute an action. Implicitly calls `guard()` if it wasn't called yet. The first argument can be an action class name or an action instance.
 
 Return: `Form`
 

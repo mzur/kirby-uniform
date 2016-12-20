@@ -32,8 +32,8 @@ return function ($site, $pages, $page) {
 
    if (r::is('POST')) {
       $form->emailAction([
-         'to' => $page->email(),
-         'from' => $site->email(),
+         'to' => 'me@example.com',
+         'from' => 'info@example.com',
       ]);
    }
 
