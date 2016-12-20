@@ -83,6 +83,7 @@ class FormTest extends TestCase
         $return = $this->form->guard($guard);
         $this->assertTrue($guard->performed);
         $this->assertEquals($this->form, $return);
+        $this->assertTrue($this->form->success());
     }
 
     public function testGuardReject()
@@ -119,6 +120,12 @@ class FormTest extends TestCase
         $this->form->action(Action::class);
     }
 
+    public function testActionValidatesWithoutGuards()
+    {
+        $this->setExpectedException(TokenMismatchException::class);
+        $this->form->withoutGuards()->action(Action::class);
+    }
+
     public function testActionCallsGuard()
     {
         $_POST['csrf_token'] = csrf();
@@ -139,6 +146,7 @@ class FormTest extends TestCase
         $return = $this->form->withoutGuards()->action($action);
         $this->assertTrue($action->performed);
         $this->assertEquals($this->form, $return);
+        $this->assertTrue($this->form->success());
     }
 
     public function testActionFail()
@@ -168,13 +176,55 @@ class FormTest extends TestCase
         $this->assertEquals('\Uniform\Actions\EmailAction', $this->form->action);
         $this->assertEquals($options, $this->form->options);
     }
+
+    public function testWithoutRedirectValidation()
+    {
+        $_POST['csrf_token'] = csrf();
+        $_POST['email'] = '';
+        $this->form = new FormStub(['email' => ['rules' => ['required']]]);
+        $this->form->withoutRedirect()->validate();
+        $this->assertFalse($this->form->success());
+    }
+
+    public function testWithoutRedirectGuard()
+    {
+        $_POST['csrf_token'] = csrf();
+        $this->form = new FormStub;
+        $action = new ActionStub($this->form);
+        $this->form->withoutRedirect()
+            ->guard(GuardStub2::class)
+            ->action($action);
+
+        $this->assertFalse($this->form->success());
+        $this->assertFalse($action->performed);
+    }
+
+    public function testWithoutRedirectAction()
+    {
+        $_POST['csrf_token'] = csrf();
+        $this->form = new FormStub;
+        $action = new ActionStub($this->form);
+        $this->form->withoutRedirect()
+            ->withoutGuards()
+            ->action(ActionStub2::class)
+            ->action($action);
+
+        $this->assertFalse($this->form->success());
+        $this->assertFalse($action->performed);
+    }
 }
 
 class FormStub extends Form
 {
-    protected function redirect()
+    protected function fail()
     {
-        throw new Exception('Redirected');
+        $this->success = false;
+
+        if ($this->shouldRedirect) {
+            throw new Exception('Redirected');
+        } else {
+            parent::fail();
+        }
     }
 }
 

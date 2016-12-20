@@ -35,7 +35,7 @@ If no argument is provided, all data will be returned. If one argument is provid
 
 Return: `mixed|array`
 
-## forget($name)
+## forget($key)
 
 Remove a form field from the form data.
 
@@ -80,7 +80,7 @@ if (r::is('POST')) {
 
 ## action($action, $options = [])
 
-Execute an action. Implicitly calls `guard()` if it wasn't called yet. The first argument can be an action class name or an action instance.
+Execute an action. Implicitly calls `validate()` and `guard()` if any of them weren't called yet. The first argument can be an action class name or an action instance.
 
 Return: `Form`
 
@@ -108,6 +108,25 @@ if (r::is('POST')) {
 }
 ```
 
+## success()
+
+Check if the form was executed successfully.
+
+Return: `boolean`
+
+```php
+use Uniform\Form;
+
+$form = new Form;
+if (r::is('POST')) {
+    $form->emailAction([/* action options */]);
+
+    if ($form->success()) {
+        // redirect to success page
+    }
+}
+```
+
 ## withoutGuards()
 
 Don't run the default guard.
@@ -126,21 +145,24 @@ if (r::is('POST')) {
 }
 ```
 
-## success()
+## withoutRedirect()
 
-Check if the form was executed successfully.
+Don't redirect on error.
 
-Return: `boolean`
+Return: `Form`
+
+Typically the form immediately redirects back if an error occurred. In some cases (like an [AJAX form](examples/ajax)) this should not happen. If this method is called and an error occurs the form just skips all subsequent guards or actions and returns.
 
 ```php
 use Uniform\Form;
 
 $form = new Form;
 if (r::is('POST')) {
-    $form->emailAction([/* action options */]);
+    $form->withoutRedirect()
+        ->emailAction([/* action options */]);
 
-    if ($form->success()) {
-        // redirect to success page
+    if (!$form->success()) {
+        // prepare an error response
     }
 }
 ```

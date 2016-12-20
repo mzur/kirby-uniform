@@ -23,21 +23,39 @@ class Form extends BaseForm
     const CSRF_FIELD = 'csrf_token';
 
     /**
-     * Should the validation still be done?
+     * Indicates whether the validation should still be done
      *
      * @var boolean
      */
     protected $shouldValidate;
 
     /**
-     * Should any guards still be executed?
+     * Indicates whether any guards should still be executed
      *
      * @var boolean
      */
     protected $shouldCallGuard;
 
     /**
-     * Was the form executed successfully?
+     * Indicates whether the form should redirect on error
+     *
+     * @var boolean
+     */
+    protected $shouldRedirect;
+
+    /**
+     * Indicates whether guards or actions should be silently passed over
+     *
+     * This happens if the form should not redirect. If a guard rejects the request or an
+     * action fails, the subsequent guards or actions should be silently passed over
+     * and the form returns with `$success = false`.
+     *
+     * @var boolean
+     */
+    protected $shouldFallThrough;
+
+    /**
+     * Indicates if the form was executed successfully
      *
      * @var boolean
      */
@@ -54,7 +72,9 @@ class Form extends BaseForm
         parent::__construct($rules);
         $this->shouldValidate = true;
         $this->shouldCallGuard = true;
-        $this->success = false;
+        $this->shouldRedirect = true;
+        $this->shouldFallThrough = false;
+        $this->success = true;
     }
 
     /**
@@ -96,6 +116,18 @@ class Form extends BaseForm
     }
 
     /**
+     * Don't perform a redirect if the validation, a guard or an action failed.
+     *
+     * @return  Form
+     */
+    public function withoutRedirect()
+    {
+        $this->shouldRedirect = false;
+
+        return $this;
+    }
+
+    /**
      * Check if the form was executed successfully.
      *
      * @return boolean
@@ -119,10 +151,8 @@ class Form extends BaseForm
         }
 
         if (!parent::validates()) {
-            $this->redirect();
+            $this->fail();
         }
-
-        $this->success = true;
 
         return $this;
     }
@@ -137,6 +167,7 @@ class Form extends BaseForm
     {
         if ($this->shouldValidate) $this->validate();
         $this->shouldCallGuard = false;
+        if ($this->shouldFallThrough) return $this;
 
         if (is_string($guard) && !class_exists($guard)) {
             throw new Exception("{$guard} does not exist.");
@@ -166,6 +197,7 @@ class Form extends BaseForm
     {
         if ($this->shouldValidate) $this->validate();
         if ($this->shouldCallGuard) $this->guard();
+        if ($this->shouldFallThrough) return $this;
 
         if (is_string($action) && !class_exists($action)) {
             throw new Exception("{$action} does not exist.");
@@ -187,11 +219,11 @@ class Form extends BaseForm
     /**
      * Forget a form field
      *
-     * @param  string $name Form field name
+     * @param  string $key Form field name
      */
-    public function forget($name)
+    public function forget($key)
     {
-        unset($this->data[$name]);
+        unset($this->data[$key]);
     }
 
     /**
@@ -228,9 +260,15 @@ class Form extends BaseForm
     /**
      * Redirect back to the page of the form
      */
-    protected function redirect()
+    protected function fail()
     {
-        Redirect::back();
+        $this->success = false;
+
+        if ($this->shouldRedirect) {
+            Redirect::back();
+        } else {
+            $this->shouldFallThrough = true;
+        }
     }
 
     /**
@@ -245,7 +283,7 @@ class Form extends BaseForm
         } catch (PerformerException $e) {
             $this->addError($e->getKey(), $e->getMessage());
             $this->saveData();
-            $this->redirect();
+            $this->fail();
         }
     }
 }
