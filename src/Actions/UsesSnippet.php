@@ -2,6 +2,8 @@
 
 namespace Uniform\Actions;
 
+use Uniform\Exceptions\Exception;
+
 trait UsesSnippet
 {
     /**
@@ -13,6 +15,12 @@ trait UsesSnippet
      */
     protected function getSnippet($name, array $data)
     {
-        return snippet($name, $data, true);
+        $snippet = snippet($name, $data, true);
+
+        if ($snippet === false) {
+            throw new Exception("The snippet '{$name}' does not exist.");
+        }
+
+        return $snippet;
     }
 }
