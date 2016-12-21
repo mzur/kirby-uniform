@@ -87,7 +87,6 @@ Add this to your CSS:
 ```css
 .uniform__potty {
     position: absolute;
-    top: -9999px;
     left: -9999px;
 }
 ```
