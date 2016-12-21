@@ -78,32 +78,6 @@ class Form extends BaseForm
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * Other than addErrors of Jevets\Kirby\Form this will add an array with error
-     * messages for each field because guards or actions can produce multiple error
-     * messages with the same key.
-     *
-     * @param  array  $data
-     */
-    public function addErrors($data)
-    {
-        $errors = $this->errors();
-
-        foreach ($data as $key => $value) {
-            $errors[$key] = isset($errors[$key]) ? $errors[$key] : [];
-
-            if (is_array($value)) {
-                $errors[$key] = array_merge($errors[$key], $value);
-            } else {
-                $errors[$key][] = $value;
-            }
-        }
-
-        $this->flash->set(BaseForm::FLASH_KEY_ERRORS, $errors);
-    }
-
-    /**
      * Don't run the default guard.
      *
      * @return  Form

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Jevets\Kirby;
 
@@ -195,7 +195,12 @@ class Form implements FormInterface
     /**
      * Add errors
      *
-     * @param  array  $data
+     * Each error will be an array of error messages.
+     *
+     * @param  array  $data  Each item can be either a single error message that will be
+     *                       appended to the errors array of the key or it can be an
+     *                       array of error messages that will be merged with the errors
+     *                       array of the key.
      * @return void
      */
     public function addErrors($data)
@@ -203,7 +208,15 @@ class Form implements FormInterface
         $errors = $this->errors();
 
         foreach ($data as $key => $value) {
-            $errors[$key] = $value;
+            if (!isset($errors[$key])) {
+                $errors[$key] = [];
+            }
+
+            if (is_array($value)) {
+                $errors[$key] = array_merge($errors[$key], $value);
+            } else {
+                $errors[$key][] = $value;
+            }
         }
 
         $this->flash->set(self::FLASH_KEY_ERRORS, $errors);
@@ -224,18 +237,19 @@ class Form implements FormInterface
      *
      * If no key is provided, the first error will be returned.
      *
-     * @param  string  optional  $key
+     * @param  string  $key  optional
+     *
+     * @return  array
      */
     public function error($key = '')
     {
         $errors = $this->errors();
 
-        if ($key && isset($errors[$key]))
-            return $errors[$key];
+        if ($key) {
+            return isset($errors[$key]) ? $errors[$key] : [];
+        }
 
-        if (count($errors))
-            return $errors[0];
-
-        return [];
+        // Return first array element or an empty array if there is no first element.
+        return reset($errors) ?: [];
     }
 }

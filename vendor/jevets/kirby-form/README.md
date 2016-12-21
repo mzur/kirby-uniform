@@ -67,8 +67,8 @@ This example assumes you're using [page controllers in Kirby](http://getkirby.co
 
 <?php if (count($form->errors()) > 0): ?>
     <div class="alert alert-error">
-        <?php foreach ($form->errors() as $key => $error): ?>
-            <div><?= $error ?></div>
+        <?php foreach ($form->errors() as $key => $errors): ?>
+            <div><?= implode('<br>', $errors) ?></div>
         <?php endforeach ?>
     </div>
 <?php endif ?>
