@@ -8,10 +8,14 @@ if (!function_exists('csrf_field')) {
     /**
      * Generate a CSRF token form field.
      *
+     * @param string $token The CSRF token. If empty a new one will be generated.
+     *
+     * @return string
      */
-    function csrf_field()
+    function csrf_field($token = null)
     {
-        return '<input type="hidden" name="'.Form::CSRF_FIELD.'" value="'.csrf().'">';
+        $token = $token ?: csrf();
+        return '<input type="hidden" name="'.Form::CSRF_FIELD.'" value="'.$token.'">';
     }
 }
 
@@ -19,6 +23,10 @@ if (!function_exists('honeypot_field')) {
     /**
      * Generate a honeypot form field.
      *
+     * @param string $name Name of the honeypot field
+     * @param string $class CSS class of the honeypot field
+     *
+     * @return string
      */
     function honeypot_field($name = null, $class = null)
     {
@@ -47,6 +55,10 @@ if (!function_exists('captcha_field')) {
     /**
      * Generate a calc guard form field.
      *
+     * @param string $name Form field name
+     * @param string $class Form field CSS class
+     *
+     * @return string
      */
     function captcha_field($name = null, $class = null)
     {
