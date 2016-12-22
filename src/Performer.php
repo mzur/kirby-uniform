@@ -4,7 +4,7 @@ namespace Uniform;
 
 use Exception;
 
-class Performer
+class Performer implements PerformerInterface
 {
     /**
      * Form instance
@@ -33,7 +33,7 @@ class Performer
     }
 
     /**
-     * {@inheritDoc}
+     * Execute the performer.
      */
     public function perform()
     {
