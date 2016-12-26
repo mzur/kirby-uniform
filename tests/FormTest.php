@@ -3,6 +3,7 @@
 namespace Uniform\Tests;
 
 use Uniform\Form;
+use Jevets\Kirby\Flash;
 use Uniform\Guards\Guard;
 use Uniform\Actions\Action;
 use Uniform\Exceptions\Exception;
@@ -212,6 +213,17 @@ class FormTest extends TestCase
 
         $this->assertFalse($this->form->success());
         $this->assertFalse($action->performed);
+    }
+
+    public function testWithoutFlashing()
+    {
+        $this->form->addField('email');
+        $this->form->data('email', 'joe@user.com');
+        $this->form->withoutFlashing();
+        $this->form->saveData();
+        $this->form->addError('email', 'error message');
+        $this->assertEmpty(Flash::get(Form::FLASH_KEY_DATA));
+        $this->assertEmpty(Flash::get(Form::FLASH_KEY_ERRORS));
     }
 }
 

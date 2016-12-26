@@ -44,6 +44,13 @@ class Form extends BaseForm
     protected $shouldRedirect;
 
     /**
+     * Indicates whether the form should flash data or errors to the session
+     *
+     * @var boolean
+     */
+    protected $shouldFlash;
+
+    /**
      * Indicates whether guards or actions should be silently passed over
      *
      * This happens if the form should not redirect. If a guard rejects the request or an
@@ -73,6 +80,7 @@ class Form extends BaseForm
         $this->shouldValidate = true;
         $this->shouldCallGuard = true;
         $this->shouldRedirect = true;
+        $this->shouldFlash = true;
         $this->shouldFallThrough = false;
         $this->success = false;
     }
@@ -102,6 +110,18 @@ class Form extends BaseForm
     }
 
     /**
+     * Don't flash data or errors to the session
+     *
+     * @return  Form
+     */
+    public function withoutFlashing()
+    {
+        $this->shouldFlash = false;
+
+        return $this;
+    }
+
+    /**
      * Check if the form was executed successfully.
      *
      * @return boolean
@@ -109,6 +129,16 @@ class Form extends BaseForm
     public function success()
     {
         return $this->success;
+    }
+
+    /**
+     * Save the form data to the session
+     */
+    public function saveData()
+    {
+        if ($this->shouldFlash) {
+            parent::saveData();
+        }
     }
 
     /**
@@ -260,6 +290,16 @@ class Form extends BaseForm
             $this->addError($e->getKey(), $e->getMessage());
             $this->saveData();
             $this->fail();
+        }
+    }
+
+    /**
+     * Save the errors to the session
+     */
+    protected function saveErrors()
+    {
+        if ($this->shouldFlash) {
+            parent::saveErrors();
         }
     }
 }

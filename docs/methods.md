@@ -166,3 +166,25 @@ if (r::is('POST')) {
     }
 }
 ```
+
+## withoutFlashing()
+
+Don't flash data or errors to the session.
+
+Return: `Form`
+
+Old form data and errors are usually flashed to the session so they can be displayed if a form wasn't submitted successfully. In some cases (like an [AJAX form](examples/ajax)) this should not happen.
+
+```php
+use Uniform\Form;
+
+$form = new Form;
+if (r::is('POST')) {
+    $form->withoutFlashing()
+        ->emailAction([/* action options */]);
+
+    if (!$form->success()) {
+        // prepare an error response
+    }
+}
+```

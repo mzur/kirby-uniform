@@ -2,12 +2,9 @@
 
 This example shows how to submit a form and handle validation via AJAX. It uses a [route](https://getkirby.com/docs/developer-guide/advanced/routing) as endpoint for the form submission. The action of the route is similar to the page controller code you have seen in the other examples. This form is equivalent to the [basic example](basic).
 
-!!! warning "Note"
-    The AJAX functionality is still a work in progress! The error messages of previously performed validations are not yet deleted.
-
 ## Route
 
-The route listens for `POST` requests on `/contact`.
+The route listens for `POST` requests on `/contact`. Note the use of [`withoutFlashing`](/methods/#withoutflashing) and [`withoutRedirect`](/methods/#withoutredirect) because we don't need the default behaviour here.
 
 ```php
 [
@@ -27,7 +24,9 @@ The route listens for `POST` requests on `/contact`.
         ]);
 
         // Perform validation and execute guards.
-        $form->withoutRedirect()->guard();
+        $form->withoutFlashing()
+            ->withoutRedirect()
+            ->guard();
 
         if (!$form->success()) {
             // Return validation errors.
