@@ -82,12 +82,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/jevets/kirby-form.git",
-            "reference": "4fd88192cbdb875bf4c132597ddcca01874e0eba"
+            "reference": "42a4895951c55748c5a7f700504c6f7dde0ff4aa"
         },
         "require": {
             "jevets/kirby-flash": "dev-master"
         },
-        "time": "2016-12-21 17:42:55",
+        "time": "2016-12-22 14:12:14",
         "type": "library",
         "installation-source": "source",
         "autoload": {

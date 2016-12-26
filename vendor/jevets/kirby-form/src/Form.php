@@ -85,7 +85,7 @@ class Form implements FormInterface
         }
 
         // Get any errors from the Flash
-        $this->errors = $this->errors();
+        $this->errors = $this->flash->get(self::FLASH_KEY_ERRORS, []);
     }
 
     /**
@@ -205,21 +205,19 @@ class Form implements FormInterface
      */
     public function addErrors($data)
     {
-        $errors = $this->errors();
-
         foreach ($data as $key => $value) {
-            if (!isset($errors[$key])) {
-                $errors[$key] = [];
+            if (!isset($this->errors[$key])) {
+                $this->errors[$key] = [];
             }
 
             if (is_array($value)) {
-                $errors[$key] = array_merge($errors[$key], $value);
+                $this->errors[$key] = array_merge($this->errors[$key], $value);
             } else {
-                $errors[$key][] = $value;
+                $this->errors[$key][] = $value;
             }
         }
 
-        $this->flash->set(self::FLASH_KEY_ERRORS, $errors);
+        $this->saveErrors();
     }
 
     /**
@@ -229,7 +227,7 @@ class Form implements FormInterface
      */
     public function errors()
     {
-        return $this->flash->get(self::FLASH_KEY_ERRORS, []);
+        return $this->errors;
     }
 
     /**
@@ -251,5 +249,13 @@ class Form implements FormInterface
 
         // Return first array element or an empty array if there is no first element.
         return reset($errors) ?: [];
+    }
+
+    /**
+     * Save the errors to the session
+     */
+    protected function saveErrors()
+    {
+        $this->flash->set(self::FLASH_KEY_ERRORS, $this->errors);
     }
 }
