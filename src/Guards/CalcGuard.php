@@ -35,7 +35,7 @@ class CalcGuard extends Guard
         $field = $this->option('field', self::FIELD_NAME);
         $result = S::get(self::FLASH_KEY, null);
         if ($result === null || R::postData($field) != $result) {
-            $this->reject(L::get('uniform-fields-not-valid'), $field);
+            $this->reject(L::get('uniform-calc-incorrect'), $field);
         }
         $this->form->forget($field);
     }

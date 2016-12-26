@@ -2,6 +2,8 @@
 
 l::set('uniform-filled-potty', 'Er is een veld ingevuld wat leeg moet blijven. Mocht u geen Spam-Bot zijn, probeer het opnieuw zonder dat veld in te vullen.');
 
+l::set('uniform-calc-incorrect', 'Please solve the arithmetic problem.');
+
 l::set('uniform-email-subject', 'Bericht van het webformulier');
 l::set('uniform-email-error', 'Er is een fout bij het verzenden van het formulier opgetreden:');
 l::set('uniform-email-copy', 'Kopie:');

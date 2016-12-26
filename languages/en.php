@@ -2,6 +2,8 @@
 
 l::set('uniform-filled-potty', 'The form field that is supposed to be empty was filled. In case you are not a spam-bot, please try again leaving the field blank.');
 
+l::set('uniform-calc-incorrect', 'Please solve the arithmetic problem.');
+
 l::set('uniform-email-subject', 'Message from the web form');
 l::set('uniform-email-error', 'There was an error sending the form:');
 l::set('uniform-email-copy', 'Copy:');

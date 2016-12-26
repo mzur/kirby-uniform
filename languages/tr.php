@@ -2,6 +2,8 @@
 
 l::set('uniform-filled-potty', 'Bos kalmasi gereken for alani doldurulmus. Spam-bot degilseniz lutfen bu formu bos birakip tekrar deneyin.');
 
+l::set('uniform-calc-incorrect', 'Please solve the arithmetic problem.');
+
 l::set('uniform-email-subject', 'Web-form\'dan gelen mesaj');
 l::set('uniform-email-error', 'Form gonderilirken bir hata olustu:');
 l::set('uniform-email-copy', 'Kopyala:');

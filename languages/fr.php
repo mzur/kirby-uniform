@@ -2,6 +2,8 @@
 
 l::set('uniform-filled-potty', 'Le champ du formulaire supposé être vide a été renseigné. Dans le cas où vous ne seriez pas un robot spammeur, merci de ré-essayer en laissant ce champ vide.');
 
+l::set('uniform-calc-incorrect', 'Please solve the arithmetic problem.');
+
 l::set('uniform-email-subject', 'Message de la part du site internet');
 l::set('uniform-email-error', 'Une erreur s’est produite lors de l’envoi du formulaire :');
 l::set('uniform-email-copy', 'Copie :');
