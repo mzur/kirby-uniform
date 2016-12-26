@@ -64,7 +64,9 @@ The subject of the email. By default the `uniform-email-subject` language variab
 ```php
 'subject' => 'New request from {email}',
 ```
-Subject templates do not work with [array form fields](http://stackoverflow.com/a/1978788/1796523).
+
+!!! warning "Note"
+    Subject templates do not work with [array form fields](http://stackoverflow.com/a/1978788/1796523).
 
 ### snippet
 
