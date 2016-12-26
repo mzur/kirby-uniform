@@ -62,7 +62,33 @@ Template:
 
 ## Installation
 
+### Kirby CLI
+
+Get the [Kirby CLI](https://github.com/getkirby/cli) and run `kirby plugin:install mzur/kirby-uniform`.
+
+### Traditional
+
+[Download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
+
 ### Composer
+
+Initialize the `composer.json` with:
+
+```
+{
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-form.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/jevets/kirby-flash.git"
+        }
+    ]
+}
+```
 
 Run `composer require mzur/kirby-uniform`. Then add the second `require` to the `index.php` like this:
 
@@ -73,14 +99,6 @@ require 'vendor'.DS.'autoload.php';
 ```
 
 Be sure to include the new `vendor` directory in your deployment.
-
-### Kirby CLI
-
-Get the [Kirby CLI](https://github.com/getkirby/cli) and run `kirby plugin:install mzur/kirby-uniform`.
-
-### Traditional
-
-[Download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
 
 ## Setup
 
