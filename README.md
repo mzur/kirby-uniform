@@ -4,6 +4,8 @@ A versatile [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
 [![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](http://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg?branch=v3)](https://travis-ci.org/mzur/kirby-uniform)
 
+This is Uniform v3.0-beta. For Uniform v2.3 head over to the [v2 branch](https://github.com/mzur/kirby-uniform/tree/v2).
+
 Builtin actions:
 
 - [Email](http://kirby-uniform.readthedocs.io/en/latest/actions/email/): Send the form data by email.
