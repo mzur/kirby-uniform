@@ -16,7 +16,7 @@ use Uniform\Form;
 return function ($site, $pages, $page) {
 
     $form = new Form([
-        'email_address' => [
+        'email' => [
             'rules' => ['required', 'email'],
             'message' => 'Please enter a valid email address',
         ],
@@ -38,7 +38,7 @@ return function ($site, $pages, $page) {
 
 ```html+php
 <form method="POST">
-    <input name="email_address" type="email" value="<?php echo $form->old('email_address') ?>">
+    <input name="email" type="email" value="<?php echo $form->old('email') ?>">
     <?php echo honeypot_field() ?>
     <?php echo csrf_field() ?>
     <input type="submit" value="Subscribe">
@@ -49,7 +49,7 @@ return function ($site, $pages, $page) {
 
 ```html+php
 <?php if (s::get('user-form')): ?>
-    Thank you <?php echo s::get('user-form')->data('email_address'); ?> for subscribing.
+    Thank you <?php echo s::get('user-form')->data('email'); ?> for subscribing.
 <?php endif; ?>
 ```
 

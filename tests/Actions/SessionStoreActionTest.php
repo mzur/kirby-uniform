@@ -3,9 +3,9 @@
 namespace Uniform\Tests\Actions;
 
 use S;
-use Uniform\Actions\SessionStoreAction;
 use Uniform\Form;
 use Uniform\Tests\TestCase;
+use Uniform\Actions\SessionStoreAction;
 
 class SessionStoreActionTest extends TestCase
 {
@@ -19,7 +19,7 @@ class SessionStoreActionTest extends TestCase
     public function testPerform()
     {
         $this->form->data('message', 'my message');
-        $action = new SessionStoreAction($this->form, []);
+        $action = new SessionStoreAction($this->form);
 
         $this->assertEmpty(S::get('session-store'));
 

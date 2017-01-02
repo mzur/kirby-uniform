@@ -20,6 +20,7 @@ pages:
         - Log: actions/log.md
         - Login: actions/login.md
         - Webhook: actions/webhook.md
+        - 'Session Store': actions/session-store.md
     - Examples:
         - Basic: examples/basic.md
         - Extended: examples/extended.md

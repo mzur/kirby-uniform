@@ -10,9 +10,6 @@ use S;
  */
 class SessionStoreAction extends Action
 {
-    /**
-     * Log in a user.
-     */
     public function perform()
     {
         // get the name of the session variable
