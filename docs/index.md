@@ -67,6 +67,15 @@ If you have a single language site you can choose the language Uniform should us
 c::set('uniform.language', 'de');
 ```
 
+If you have a multi language site add the `uniform_language` helper to each of your language files like this:
+
+```php
+<?php // site/languages/de.php
+
+uniform_language('de');
+// ...
+```
+
 See [here](https://github.com/mzur/kirby-uniform/tree/master/languages) for all supported languages.
 
 !!! warning "Note"
