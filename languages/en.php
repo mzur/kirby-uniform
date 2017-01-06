@@ -1,19 +1,21 @@
 <?php
 
-l::set('uniform-filled-potty', 'The form field that is supposed to be empty was filled. In case you are not a spam-bot, please try again leaving the field blank.');
+l::set([
+    'uniform-filled-potty' => 'The form field that is supposed to be empty was filled. In case you are not a spam-bot, please try again leaving the field blank.',
 
-l::set('uniform-calc-incorrect', 'Please solve the arithmetic problem.');
+    'uniform-calc-incorrect' => 'Please solve the arithmetic problem.',
 
-l::set('uniform-email-subject', 'Message from the web form');
-l::set('uniform-email-error', 'There was an error sending the form:');
-l::set('uniform-email-copy', 'Copy:');
+    'uniform-email-subject' => 'Message from the web form',
+    'uniform-email-error' => 'There was an error sending the form:',
+    'uniform-email-copy' => 'Copy:',
 
-l::set('uniform-calc-plus', 'plus');
+    'uniform-calc-plus' => 'plus',
 
-l::set('uniform-log-error', 'There was an error while writing to the logfile.');
+    'uniform-log-error' => 'There was an error while writing to the logfile.',
 
-l::set('uniform-login-error', 'Wrong username or password.');
+    'uniform-login-error' => 'Wrong username or password.',
 
-l::set('uniform-webhook-error', 'There was an error calling the webhook: ');
+    'uniform-webhook-error' => 'There was an error calling the webhook: ',
 
-l::set('uniform-email-select-error', 'Invalid recipient.');
+    'uniform-email-select-error' => 'Invalid recipient.',
+]);
