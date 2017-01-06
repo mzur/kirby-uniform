@@ -68,7 +68,7 @@ If you have a single language site you can choose the language Uniform should us
 c::set('uniform.language', 'de');
 ```
 
-If you have a multi language site add the `uniform_language` helper to each of your language files like this:
+If you have a multi-language site add the `uniform_language` helper to each of your language files like this:
 
 ```php
 <?php // site/languages/de.php
