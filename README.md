@@ -13,6 +13,7 @@ Builtin actions:
 - [Log](http://kirby-uniform.readthedocs.io/en/latest/actions/log/): Log the form data to a file.
 - [Login](http://kirby-uniform.readthedocs.io/en/latest/actions/login/): Log in to the Kirby frontend.
 - [Webhook](http://kirby-uniform.readthedocs.io/en/latest/actions/webhook/): Send the form data as an HTTP request to a webhook.
+- [SessionStore](http://kirby-uniform.readthedocs.io/en/latest/actions/session-store): Store the form in the user's session.
 
 ## Quick example
 
