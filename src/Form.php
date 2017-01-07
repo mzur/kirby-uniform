@@ -5,6 +5,7 @@ namespace Uniform;
 use R;
 use Str;
 use Redirect;
+use C as Config;
 use ErrorException;
 use Uniform\Guards\Guard;
 use Uniform\Actions\Action;
@@ -96,7 +97,7 @@ class Form extends BaseForm
             $site = kirby()->site();
             $code = $site->multilang()
                 ? $site->language()->code()
-                : c::get('uniform.language', 'en');
+                : Config::get('uniform.language', 'en');
 
             try {
                 include_once __DIR__.DS.'..'.DS.'languages'.DS.$code.'.php';
