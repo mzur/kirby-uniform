@@ -3,25 +3,6 @@
 use Uniform\Form;
 use Uniform\Guards\CalcGuard;
 use Uniform\Guards\HoneypotGuard;
-use Uniform\Exceptions\Exception;
-
-if (!function_exists('uniform_language')) {
-    /**
-     * Loads a Uniform language file.
-     *
-     * @param string $code Language code
-     */
-    function uniform_language($code)
-    {
-        $path = __DIR__.DS.'..'.DS.'languages'.DS.$code.'.php';
-
-        try {
-            include_once $path;
-        } catch (ErrorException $e) {
-            throw new Exception("Uniform does not have a translation for the language '$code'.");
-        }
-    }
-}
 
 if (!function_exists('csrf_field')) {
     /**

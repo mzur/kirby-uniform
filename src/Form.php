@@ -5,6 +5,7 @@ namespace Uniform;
 use R;
 use Str;
 use Redirect;
+use ErrorException;
 use Uniform\Guards\Guard;
 use Uniform\Actions\Action;
 use Uniform\Guards\HoneypotGuard;
@@ -77,12 +78,32 @@ class Form extends BaseForm
     function __construct($rules = [])
     {
         parent::__construct($rules);
+        static::loadTranslation();
         $this->shouldValidate = true;
         $this->shouldCallGuard = true;
         $this->shouldRedirect = true;
         $this->shouldFlash = true;
         $this->shouldFallThrough = false;
         $this->success = false;
+    }
+
+    /**
+     * Load the translation file for the current language
+     */
+    public static function loadTranslation()
+    {
+        if (defined('KIRBY')) {
+            $site = kirby()->site();
+            $code = $site->multilang()
+                ? $site->language()->code()
+                : c::get('uniform.language', 'en');
+
+            try {
+                include_once __DIR__.DS.'..'.DS.'languages'.DS.$code.'.php';
+            } catch (ErrorException $e) {
+                throw new Exception("Uniform does not have a translation for the language '$code'.");
+            }
+        }
     }
 
     /**

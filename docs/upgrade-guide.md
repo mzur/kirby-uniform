@@ -133,17 +133,6 @@ v3:
 <?php endif; ?>
 ```
 
-## Setup
-
-For multi-language sites you now have to add the `uniform_language` helper to each of your language files like this:
-
-```php
-<?php // site/languages/de.php
-
-uniform_language('de');
-// ...
-```
-
 ## Options
 
 ### guard
