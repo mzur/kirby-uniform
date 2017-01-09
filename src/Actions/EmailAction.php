@@ -20,7 +20,7 @@ class EmailAction extends Action
      *
      * @var string
      */
-    const FROM_KEY = 'email';
+    const EMAIL_KEY = 'email';
 
     /**
      * Name of the form field for the receie copy checkbox.
@@ -39,7 +39,7 @@ class EmailAction extends Action
             'options' => $this->option('service-options', []),
             'to' => $this->requireOption('to'),
             'from' => $this->requireOption('from'),
-            'replyTo' => $this->option('replyTo', $this->form->data(self::FROM_KEY)),
+            'replyTo' => $this->option('replyTo', $this->form->data(self::EMAIL_KEY)),
             'subject' => $this->getSubject(),
             'body' => $this->getBody(),
         ];
@@ -104,8 +104,6 @@ class EmailAction extends Action
     {
         $snippet = $this->option('snippet');
         $data = $this->form->data();
-        unset($data[self::FROM_KEY]);
-        unset($data[self::RECEIVE_COPY_KEY]);
 
         if ($snippet) {
             $body = $this->getSnippet($snippet, [
@@ -113,6 +111,8 @@ class EmailAction extends Action
                 'options' => $this->options
             ]);
         } else {
+            unset($data[self::EMAIL_KEY]);
+            unset($data[self::RECEIVE_COPY_KEY]);
             $body = '';
             foreach ($data as $key => $value) {
                 if (is_array($value)) {

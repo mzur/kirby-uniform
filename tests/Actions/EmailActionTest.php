@@ -124,6 +124,19 @@ class EmailActionTest extends TestCase
         $this->assertEquals('my snippet', $action->params['body']);
     }
 
+    public function testSnippetData()
+    {
+        $this->form->data('email', 'joe@user.com');
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'snippet' => 'my snippet',
+        ]);
+        $action->perform();
+        $this->assertEquals('joe@user.com', $action->data['data']['email']);
+        $this->assertEquals('info@user.com', $action->data['options']['from']);
+    }
+
     public function testReceiveCopyDisabled()
     {
         $this->form->data('email', 'joe@user.com');
@@ -159,6 +172,7 @@ class EmailActionTest extends TestCase
 class EmailActionStub extends EmailAction
 {
     public $calls = 0;
+    public $data;
     protected function sendEmail(array $params)
     {
         $this->calls++;
@@ -171,6 +185,8 @@ class EmailActionStub extends EmailAction
         if (!array_key_exists('data', $data) || !array_key_exists('options', $data)) {
             throw new Exception;
         }
+
+        $this->data = $data;
 
         return $name;
     }
