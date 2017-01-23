@@ -2,6 +2,10 @@
 
 This is an example for a very basic form that asks the user to enter an email address, a message and an optional name. It uses the [HoneypotGuard](/guards/honeypot) for spam protection and sends the form data in an email to the owner of the site (`me@example.com`). Error or success messages are displayed below the form. If there is an error for a specific form field the field gets an `error` class.
 
+!!! note "Note"
+    The `uniform/errors` snippet is automatically registered by Uniform and does not have to be present in your `site/snippets` directory. It's a convenient method to display all errors if there are any.
+
+
 ## Controller
 
 ```php
