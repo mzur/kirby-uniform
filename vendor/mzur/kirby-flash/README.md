@@ -1,5 +1,7 @@
 # Kirby Flash
 
+**This is a fork of [jevets\kirby-flash](https://github.com/jevets/kirby-flash).**
+
 Allows you to "flash" data to the session, which will be available via the session on the next page load, after which the data is removed from the session.
 
 Very useful for:
@@ -25,23 +27,9 @@ Elsewhere...
 
 Install with composer:
 
-```bash
-// composer.json
-
-{
-    "require": {
-        "jevets/kirby-flash": "dev-master"
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/jevets/kirby-flash.git"
-        }
-    ]
-}
 ```
-
-Then run `composer install` or `composer update`.
+composer require mzur/kirby-flash
+```
 
 ## Usage
 
@@ -95,7 +83,7 @@ When **called with one parameter**, the value is returned. If the key doesn't ex
 flash('my_key');
 ```
 
-When **called with two parameters**, the `$value` is set for the `$key`. 
+When **called with two parameters**, the `$value` is set for the `$key`.
 
 If `$key` already exists, `$value` will replace the existing `$key`'s value.
 
@@ -141,4 +129,4 @@ Feel free to send a pull request!
 
 ## Issues/Bugs
 
-Please use the [GitHub issue tracker](https://github.com/jevets/kirby-flash/issues).
+Please use the [GitHub issue tracker](https://github.com/mzur/kirby-flash/issues).

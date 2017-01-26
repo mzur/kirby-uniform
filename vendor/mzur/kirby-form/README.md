@@ -1,5 +1,7 @@
 # Kirby Form
 
+**This is a fork of [jevets\kirby-form](https://github.com/jevets/kirby-form).**
+
 A helper library for working with Kirby forms, using the [Post/Redirect/Get](https://en.wikipedia.org/wiki/Post/Redirect/Get) design pattern.
 
 **Requires:** [Jevets\Kirby\Flash](https://github.com/jevets/kirby-flash) for storing error messages and submitted form data.
@@ -24,23 +26,11 @@ if ($form->validates())
 
 ## Installation
 
-Require the package in your `composer.json` file:
+Install with composer:
 
-```shell
-{
-    "require": {
-        "jevets\kirby-form": "dev-master"
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/jevets/kirby-form.git"
-        }
-    ]
-}
 ```
-
-Run `composer install` or `composer update`.
+composer require mzur/kirby-form
+```
 
 ## Basic Example
 

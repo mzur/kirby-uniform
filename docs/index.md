@@ -23,24 +23,6 @@ Get the [Kirby CLI](https://github.com/getkirby/cli) and run `kirby plugin:insta
 
 ### Composer
 
-Initialize the `composer.json` with:
-
-```
-{
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/jevets/kirby-form.git"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/jevets/kirby-flash.git"
-        }
-    ]
-}
-```
-
 Run `composer require mzur/kirby-uniform`. Then add the second `require` to the `index.php` like this:
 
 ```php

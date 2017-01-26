@@ -1,7 +1,7 @@
 {
     "name": "mzur/kirby-uniform",
     "description": "A versatile Kirby 2 plugin to handle web form actions.",
-    "version": "3.0.0-beta",
+    "version": "3.0.0-beta2",
     "type": "library",
     "license": "GPL-2.0",
     "keywords": ["kirby", "form"],
@@ -18,7 +18,7 @@
     },
     "require": {
         "php": ">=5.5.0",
-        "jevets/kirby-form": "dev-master"
+        "mzur/kirby-form": "^0.1.0"
     },
     "require-dev": {
         "getkirby/toolkit": "dev-master"
@@ -37,15 +37,5 @@
         "psr-4": {
             "Uniform\\Tests\\": "tests/"
         }
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/jevets/kirby-form.git"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/jevets/kirby-flash.git"
-        }
-    ]
+    }
 }

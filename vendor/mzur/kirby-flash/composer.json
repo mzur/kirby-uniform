@@ -1,13 +1,17 @@
 {
-    "name": "jevets/kirby-flash",
+    "name": "mzur/kirby-flash",
     "description": "Stores data in the session for the next request. Data is removed after the next page load.",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "type": "library",
     "keywords": ["kirby", "flash", "session"],
     "authors": [
         {
             "name": "Steve Jamesson",
             "email": "steve@evendev.com"
+        },
+        {
+            "name": "Martin Zurowietz",
+            "email": "martin@the-inspired-ones.de"
         }
     ],
     "autoload": {

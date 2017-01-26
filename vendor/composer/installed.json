@@ -17,7 +17,7 @@
         "require": {
             "php": ">=5.4.0"
         },
-        "time": "2016-12-11 12:08:36",
+        "time": "2016-12-11T12:08:36+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -43,17 +43,23 @@
         ]
     },
     {
-        "name": "jevets/kirby-flash",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "name": "mzur/kirby-flash",
+        "version": "0.1.0",
+        "version_normalized": "0.1.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/jevets/kirby-flash.git",
-            "reference": "635521f88667ae35ae74673b1c70d5153757c71a"
+            "url": "https://github.com/mzur/kirby-flash.git",
+            "reference": "4ec714941eb64a22b82de05c345f15f92a4a936a"
         },
-        "time": "2016-12-15 14:16:08",
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mzur/kirby-flash/zipball/4ec714941eb64a22b82de05c345f15f92a4a936a",
+            "reference": "4ec714941eb64a22b82de05c345f15f92a4a936a",
+            "shasum": ""
+        },
+        "time": "2017-01-26T08:26:20+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Jevets\\Kirby\\": "src/"
@@ -62,10 +68,15 @@
                 "src/helpers.php"
             ]
         },
+        "notification-url": "https://packagist.org/downloads/",
         "authors": [
             {
                 "name": "Steve Jamesson",
                 "email": "steve@evendev.com"
+            },
+            {
+                "name": "Martin Zurowietz",
+                "email": "martin@the-inspired-ones.de"
             }
         ],
         "description": "Stores data in the session for the next request. Data is removed after the next page load.",
@@ -76,20 +87,26 @@
         ]
     },
     {
-        "name": "jevets/kirby-form",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "name": "mzur/kirby-form",
+        "version": "0.1.0",
+        "version_normalized": "0.1.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/jevets/kirby-form.git",
-            "reference": "42a4895951c55748c5a7f700504c6f7dde0ff4aa"
+            "url": "https://github.com/mzur/kirby-form.git",
+            "reference": "978329f537edeeb87f324f3db88ef51977bd6b84"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mzur/kirby-form/zipball/978329f537edeeb87f324f3db88ef51977bd6b84",
+            "reference": "978329f537edeeb87f324f3db88ef51977bd6b84",
+            "shasum": ""
         },
         "require": {
-            "jevets/kirby-flash": "dev-master"
+            "mzur/kirby-flash": "^0.1.0"
         },
-        "time": "2016-12-22 14:12:14",
+        "time": "2017-01-26T08:34:50+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Jevets\\Kirby\\": "src/"
@@ -98,10 +115,15 @@
                 "src/helpers.php"
             ]
         },
+        "notification-url": "https://packagist.org/downloads/",
         "authors": [
             {
                 "name": "Steve Jamesson",
                 "email": "steve@evendev.com"
+            },
+            {
+                "name": "Martin Zurowietz",
+                "email": "martin@the-inspired-ones.de"
             }
         ],
         "description": "A form helper for Kirby-based websites, using the GET/POST/GET pattern.",

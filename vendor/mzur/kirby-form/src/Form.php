@@ -81,7 +81,7 @@ class Form implements FormInterface
 
         // Prepopulate the fields with old input data, if it exists
         foreach ($this->fields as $field => $attributes) {
-            $this->data[$field] = htmlspecialchars(get($field));
+            $this->data[$field] = $this->encodeField(get($field));
         }
 
         // Get any errors from the Flash
@@ -138,7 +138,7 @@ class Form implements FormInterface
     {
         $data = $this->flash->get(self::FLASH_KEY_DATA, []);
 
-        return isset($data[$key]) ? htmlspecialchars_decode($data[$key]) : '';
+        return isset($data[$key]) ? $this->decodeField($data[$key]) : '';
     }
 
     /**
@@ -257,5 +257,33 @@ class Form implements FormInterface
     protected function saveErrors()
     {
         $this->flash->set(self::FLASH_KEY_ERRORS, $this->errors);
+    }
+
+    /**
+     * Encode HTML characters of form field data
+     *
+     * @param string|array $data
+     *
+     * @return string|array
+     */
+    protected function encodeField($data)
+    {
+        return is_array($data)
+            ? array_map([$this, 'encodeField'], $data)
+            : htmlspecialchars($data);
+    }
+
+    /**
+     * Decode HTML characters of form field data
+     *
+     * @param string|array $data
+     *
+     * @return string|array
+     */
+    protected function decodeField($data)
+    {
+        return is_array($data)
+            ? array_map([$this, 'decodeField'], $data)
+            : htmlspecialchars_decode($data);
     }
 }
