@@ -88,23 +88,23 @@
     },
     {
         "name": "mzur/kirby-form",
-        "version": "0.1.0",
-        "version_normalized": "0.1.0.0",
+        "version": "v0.1.1",
+        "version_normalized": "0.1.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mzur/kirby-form.git",
-            "reference": "978329f537edeeb87f324f3db88ef51977bd6b84"
+            "reference": "3f56cb7a0d833775465d1c2e67f622e9f83c1d4b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mzur/kirby-form/zipball/978329f537edeeb87f324f3db88ef51977bd6b84",
-            "reference": "978329f537edeeb87f324f3db88ef51977bd6b84",
+            "url": "https://api.github.com/repos/mzur/kirby-form/zipball/3f56cb7a0d833775465d1c2e67f622e9f83c1d4b",
+            "reference": "3f56cb7a0d833775465d1c2e67f622e9f83c1d4b",
             "shasum": ""
         },
         "require": {
             "mzur/kirby-flash": "^0.1.0"
         },
-        "time": "2017-01-26T08:34:50+00:00",
+        "time": "2017-01-26T13:43:54+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -116,6 +116,9 @@
             ]
         },
         "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
         "authors": [
             {
                 "name": "Steve Jamesson",
