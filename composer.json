@@ -1,7 +1,6 @@
 {
     "name": "mzur/kirby-uniform",
     "description": "A versatile Kirby 2 plugin to handle web form actions.",
-    "version": "3.0.0-beta2",
     "type": "library",
     "license": "GPL-2.0",
     "keywords": ["kirby", "form"],
