@@ -2,6 +2,7 @@
 
 namespace Uniform\Tests;
 
+use C as Config;
 use Uniform\Form;
 use Jevets\Kirby\Flash;
 use Uniform\Guards\Guard;
@@ -16,6 +17,7 @@ class FormTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+        Config::set('debug', true);
         $this->form = new FormStub;
     }
 
@@ -33,6 +35,19 @@ class FormTest extends TestCase
     {
         $this->setExpectedException(TokenMismatchException::class);
         $this->form->validate();
+    }
+
+    public function testValidateCsrfExceptionNoDebug()
+    {
+        Config::set('debug', false);
+
+        try {
+            $this->form->validate();
+            $this->assertFalse($this->form->success());
+            $this->assertFalse(true);
+        } catch (Exception $e) {
+            $this->assertEquals('Redirected', $e->getMessage());
+        }
     }
 
     public function testValidateCsrfSuccess()
