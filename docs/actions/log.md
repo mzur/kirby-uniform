@@ -11,8 +11,8 @@ This action appends the form data and some information on the submitter to a log
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'email' => [
             'rules' => ['required', 'email'],

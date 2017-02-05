@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Jevets\Kirby;
 
@@ -7,10 +7,11 @@ interface FormInterface
     /**
      * Create a new instance
      *
-     * @param  array  $data
+     * @param  array  $rules
+     * @param string $sessionKey´
      * @return void
      */
-    public function __construct($data = []);
+    public function __construct($rules = [], $sessionKey = null);
 
     /**
      * Get or set form data
@@ -23,15 +24,6 @@ interface FormInterface
      * @return mixed|array
      */
     public function data($key = '', $value = '');
-
-    /**
-     * Register a field
-     *
-     * @param  string  $key
-     * @param  array  options
-     * @return void
-     */
-    public function addField($key, $options = []);
 
     /**
      * Get the data that was flashed to the session
@@ -49,28 +41,11 @@ interface FormInterface
     public function validates();
 
     /**
-     * Save the form data to the session
+     * Forget a form field
      *
-     * @return void
+     * @param  string $key Form field name
      */
-    public function saveData();
-
-    /**
-     * Add a single error
-     *
-     * @param  string  $key
-     * @param  mixed  optional  $value
-     * @return void
-     */
-    public function addError($key, $value = '');
-
-    /**
-     * Add errors
-     *
-     * @param  array  $errors
-     * @return void
-     */
-    public function addErrors($errors);
+    public function forget($key);
 
     /**
      * Get all errors

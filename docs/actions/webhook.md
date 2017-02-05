@@ -13,8 +13,8 @@ This example calls the MailChimp API to add an email address to a list.
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'email_address' => [
             'rules' => ['required', 'email'],

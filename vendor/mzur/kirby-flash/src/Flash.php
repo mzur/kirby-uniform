@@ -1,31 +1,44 @@
-<?php 
+<?php
 
 namespace Jevets\Kirby;
 
-use \s as Session;
+use S as Session;
 
 class Flash
 {
-    /**
-     * A Session key identifier
-     *
-     * @var constant
-     */
-    private static $session_key;
-
     /**
      * The singleton instance
      *
      * @var Jevets\Kirby\Flash
      */
-    private static $instance;
+    protected static $instance;
+
+    /**
+     * A Session key identifier
+     *
+     * @var string
+     */
+    protected $sessionKey;
 
     /**
      * Container for the flashed data
      *
      * @var array
      */
-    private static $data;
+    protected $data;
+
+    /**
+     * Get a new instance
+     *
+     * @param string $sessionKey
+     * @return void
+     */
+    public function __construct($sessionKey)
+    {
+        $this->sessionKey = $sessionKey;
+        $this->data = Session::get($this->sessionKey, []);
+        Session::remove($this->sessionKey);
+    }
 
     /**
      * Get the singleton instance
@@ -34,26 +47,11 @@ class Flash
      */
     public static function getInstance()
     {
-        if (null === static::$instance)
-        {
-            static::$instance = new static();
+        if (!static::$instance) {
+            static::$instance = new static('_flash');
         }
 
         return static::$instance;
-    }
-
-    /**
-     * Instantiate the singleton
-     *
-     * @return void
-     */
-    private function __construct($session_key = '_flash')
-    {
-        self::setSessionKey($session_key);
-
-        static::$data = Session::get(self::sessionKey(), []);
-
-        Session::remove(self::sessionKey());
     }
 
     /**
@@ -63,18 +61,28 @@ class Flash
      */
     public static function sessionKey()
     {
-        return static::$session_key;
+        return static::$instance->getSessionKey();
     }
 
     /**
      * Set the session key
      *
-     * @param string
+     * @param string $sessionKey
      * @return void
      */
-    public static function setSessionKey($session_key)
+    public static function setSessionKey($sessionKey)
     {
-        static::$session_key = $session_key;
+        static::$instance = new static($sessionKey);
+    }
+
+    /**
+     * Get the session key of this instance.
+     *
+     * @return string
+     */
+    public function getSessionKey()
+    {
+        return $this->sessionKey;
     }
 
     /**
@@ -84,12 +92,10 @@ class Flash
      * @param  mixed  $value
      * @return void
      */
-    public static function set($key, $value)
+    public function set($key, $value)
     {
-        if (!isset($data[$key]))
-            static::$data[$key] = $value;
-
-        Session::set(self::sessionKey(), static::$data);
+        $this->data[$key] = $value;
+        Session::set($this->sessionKey, $this->data);
     }
 
     /**
@@ -99,9 +105,9 @@ class Flash
      * @param  mixed  $default value to return if flash key doesn't exist
      * @return  mixed  $value or null
      */
-    public static function get($key, $default = null)
+    public function get($key, $default = null)
     {
-        return isset(self::$data[$key]) ? self::$data[$key] : $default;
+        return isset($this->data[$key]) ? $this->data[$key] : $default;
     }
 
     /**
@@ -109,8 +115,8 @@ class Flash
      *
      * @return  array
      */
-    public static function all()
+    public function all()
     {
-        return self::$data;
+        return $this->data;
     }
 }

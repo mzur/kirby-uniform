@@ -31,3 +31,35 @@ if (r::is('POST')) {
 ## Can I work with the submitted form data outside of Uniform snippets?
 
 Sure, since the form data is submitted with an ordinary `POST` request you can access the value of a field with name `myfield` anywhere in your code using the [`get` Kirby helper](https://getkirby.com/docs/cheatsheet/helpers/get) `get('myfield')`. If you have access to the `$form` object, you can use the [data method](methods#datakey-value), too.
+
+## I have multiple static forms on one page. When one fails the error messages are also displayed for the other forms. Why?
+
+This happens because the forms share the same session storage by default. In this case you have to give each form a unique session storage. You can do that with the second parameter of the `Form` constructor:
+
+```php
+<?php
+
+use Uniform\Form;
+
+return function ($site, $pages, $page)
+{
+    $contactForm = new Form([/* rules */], 'contact-form');
+    $newsletterForm = new Form([/* rules */], 'newsletter-form');
+
+    if (r::is('POST')) {
+        if (/* contact form sent */) {
+            $contactForm->emailAction([
+                'to' => 'me@example.com',
+                'from' => 'info@example.com',
+            ]);
+        } elseif (/* newsletter form sent */) {
+            $newsletterForm->emailAction([
+                'to' => 'me@example.com',
+                'from' => 'info@example.com',
+            ]);
+        }
+    }
+
+    return compact('form');
+};
+```

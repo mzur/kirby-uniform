@@ -11,8 +11,8 @@ If the form is successfully validated, the content is sent via email to the owne
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'name' => [
             'rules' => ['required'],

@@ -11,8 +11,8 @@ This action can choose the `to` email address for the email action based on the 
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'email' => [
             'rules' => ['required', 'email'],

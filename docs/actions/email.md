@@ -13,8 +13,8 @@ If there is an `email` field in the form data, the action will use it as `replyT
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'email' => [
             'rules' => ['required', 'email'],

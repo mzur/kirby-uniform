@@ -28,7 +28,7 @@ class CalcGuard extends Guard
     /**
      * {@inheritDoc}
      * Check if the captcha field was filled in correctly
-     * Remove the field from the form data if it was empty.
+     * Remove the field from the form data if it was correct.
      */
     public function perform()
     {

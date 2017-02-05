@@ -8,7 +8,7 @@ use Jevets\Kirby\Flash;
 use Uniform\Guards\Guard;
 use Uniform\Actions\Action;
 use Uniform\Exceptions\Exception;
-use Uniform\Exceptions\TokenMismatchException;
+use Jevets\Kirby\Exceptions\TokenMismatchException;
 
 class FormTest extends TestCase
 {
@@ -19,16 +19,6 @@ class FormTest extends TestCase
         parent::setUp();
         Config::set('debug', true);
         $this->form = new FormStub;
-    }
-
-    public function testAddErrors()
-    {
-        $this->form->addErrors(['email' => 'Not set']);
-        $this->assertEquals(['email' => ['Not set']], $this->form->errors());
-        $this->form->addErrors(['email' => 'No email']);
-        $this->assertEquals(['email' => ['Not set', 'No email']], $this->form->errors());
-        $this->form->addErrors(['email' => ['another', 'error']]);
-        $this->assertEquals(['email' => ['Not set', 'No email', 'another', 'error']], $this->form->errors());
     }
 
     public function testValidateCsrfException()
@@ -237,8 +227,9 @@ class FormTest extends TestCase
         $this->form->withoutFlashing();
         $this->form->saveData();
         $this->form->addError('email', 'error message');
-        $this->assertEmpty(Flash::get(Form::FLASH_KEY_DATA));
-        $this->assertEmpty(Flash::get(Form::FLASH_KEY_ERRORS));
+        $flash = Flash::getInstance();
+        $this->assertEmpty($flash->get(Form::FLASH_KEY_DATA));
+        $this->assertEmpty($flash->get(Form::FLASH_KEY_ERRORS));
     }
 }
 

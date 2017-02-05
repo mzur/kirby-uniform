@@ -11,8 +11,8 @@ This action provides a simple way of logging in to the Kirby frontend. For this 
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'username' => [
             'rules' => ['required'],

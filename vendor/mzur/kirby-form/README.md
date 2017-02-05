@@ -1,10 +1,10 @@
 # Kirby Form
 
+[![Build Status](https://travis-ci.org/mzur/kirby-form.svg?branch=master)](https://travis-ci.org/mzur/kirby-form)
+
 **This is a fork of [jevets\kirby-form](https://github.com/jevets/kirby-form).**
 
 A helper library for working with Kirby forms, using the [Post/Redirect/Get](https://en.wikipedia.org/wiki/Post/Redirect/Get) design pattern.
-
-**Requires:** [Jevets\Kirby\Flash](https://github.com/jevets/kirby-flash) for storing error messages and submitted form data.
 
 ## Quick Example
 
@@ -17,8 +17,7 @@ $form = new Form([
     'phone' => [],
 ]);
 
-if ($form->validates())
-{
+if ($form->validates()) {
     // Validation passed
     // Do something with the data
 }
@@ -46,6 +45,7 @@ This example assumes you're using [page controllers in Kirby](http://getkirby.co
     <form method="POST">
         <input name="name" value="<?= $form->old('name') ?>">
         <input name="phone" value="<?= $form->old('phone') ?>">
+        <?= csrf_field() ?>
         <input type="submit" value="Submit">
     </form>
 
@@ -81,20 +81,23 @@ return function ($site, $pages, $page) {
     ]);
 
     // Process the form on POST requests
-    if (r::is('post'))
-    {
-        if ($form->validates())
-        {
+    if (r::is('POST')) {
+        if ($form->validates()) {
             // Show a thanks page
-        }
-        else
-        {
+        } else {
             // Redirect back to the GET form
             go('/my-page');
         }
     }
 
     return compact('form');
-
 };
 ```
+
+## Contributing
+
+Feel free to send a pull request!
+
+## Issues/Bugs
+
+Please use the [GitHub issue tracker](https://github.com/mzur/kirby-form/issues).

@@ -44,67 +44,23 @@
     },
     {
         "name": "mzur/kirby-flash",
-        "version": "0.1.0",
-        "version_normalized": "0.1.0.0",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mzur/kirby-flash.git",
-            "reference": "4ec714941eb64a22b82de05c345f15f92a4a936a"
+            "reference": "da22ff1f85c5e24156e252c271d95e6d472de971"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mzur/kirby-flash/zipball/4ec714941eb64a22b82de05c345f15f92a4a936a",
-            "reference": "4ec714941eb64a22b82de05c345f15f92a4a936a",
+            "url": "https://api.github.com/repos/mzur/kirby-flash/zipball/da22ff1f85c5e24156e252c271d95e6d472de971",
+            "reference": "da22ff1f85c5e24156e252c271d95e6d472de971",
             "shasum": ""
         },
-        "time": "2017-01-26T08:26:20+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Jevets\\Kirby\\": "src/"
-            },
-            "files": [
-                "src/helpers.php"
-            ]
+        "require-dev": {
+            "getkirby/toolkit": "dev-master"
         },
-        "notification-url": "https://packagist.org/downloads/",
-        "authors": [
-            {
-                "name": "Steve Jamesson",
-                "email": "steve@evendev.com"
-            },
-            {
-                "name": "Martin Zurowietz",
-                "email": "martin@the-inspired-ones.de"
-            }
-        ],
-        "description": "Stores data in the session for the next request. Data is removed after the next page load.",
-        "keywords": [
-            "flash",
-            "kirby",
-            "session"
-        ]
-    },
-    {
-        "name": "mzur/kirby-form",
-        "version": "v0.1.1",
-        "version_normalized": "0.1.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/mzur/kirby-form.git",
-            "reference": "3f56cb7a0d833775465d1c2e67f622e9f83c1d4b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/mzur/kirby-form/zipball/3f56cb7a0d833775465d1c2e67f622e9f83c1d4b",
-            "reference": "3f56cb7a0d833775465d1c2e67f622e9f83c1d4b",
-            "shasum": ""
-        },
-        "require": {
-            "mzur/kirby-flash": "^0.1.0"
-        },
-        "time": "2017-01-26T13:43:54+00:00",
+        "time": "2017-02-05T13:44:38+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -129,7 +85,60 @@
                 "email": "martin@the-inspired-ones.de"
             }
         ],
-        "description": "A form helper for Kirby-based websites, using the GET/POST/GET pattern.",
+        "description": "Stores data in the session for the next request. Data is removed after the next page load.",
+        "keywords": [
+            "flash",
+            "kirby",
+            "session"
+        ]
+    },
+    {
+        "name": "mzur/kirby-form",
+        "version": "v1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mzur/kirby-form.git",
+            "reference": "ec32e6dc26116f916aa027fc3ea3282818ede126"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mzur/kirby-form/zipball/ec32e6dc26116f916aa027fc3ea3282818ede126",
+            "reference": "ec32e6dc26116f916aa027fc3ea3282818ede126",
+            "shasum": ""
+        },
+        "require": {
+            "mzur/kirby-flash": "^1.0"
+        },
+        "require-dev": {
+            "getkirby/toolkit": "dev-master"
+        },
+        "time": "2017-02-05T17:17:56+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Jevets\\Kirby\\": "src/"
+            },
+            "files": [
+                "src/helpers.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Steve Jamesson",
+                "email": "steve@evendev.com"
+            },
+            {
+                "name": "Martin Zurowietz",
+                "email": "martin@the-inspired-ones.de"
+            }
+        ],
+        "description": "A form helper for Kirby-based websites, using the Post/Redirect/Get pattern.",
         "keywords": [
             "form",
             "kirby"

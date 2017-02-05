@@ -1,5 +1,7 @@
 # Kirby Flash
 
+[![Build Status](https://travis-ci.org/mzur/kirby-flash.svg?branch=master)](https://travis-ci.org/mzur/kirby-flash)
+
 **This is a fork of [jevets\kirby-flash](https://github.com/jevets/kirby-flash).**
 
 Allows you to "flash" data to the session, which will be available via the session on the next page load, after which the data is removed from the session.

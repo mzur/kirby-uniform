@@ -1,6 +1,6 @@
 <?php
 
-namespace Uniform\Tests;
+namespace Jevets\Kirby\Form\Tests;
 
 use Jevets\Kirby\Form;
 use Jevets\Kirby\Flash;

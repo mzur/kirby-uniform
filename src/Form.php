@@ -2,7 +2,6 @@
 
 namespace Uniform;
 
-use R;
 use Str;
 use Redirect;
 use C as Config;
@@ -13,17 +12,9 @@ use Uniform\Guards\HoneypotGuard;
 use Uniform\Exceptions\Exception;
 use Jevets\Kirby\Form as BaseForm;
 use Uniform\Exceptions\PerformerException;
-use Uniform\Exceptions\TokenMismatchException;
 
 class Form extends BaseForm
 {
-    /**
-     * Name of the form field containing the CSRF token.
-     *
-     * @var string
-     */
-    const CSRF_FIELD = 'csrf_token';
-
     /**
      * Indicates whether the validation should still be done
      *
@@ -74,11 +65,12 @@ class Form extends BaseForm
      * Create a new instance
      *
      * @param  array  $rules  Form fields and their validation rules
+     * @param string $sessionKey Optional unique session key for multiple forms on the same page
      * @return void
      */
-    function __construct($rules = [])
+    function __construct($rules = [], $sessionKey = null)
     {
-        parent::__construct($rules);
+        parent::__construct($rules, $sessionKey);
         static::loadTranslation();
         $this->shouldValidate = true;
         $this->shouldCallGuard = true;
@@ -154,16 +146,6 @@ class Form extends BaseForm
     }
 
     /**
-     * Save the form data to the session
-     */
-    public function saveData()
-    {
-        if ($this->shouldFlash) {
-            parent::saveData();
-        }
-    }
-
-    /**
      * Validate the form data
      *
      * @return Form
@@ -171,14 +153,6 @@ class Form extends BaseForm
     public function validate()
     {
         $this->shouldValidate = false;
-
-        if (csrf(R::postData(self::CSRF_FIELD)) !== true) {
-            if (Config::get('debug') === true) {
-                throw new TokenMismatchException('The CSRF token was invalid.');
-            }
-
-            $this->fail();
-        }
 
         if (parent::validates()) {
             $this->success = true;
@@ -249,16 +223,6 @@ class Form extends BaseForm
     }
 
     /**
-     * Forget a form field
-     *
-     * @param  string $key Form field name
-     */
-    public function forget($key)
-    {
-        unset($this->data[$key]);
-    }
-
-    /**
      * Call actions and gards as magic method.
      *
      * Usage:
@@ -286,6 +250,16 @@ class Form extends BaseForm
             $options = array_key_exists(0, $parameters) ? $parameters[0] : [];
 
             return $this->action($class, $options);
+        }
+    }
+
+    /**
+     * Save the form data to the session
+     */
+    protected function saveData()
+    {
+        if ($this->shouldFlash) {
+            parent::saveData();
         }
     }
 

@@ -13,8 +13,8 @@ This is an example for a very basic form that asks the user to enter an email ad
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'email' => [
             'rules' => ['required', 'email'],

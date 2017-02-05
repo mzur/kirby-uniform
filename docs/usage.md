@@ -7,8 +7,8 @@ Uniform is initialized in the page controller like this:
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'email' => [
             'rules' => ['required', 'email'],

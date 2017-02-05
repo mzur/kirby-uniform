@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInit8752c63a2ba4ba7bb6bd13381d5cdc05
 {
     public static $files = array (
-        'e862d9fce5eaa28c798b151ac7fc8bc6' => __DIR__ . '/..' . '/mzur/kirby-flash/src/helpers.php',
         'f485627b283286104bbc2461f512799f' => __DIR__ . '/..' . '/getkirby/toolkit/bootstrap.php',
+        'e862d9fce5eaa28c798b151ac7fc8bc6' => __DIR__ . '/..' . '/mzur/kirby-flash/src/helpers.php',
         '316f57472eecfe71b6733d9d2acbcae9' => __DIR__ . '/..' . '/mzur/kirby-form/src/helpers.php',
         '1f7ddc2baab73fdd75a4663f7a275bb1' => __DIR__ . '/../..' . '/src/helpers.php',
         'ae86d24018d4ff2f7d0f86beff02023f' => __DIR__ . '/../..' . '/index.php',

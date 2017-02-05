@@ -13,8 +13,8 @@ This example stores the the form data in the session and redirects the user to a
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
-
+return function ($site, $pages, $page)
+{
     $form = new Form([
         'email' => [
             'rules' => ['required', 'email'],

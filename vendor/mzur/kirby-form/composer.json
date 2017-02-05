@@ -1,6 +1,6 @@
 {
     "name": "mzur/kirby-form",
-    "description": "A form helper for Kirby-based websites, using the GET/POST/GET pattern.",
+    "description": "A form helper for Kirby-based websites, using the Post/Redirect/Get pattern.",
     "type": "library",
     "license": "MIT",
     "keywords": ["kirby", "form"],
@@ -16,7 +16,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "mzur/kirby-flash": "^0.1.0"
+        "mzur/kirby-flash": "^1.0"
     },
     "autoload": {
         "psr-4": {
@@ -25,5 +25,13 @@
         "files": [
             "src/helpers.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jevets\\Kirby\\Form\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "getkirby/toolkit": "dev-master"
     }
 }
