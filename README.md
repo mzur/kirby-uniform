@@ -73,12 +73,12 @@ Get the [Kirby CLI](https://github.com/getkirby/cli) and run `kirby plugin:insta
 
 ### Composer
 
-Run `composer require mzur/kirby-uniform`. Then add the second `require` to the `index.php` like this:
+Run `composer require mzur/kirby-uniform`. Then create the file `site/plugins/autoload.php` with the content:
 
 ```php
-// load kirby
-require(__DIR__ . DS . 'kirby' . DS . 'bootstrap.php');
-require 'vendor'.DS.'autoload.php';
+<?php
+
+require kirby()->roots()->index().DS.'vendor'.DS.'autoload.php';
 ```
 
 Be sure to include the new `vendor` directory in your deployment.
