@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'f485627b283286104bbc2461f512799f' => $vendorDir . '/getkirby/toolkit/bootstrap.php',
     'e862d9fce5eaa28c798b151ac7fc8bc6' => $vendorDir . '/mzur/kirby-flash/src/helpers.php',
     '316f57472eecfe71b6733d9d2acbcae9' => $vendorDir . '/mzur/kirby-form/src/helpers.php',
     '1f7ddc2baab73fdd75a4663f7a275bb1' => $baseDir . '/src/helpers.php',
