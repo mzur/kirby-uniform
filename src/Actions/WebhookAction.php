@@ -37,7 +37,8 @@ class WebhookAction extends Action
 
         $params = $this->option('params', []);
         // merge the optional 'static' data from the action array with the form data
-        $params['data'] = array_merge(A::get($params, 'data', []), $data);
+        $data = array_merge(A::get($params, 'data', []), $data);
+        $params['data'] = $this->transformData($data);
 
         if ($this->option('json') === true) {
             $headers = ['Content-Type: application/json'];
@@ -53,6 +54,19 @@ class WebhookAction extends Action
         if ($response->error !== 0) {
             $this->fail(L::get('uniform-webhook-error').$response->message);
         }
+    }
+
+    /**
+     * Process the data to some other form than given by the webform.
+     *
+     * This can be done by custom actions extending from this class.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function transformData(array $data)
+    {
+        return $data;
     }
 
     /**

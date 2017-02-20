@@ -70,3 +70,23 @@ Array of form field names that should be excluded from the webhook request. Only
 ### json
 
 Set to `true` to send the request as `application/json`. The form data will be encoded in JSON in this case. By default the content type is `application/x-www-form-urlencoded`.
+
+## Extending this action
+
+The webhook action can be easily extended to customize the data that should be sent. Just override the `transfromData` method in a [custom action](actions#custom-actions) like this:
+
+```php
+<?php
+
+namespace Uniform\Actions;
+
+class CustomWebhookAction extends WebhookAction
+{
+    protected function transfromData(array $data)
+    {
+        return ['text' => 'Some message from '.$data['name']];
+    }
+}
+```
+
+The `CustomWebhookAction` will inherit all options and the behavior from the `WebhookAction`.

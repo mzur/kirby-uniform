@@ -77,6 +77,14 @@ class WebhookActionTest extends TestCase
         $this->setExpectedException(PerformerException::class);
         $action->perform();
     }
+
+    public function testProcessData()
+    {
+        $this->form->data('name', 'Joe');
+        $action = new WebhookActionStub2($this->form, ['url' => 'example.com']);
+        $action->perform();
+        $this->assertEquals(['text' => 'Some message from Joe'], $action->params['data']);
+    }
 }
 
 class WebhookActionStub extends WebhookAction
@@ -89,5 +97,13 @@ class WebhookActionStub extends WebhookAction
         $response->error = isset($this->shouldFail) ? 1 : 0;
         $response->message = '';
         return $response;
+    }
+}
+
+class WebhookActionStub2 extends WebhookActionStub
+{
+    protected function transformData(array $data)
+    {
+        return ['text' => 'Some message from '.$data['name']];
     }
 }
