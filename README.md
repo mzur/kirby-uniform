@@ -115,3 +115,7 @@ See the [answers](http://kirby-uniform.readthedocs.io/en/latest/answers/) in the
 ## Contributing
 
 Contributions are always welcome!
+
+## Donations
+
+Since some people insist on sending me money for this (free) plugin you can do this [here](https://www.paypal.me/mzur/14eur).
