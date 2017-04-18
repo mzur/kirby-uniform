@@ -16,7 +16,7 @@ if (!function_exists('honeypot_field')) {
     {
         $name = $name ?: HoneypotGuard::FIELD_NAME;
         $class = $class ?: 'uniform__potty';
-        return '<input type="text" name="'.$name.'" class="'.$class.'">';
+        return '<input type="text" name="'.$name.'" class="'.$class.'" tabindex="-1" autocomplete="off">';
     }
 }
 
