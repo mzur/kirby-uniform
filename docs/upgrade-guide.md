@@ -195,10 +195,6 @@ Use [`$form->success()`](methods#success) to check if everything was successful.
 
 Use [`$form->error($key)`](methods#errorkey) to check if there is an error message for a field, guard or action. The guards and actions usually have their class name as key. Some guards (like the [CalcGuard](guards/calc)) have a specific form field as key.
 
-### message($action = false)
-
-Use [`$form->error($key)`](methods#errorkey).
-
 ### hasMessage($action = false)
 
 Use [`echo $form->error($key)`](methods#errorkey).
