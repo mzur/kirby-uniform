@@ -67,7 +67,7 @@ class DumpAction extends Action
 
 ```
 
-As you can see we also place the action in the `Uniform\Actions` namespace. You don't have to do this but it is a requirement if you want to call the action through a magic method (`$form->dumpAction()`). Also, it makes extending the `Uniform\Actions\Action` base class easier, which you have to do for all actions.
+As you can see we also place the class in the `Uniform\Actions` namespace and give it a name with the suffix `Action`. You don't have to do this but it is a requirement if you want to call the action through a magic method (`$form->dumpAction()`). Also, it makes extending the `Uniform\Actions\Action` base class easier, which you have to do for all actions.
 
 Each action must implement a `perform` method. In the method you do something with the form data. In case anything fails you can call the `fail` method. If an action fails the form will immediately redirect the request and display the form with an error message. The `fail` method takes two optional arguments:
 

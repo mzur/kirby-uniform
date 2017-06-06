@@ -76,7 +76,7 @@ class MyCustomGuard extends Guard
 }
 ```
 
-As you can see we also place the guard in the `Uniform\Guards` namespace. You don't have to do this but it is a requirement if you want to call the guard through a magic method (`$form->myCustomGuard()`). Also, it makes extending the `Uniform\Guards\Guard` base class easier, which you have to do for all guards.
+As you can see we also place the class in the `Uniform\Guards` namespace and give it a name with the suffix `Guard`. You don't have to do this but it is a requirement if you want to call the guard through a magic method (`$form->myCustomGuard()`). Also, it makes extending the `Uniform\Guards\Guard` base class easier, which you have to do for all guards.
 
 Each guard must implement a `perform` method. In the method you can do all the checks you want to determine if the request is no spam. If the check succeeds, the function just returns. If it fails, however, you call the `reject` method. Rejecting a request will cause the form to immediately redirect the request and display the form with an error message. The `reject` method takes two optional arguments:
 
