@@ -2,10 +2,11 @@
 
 namespace Uniform\Actions;
 
+use C;
 use L;
 use Str;
-use Error;
 use Email;
+use Exception;
 use Uniform\Form;
 
 /**
@@ -45,22 +46,21 @@ class EmailAction extends Action
         ];
 
         try {
-            if (!$this->sendEmail($params)) {
-                $this->fail('The email could not be sent.');
-            }
+            $this->sendEmail($params);
 
             if ($this->shouldReceiveCopy()) {
                 $params['subject'] = L::get('uniform-email-copy').' '.$params['subject'];
                 $to = $params['to'];
                 $params['to'] = $params['replyTo'];
                 $params['replyTo'] = $to;
-
-                if (!$this->sendEmail($params)) {
-                    $this->fail('The email copy could not be sent but the form has been submitted.');
-                }
+                $this->sendEmail($params);
             }
-        } catch (Error $e) {
-            $this->fail(L::get('uniform-email-error').' '.$e->getMessage());
+        } catch (Exception $e) {
+            if (c::get('debug') === true) {
+                $this->fail(L::get('uniform-email-error').': '.$e->getMessage());
+            }
+
+            $this->fail(L::get('uniform-email-error').'.');
         }
     }
 
@@ -68,13 +68,14 @@ class EmailAction extends Action
      * Send an email
      *
      * @param  array  $params
-     * @return boolean
      */
     protected function sendEmail(array $params)
     {
         $email = new Email($params);
 
-        return $email->send();
+        if (!$email->send()) {
+            throw $email->error;
+        }
     }
 
     /**

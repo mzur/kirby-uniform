@@ -3,6 +3,7 @@
 namespace Uniform\Tests\Actions;
 
 use Exception;
+use C as Config;
 use Uniform\Form;
 use Uniform\Tests\TestCase;
 use Uniform\Actions\EmailAction;
@@ -167,6 +168,37 @@ class EmailActionTest extends TestCase
         $this->assertEquals('jane@user.com', $action->params['replyTo']);
         $this->assertEquals('info@user.com', $action->params['from']);
     }
+
+    public function testHandleServiceException()
+    {
+        $this->form->data('field', 'value');
+        $action = new EmailAction($this->form, [
+            'service' => 'thrower',
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'subject' => 'Test',
+        ]);
+
+        Config::set('debug', false);
+
+        try {
+            $action->perform();
+            $this->assertFalse(true);
+        } catch (PerformerException $e) {
+            // Language variables are not loaded in these tests so the message is empty
+            // here.
+            $this->assertEquals('.', $e->getMessage());
+        }
+
+        Config::set('debug', true);
+
+        try {
+            $action->perform();
+            $this->assertFalse(true);
+        } catch (PerformerException $e) {
+            $this->assertEquals(": Throw it like it's hoot", $e->getMessage());
+        }
+    }
 }
 
 class EmailActionStub extends EmailAction
@@ -177,7 +209,9 @@ class EmailActionStub extends EmailAction
     {
         $this->calls++;
         $this->params = $params;
-        return !isset($this->shouldFail);
+        if (isset($this->shouldFail)) {
+            throw new Exception('Failed');
+        }
     }
 
     protected function getSnippet($name, array $data)
@@ -191,3 +225,7 @@ class EmailActionStub extends EmailAction
         return $name;
     }
 }
+
+\Email::$services['thrower'] = function($email) {
+    throw new Exception("Throw it like it's hoot");
+};

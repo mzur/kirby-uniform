@@ -6,7 +6,7 @@ l::set([
     'uniform-calc-incorrect' => 'Por favor, resuelva el problema aritmético.',
 
     'uniform-email-subject' => 'Mensaje del formulario web',
-    'uniform-email-error' => 'Se ha producido un error al enviar el formulario:',
+    'uniform-email-error' => 'Se ha producido un error al enviar el formulario',
     'uniform-email-copy' => 'Copia:',
 
     'uniform-calc-plus' => 'plus',
