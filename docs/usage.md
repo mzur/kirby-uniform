@@ -60,6 +60,17 @@ $form = new Form([
 ]);
 ```
 
+As of Kirby 2.5 you are able to specify an error message for each individual validation rule like this:
+
+```php
+$form = new Form([
+    'email' => [
+        'rules' => ['reqired', 'email'],
+        'message' => ['The email is required', 'Please enter a valid email address'],
+    ],
+]);
+```
+
 ## Guards
 
 Once the form fields were successfully validated the form data is passed on to the [guards](guards/guards) which are mechanisms for spam protection. If you don't explicitly specify a guard, Uniform will use the default [HoneypotGuard](guards/honeypot). Another guard (like the [CalcGuard](guards/calc)) can be specified before the actions like this:
