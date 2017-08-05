@@ -23,6 +23,7 @@ class FormTest extends TestCase
 
     public function testValidateCsrfException()
     {
+        csrf(); // Generate a token.
         $this->setExpectedException(TokenMismatchException::class);
         $this->form->validate();
     }
@@ -30,6 +31,7 @@ class FormTest extends TestCase
     public function testValidateCsrfExceptionNoDebug()
     {
         Config::set('debug', false);
+        csrf(); // Generate a token.
 
         try {
             $this->form->validate();
