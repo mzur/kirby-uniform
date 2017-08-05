@@ -60,6 +60,22 @@ $form = new Form([
 ]);
 ```
 
+Form fields that should not be returned to the user in case of some validation error can be excluded from flashing like this:
+
+```php
+$form = new Form([
+    'username' => [
+        'rules' => ['reqired'],
+        'message' => 'Please enter your username',
+    ],
+    'password' => [
+        'rules' => ['reqired'],
+        'message' => 'Please enter your password',
+        'flash' => false,
+    ],
+]);
+```
+
 As of Kirby 2.5 you are able to specify an error message for each individual validation rule like this:
 
 ```php
