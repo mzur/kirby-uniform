@@ -76,6 +76,16 @@ class FormTest extends TestCase
         $this->assertEquals(['Please enter something'], $form->error());
     }
 
+    public function testValidatesExpiredCsrf()
+    {
+        $_POST['test'] = 'abc';
+        $_POST['csrf_token'] = 'wrong';
+        $form = new Form(['test' => []]);
+        $this->assertFalse($form->validates());
+        $this->assertEquals('abc', $form->old('test'));
+        $this->assertEquals(['csrf_token' => ['Your session timed out. Please submit the form again.']], $form->errors());
+    }
+
     public function testAddErrors()
     {
         $form = new FormStub;

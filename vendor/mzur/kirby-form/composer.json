@@ -32,6 +32,7 @@
         }
     },
     "require-dev": {
-        "getkirby/toolkit": "dev-master"
+        "getkirby/toolkit": "dev-master",
+        "phpunit/phpunit": "^4.6 || ^5.0"
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Jevets\Kirby;
 
+use L as Lang;
 use C as Config;
 use R as Request;
 use Jevets\Kirby\Flash;
@@ -77,6 +78,7 @@ class Form implements FormInterface
      * Create a new instance
      *
      * @param  array  $rules
+     * @param string $sessionKey
      * @return void
      */
     public function __construct($rules = [], $sessionKey = null)
@@ -147,6 +149,9 @@ class Form implements FormInterface
                 throw new TokenMismatchException('The CSRF token was invalid.');
             }
 
+            $this->addError(self::CSRF_FIELD, Lang::get('form-csrf-expired', 'Your session timed out. Please submit the form again.'));
+            $this->saveData();
+
             return false;
         }
 
@@ -155,6 +160,7 @@ class Form implements FormInterface
         if ($invalid) {
             $this->addErrors($invalid);
             $this->saveData();
+
             return false;
         }
 
