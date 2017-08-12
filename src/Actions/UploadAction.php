@@ -46,9 +46,12 @@ class UploadAction extends Action
      */
     protected function handleFile($field, $options)
     {
-        if (!array_key_exists($field, $_FILES)) {
-            // If no file was uploaded for this field, continue. If the file is required
-            // this should be checked during validation.
+        $file = $this->form->data($field);
+
+        if (!is_array($file)) {
+            // If this is an array, kirby-form already recognized and validated the
+            // uploaded file. If the file is required, this should have been checked
+            // during validation.
             return;
         }
 
@@ -67,7 +70,7 @@ class UploadAction extends Action
             }
         }
 
-        $name = $_FILES[$field]['name'];
+        $name = $file['name'];
         $prefix = A::get($options, 'prefix');
 
         if (is_null($prefix)) {
@@ -81,7 +84,7 @@ class UploadAction extends Action
             $this->fail(L::get('uniform-upload-exists'), $field);
         }
 
-        $success = $this->moveFile($_FILES[$field]['tmp_name'], $path);
+        $success = $this->moveFile($file['tmp_name'], $path);
 
         if ($success) {
             $this->createdFiles[] = $path;

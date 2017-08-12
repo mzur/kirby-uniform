@@ -26,7 +26,7 @@ class UploadActionTest extends TestCase
 
     public function testTargetRequired()
     {
-        $_FILES['testfield'] = [];
+        $this->form->data('testfield', ['name' => 'myfile.txt']);
         $action = new UploadActionStub($this->form, ['fields' => ['testfield' => []]]);
         $this->setExpectedException(PerformerException::class, 'target directory is missing');
         $action->perform();
@@ -36,16 +36,15 @@ class UploadActionTest extends TestCase
     {
         $path = $this->dir.'/uniform_abc123';
         touch($path);
-        $_FILES['testfield'] = [];
+        $this->form->data('testfield', ['name' => 'myfile.txt']);
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path],
         ]]);
         $this->setExpectedException(PerformerException::class, 'Could not create target directory');
         try {
             $action->perform();
-        } catch (PerformerException $e) {
+        } finally {
             unlink($path);
-            throw $e;
         }
     }
 
@@ -54,7 +53,7 @@ class UploadActionTest extends TestCase
         $path = $this->dir.'/uniform_abc123';
         @mkdir($path);
         touch("{$path}/myfile.txt");
-        $_FILES['testfield'] = ['name' => 'myfile.txt'];
+        $this->form->data('testfield', ['name' => 'myfile.txt']);
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path, 'prefix' => false],
         ]]);
@@ -62,10 +61,9 @@ class UploadActionTest extends TestCase
 
         try {
             $action->perform();
-        } catch (PerformerException $e) {
+        } finally {
             unlink("{$path}/myfile.txt");
             rmdir($path);
-            throw $e;
         }
     }
 
@@ -74,7 +72,7 @@ class UploadActionTest extends TestCase
         $path = $this->dir.'/uniform_abc123';
         @mkdir($path);
         touch("{$path}/prefixmyfile.txt");
-        $_FILES['testfield'] = ['name' => 'myfile.txt'];
+        $this->form->data('testfield', ['name' => 'myfile.txt']);
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path, 'prefix' => 'prefix'],
         ]]);
@@ -82,19 +80,18 @@ class UploadActionTest extends TestCase
 
         try {
             $action->perform();
-        } catch (PerformerException $e) {
+        } finally {
             unlink("{$path}/prefixmyfile.txt");
             rmdir($path);
-            throw $e;
         }
     }
 
     public function testHandleRollback()
     {
-        $_FILES['testfield'] = [
+        $this->form->data('testfield', [
             'tmp_name' => $this->dir.'/uniform_123abc',
             'name' => 'myfile.txt'
-        ];
+        ]);
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $this->dir.'/uniform_test'],
         ]]);
@@ -114,10 +111,9 @@ class UploadActionTest extends TestCase
 
         try {
             $action->perform();
-        } catch (PerformerException $e) {
+        } finally {
             $this->assertFalse(is_file($this->dir.'/uniform_test/myfile.txt'));
             $this->assertFalse(is_dir($this->dir.'/uniform_test'));
-            throw $e;
         }
     }
 }
