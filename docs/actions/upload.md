@@ -11,6 +11,8 @@ This example stores an uploaded file in Kirby's content directory.
 
 ### Controller
 
+Note that multiple validation messages only work since Kirby 2.5. The `file`, `mime` and `filesize` validators may not be available yet.
+
 ```php
 <?php
 
@@ -49,6 +51,8 @@ return function ($site, $pages, $page)
 ```
 
 ### Template
+
+Note the `enctype` attribute. This is required for file uploads to work.
 
 ```html+php
 <form enctype="multipart/form-data" method="POST">
