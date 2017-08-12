@@ -9,6 +9,8 @@ use Jevets\Kirby\Flash;
 // see: http://stackoverflow.com/a/4059399/1796523
 ob_start();
 
+require_once __DIR__.DS.'..'.DS.'languages'.DS.'en.php';
+
 class TestCase extends \PHPUnit_Framework_TestCase
 {
     /**

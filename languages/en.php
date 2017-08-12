@@ -18,4 +18,8 @@ l::set([
     'uniform-webhook-error' => 'There was an error calling the webhook: ',
 
     'uniform-email-select-error' => 'Invalid recipient.',
+
+    'uniform-upload-mkdir-fail' => 'Could not create target directory.',
+    'uniform-upload-exists' => 'The file already exists.',
+    'uniform-upload-failed' => 'The file could not be uploaded.',
 ]);
