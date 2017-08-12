@@ -165,6 +165,19 @@ class FormTest extends TestCase
         $_POST['csrf_token'] = csrf();
         $this->assertTrue($form->validates());
     }
+
+    public function testFileField()
+    {
+        $_FILES['filefield'] = 'myfile.txt';
+        $form = new Form(['filefield' => ['rules' => ['file']]]);
+        $this->assertEquals('myfile.txt', $form->data('filefield'));
+    }
+
+    public function testFileFieldEmpty()
+    {
+        $form = new Form(['filefield' => ['rules' => ['file']]]);
+        $this->assertEquals('', $form->data('filefield'));
+    }
 }
 
 class FormStub extends Form

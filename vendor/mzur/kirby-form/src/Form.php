@@ -93,8 +93,12 @@ class Form implements FormInterface
 
         // Prepopulate the fields with old input data, if it exists
         foreach ($this->fields as $field => $attributes) {
-            // Decode HTML entities that might have been encoded by $this->old()
-            $this->data[$field] = $this->decodeField(Request::postData($field));
+            if (in_array('file', $this->rules[$field])) {
+                $this->data[$field] = Request::files($field);
+            } else {
+                // Decode HTML entities that might have been encoded by $this->old()
+                $this->data[$field] = $this->decodeField(Request::postData($field));
+            }
         }
 
         // Get any errors from the Flash

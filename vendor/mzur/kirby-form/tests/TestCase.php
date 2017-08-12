@@ -21,5 +21,6 @@ class TestCase extends \PHPUnit_Framework_TestCase
         $flash->set(Form::FLASH_KEY_DATA, null);
         $flash->set(Form::FLASH_KEY_ERRORS, null);
         $_POST = [];
+        $_FILES = [];
     }
 }
