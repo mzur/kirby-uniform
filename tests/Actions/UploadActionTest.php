@@ -28,8 +28,7 @@ class UploadActionTest extends TestCase
     {
         $_FILES['testfield'] = [];
         $action = new UploadActionStub($this->form, ['fields' => ['testfield' => []]]);
-        $this->expectException(PerformerException::class);
-        $this->expectExceptionMessage('target directory is missing');
+        $this->setExpectedException(PerformerException::class, 'target directory is missing');
         $action->perform();
     }
 
@@ -41,8 +40,7 @@ class UploadActionTest extends TestCase
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path],
         ]]);
-        $this->expectException(PerformerException::class);
-        $this->expectExceptionMessage('Could not create target directory');
+        $this->setExpectedException(PerformerException::class, 'Could not create target directory');
         try {
             $action->perform();
         } catch (PerformerException $e) {
@@ -60,8 +58,8 @@ class UploadActionTest extends TestCase
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path, 'prefix' => false],
         ]]);
-        $this->expectException(PerformerException::class);
-        $this->expectExceptionMessage('file already exists');
+        $this->setExpectedException(PerformerException::class, 'file already exists');
+
         try {
             $action->perform();
         } catch (PerformerException $e) {
@@ -80,8 +78,8 @@ class UploadActionTest extends TestCase
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path, 'prefix' => 'prefix'],
         ]]);
-        $this->expectException(PerformerException::class);
-        $this->expectExceptionMessage('file already exists');
+        $this->setExpectedException(PerformerException::class, 'file already exists');
+
         try {
             $action->perform();
         } catch (PerformerException $e) {
@@ -112,8 +110,7 @@ class UploadActionTest extends TestCase
         // Second call simulates error with a second file. Action should roll back
         // stuff of first file.
         $action->success = false;
-        $this->expectException(PerformerException::class);
-        $this->expectExceptionMessage('file could not be uploaded');
+        $this->setExpectedException(PerformerException::class, 'file could not be uploaded');
 
         try {
             $action->perform();
