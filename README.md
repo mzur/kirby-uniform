@@ -12,8 +12,9 @@ Builtin actions:
 - [EmailSelect](http://kirby-uniform.readthedocs.io/en/latest/actions/email-select/): Choose from multiple recipients to send the form data by email.
 - [Log](http://kirby-uniform.readthedocs.io/en/latest/actions/log/): Log the form data to a file.
 - [Login](http://kirby-uniform.readthedocs.io/en/latest/actions/login/): Log in to the Kirby frontend.
-- [Webhook](http://kirby-uniform.readthedocs.io/en/latest/actions/webhook/): Send the form data as an HTTP request to a webhook.
 - [SessionStore](http://kirby-uniform.readthedocs.io/en/latest/actions/session-store): Store the form in the user's session.
+- [Upload](http://kirby-uniform.readthedocs.io/en/latest/actions/upload): Handle file uploads.
+- [Webhook](http://kirby-uniform.readthedocs.io/en/latest/actions/webhook/): Send the form data as an HTTP request to a webhook.
 
 ## Quick example
 
