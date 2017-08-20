@@ -46,7 +46,7 @@ class EmailActionTest extends TestCase
             'to' => 'jane@user.com',
             'from' => 'info@user.com',
             'replyTo' => 'joe@user.com',
-            'subject' => '',
+            'subject' => 'Message from the web form',
             'body' => '',
         ];
         $this->assertEquals($expected, $action->params);
@@ -185,9 +185,7 @@ class EmailActionTest extends TestCase
             $action->perform();
             $this->assertFalse(true);
         } catch (PerformerException $e) {
-            // Language variables are not loaded in these tests so the message is empty
-            // here.
-            $this->assertEquals('.', $e->getMessage());
+            $this->assertEquals('There was an error sending the form.', $e->getMessage());
         }
 
         Config::set('debug', true);
@@ -196,7 +194,7 @@ class EmailActionTest extends TestCase
             $action->perform();
             $this->assertFalse(true);
         } catch (PerformerException $e) {
-            $this->assertEquals(": Throw it like it's hoot", $e->getMessage());
+            $this->assertEquals("There was an error sending the form: Throw it like it's hoot", $e->getMessage());
         }
     }
 }
