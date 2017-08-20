@@ -21,6 +21,7 @@ pages:
         - Login: actions/login.md
         - Webhook: actions/webhook.md
         - 'Session Store': actions/session-store.md
+        - Upload: actions/upload.md
     - Examples:
         - Basic: examples/basic.md
         - Extended: examples/extended.md
