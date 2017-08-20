@@ -11,7 +11,7 @@ This example stores an uploaded file in Kirby's content directory.
 
 ### Controller
 
-Note that multiple validation messages only work since Kirby 2.5. The `file`, `mime` and `filesize` validators may not be available yet.
+Note that multiple validation messages only work since Kirby 2.5. The `file`, `mime` and `filesize` validators are provided by Uniform. You can also use the `image` validator for image uploads.
 
 ```php
 <?php
