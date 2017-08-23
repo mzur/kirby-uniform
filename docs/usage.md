@@ -65,11 +65,11 @@ Form fields that should not be returned to the user in case of some validation e
 ```php
 $form = new Form([
     'username' => [
-        'rules' => ['reqired'],
+        'rules' => ['required'],
         'message' => 'Please enter your username',
     ],
     'password' => [
-        'rules' => ['reqired'],
+        'rules' => ['required'],
         'message' => 'Please enter your password',
         'flash' => false,
     ],
@@ -81,7 +81,7 @@ As of Kirby 2.5 you are able to specify an error message for each individual val
 ```php
 $form = new Form([
     'email' => [
-        'rules' => ['reqired', 'email'],
+        'rules' => ['required', 'email'],
         'message' => ['The email is required', 'Please enter a valid email address'],
     ],
 ]);
