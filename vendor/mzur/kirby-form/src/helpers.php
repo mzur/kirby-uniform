@@ -35,6 +35,9 @@ if (class_exists('v')) {
     };
 
     v::$validators['mime'] = function ($value, $allowed) {
+        if (!is_array($allowed)) {
+            $allowed = array_slice(func_get_args(), 1);
+        }
         if (is_string($value)) {
           $name = $value;
         } elseif (is_array($value) && array_key_exists('tmp_name', $value)) {

@@ -28,12 +28,14 @@ class HelperTest extends TestCase
 
     public function testMimeValidator()
     {
-        $path = sys_get_temp_dir().'/kirby_test_mime';
-        file_put_contents($path, 'sometext');
-        $this->assertTrue(v::mime(['tmp_name' => $path], ['text/plain']));
-        $this->assertTrue(v::mime($path, ['text/plain']));
-        $this->assertFalse(v::mime($path, ['image/png']));
-        unlink($path);
+        // This works without an actual file because the Toolkit guesses the MIME by
+        // file extension in this case.
+        $this->assertTrue(v::mime(['tmp_name' => 'test.txt'], ['text/plain']));
+        $this->assertTrue(v::mime('test.txt', ['text/plain']));
+        $this->assertFalse(v::mime('test.txt', ['image/png']));
+        // Test handling of non-array argument through invalid().
+        $r = invalid(['file' => 'test.txt'], ['file' => ['mime' => ['text/plain']]]);
+        $this->assertEquals([], $r);
     }
 
     public function testImageValidator()
