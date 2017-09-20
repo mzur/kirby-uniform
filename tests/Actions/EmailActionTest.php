@@ -2,6 +2,7 @@
 
 namespace Uniform\Tests\Actions;
 
+use Error;
 use Exception;
 use C as Config;
 use Uniform\Form;
@@ -197,6 +198,35 @@ class EmailActionTest extends TestCase
             $this->assertEquals("There was an error sending the form: Throw it like it's hoot", $e->getMessage());
         }
     }
+
+    public function testHandleServiceError()
+    {
+        $this->form->data('field', 'value');
+        $action = new EmailAction($this->form, [
+            'service' => 'thrower2',
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'subject' => 'Test',
+        ]);
+
+        Config::set('debug', false);
+
+        try {
+            $action->perform();
+            $this->assertFalse(true);
+        } catch (PerformerException $e) {
+            $this->assertEquals('There was an error sending the form.', $e->getMessage());
+        }
+
+        Config::set('debug', true);
+
+        try {
+            $action->perform();
+            $this->assertFalse(true);
+        } catch (PerformerException $e) {
+            $this->assertEquals("There was an error sending the form: Throw it like it's hoot", $e->getMessage());
+        }
+    }
 }
 
 class EmailActionStub extends EmailAction
@@ -226,4 +256,8 @@ class EmailActionStub extends EmailAction
 
 \Email::$services['thrower'] = function($email) {
     throw new Exception("Throw it like it's hoot");
+};
+
+\Email::$services['thrower2'] = function($email) {
+    throw new Error("Throw it like it's hoot");
 };

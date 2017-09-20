@@ -6,6 +6,7 @@ use C;
 use L;
 use Str;
 use Email;
+use Error;
 use Exception;
 use Uniform\Form;
 
@@ -56,12 +57,24 @@ class EmailAction extends Action
                 $this->sendEmail($params);
             }
         } catch (Exception $e) {
-            if (c::get('debug') === true) {
-                $this->fail(L::get('uniform-email-error').': '.$e->getMessage());
-            }
-
-            $this->fail(L::get('uniform-email-error').'.');
+            $this->handleException($e);
+        } catch (Error $e) {
+            $this->handleException($e);
         }
+    }
+
+    /**
+     * Handle an exception when the email should be sent.
+     *
+     * @param Exception|Error $e
+     */
+    protected function handleException($e)
+    {
+        if (c::get('debug') === true) {
+            $this->fail(L::get('uniform-email-error').': '.$e->getMessage());
+        }
+
+        $this->fail(L::get('uniform-email-error').'.');
     }
 
     /**
