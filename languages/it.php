@@ -11,7 +11,7 @@ l::set([
 
     'uniform-calc-plus' => 'più',
 
-    'uniform-log-error' => 'There was an error while writing to the logfile.',
+    'uniform-log-error' => 'Errore nella scrittura del file di log.',
 
     'uniform-login-error' => 'Nome utente o password errati.',
 
