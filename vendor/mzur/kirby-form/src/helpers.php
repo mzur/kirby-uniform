@@ -41,7 +41,10 @@ if (class_exists('v')) {
 
     v::$validators['filesize'] = function ($value, $size) {
         // $size is in kb and $value['size'] is in byte, so multiply by 1000
-        return is_array($value) && array_key_exists('size', $value) && $value['size'] <= $size * 1000;
+        return is_array($value) &&
+            array_key_exists('size', $value) &&
+            array_key_exists('error', $value) &&
+            (($value['size'] <= $size * 1000) || $value['error'] === UPLOAD_ERR_NO_FILE);
     };
 
     v::$validators['mime'] = function ($value, $allowed) {
@@ -50,9 +53,12 @@ if (class_exists('v')) {
         }
         if (is_string($value)) {
           $name = $value;
-        } elseif (is_array($value) && array_key_exists('tmp_name', $value)) {
+        } elseif (is_array($value) && array_key_exists('tmp_name', $value) && array_key_exists('error', $value)) {
           // This is for uploaded files from $_FILES
           $name = $value['tmp_name'];
+          if ($value['error'] === UPLOAD_ERR_NO_FILE) {
+            return true;
+          }
         }
         if (isset($name)) {
           return in_array(f::mime($name), $allowed);
@@ -63,9 +69,12 @@ if (class_exists('v')) {
     v::$validators['image'] = function ($value) {
         if (is_string($value)) {
           $name = $value;
-        } elseif (is_array($value) && array_key_exists('tmp_name', $value)) {
+        } elseif (is_array($value) && array_key_exists('tmp_name', $value)  && array_key_exists('error', $value)) {
           // This is for uploaded files from $_FILES
           $name = $value['tmp_name'];
+          if ($value['error'] === UPLOAD_ERR_NO_FILE) {
+            return true;
+          }
         }
         if (isset($name)) {
           return f::type($name) === 'image';

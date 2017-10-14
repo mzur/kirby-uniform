@@ -112,8 +112,10 @@ class HelperTest extends TestCase
 
     public function testFilesizeValidator()
     {
-        $this->assertTrue(v::filesize(['size' => 9000], 9));
-        $this->assertFalse(v::filesize(['size' => 9000], 8));
+        $this->assertTrue(v::filesize(['size' => 9000, 'error' => UPLOAD_ERR_OK], 9));
+        $this->assertFalse(v::filesize(['size' => 9000, 'error' => UPLOAD_ERR_OK], 8));
+        // If no file was uploaded, validation should still pass.
+        $this->assertTrue(v::filesize(['size' => 9000, 'error' => UPLOAD_ERR_NO_FILE], 8));
         $this->assertFalse(v::filesize([], 8));
         $this->assertFalse(v::filesize('asdf', 8));
     }
@@ -122,7 +124,9 @@ class HelperTest extends TestCase
     {
         // This works without an actual file because the Toolkit guesses the MIME by
         // file extension in this case.
-        $this->assertTrue(v::mime(['tmp_name' => 'test.txt'], ['text/plain']));
+        $this->assertTrue(v::mime(['tmp_name' => 'test.txt', 'error' => UPLOAD_ERR_OK], ['text/plain']));
+        // If no file was uploaded, validation should still pass.
+        $this->assertTrue(v::mime(['tmp_name' => 'test.json', 'error' => UPLOAD_ERR_NO_FILE], ['text/plain']));
         $this->assertTrue(v::mime('test.txt', ['text/plain']));
         $this->assertFalse(v::mime('test.txt', ['image/png']));
         // Test handling of non-array argument through invalid().
@@ -138,6 +142,8 @@ class HelperTest extends TestCase
         // This is a GIF: http://probablyprogramming.com/2009/03/15/the-tiniest-gif-ever
         file_put_contents($path, base64_decode('R0lGODlhAQABAIABAP///wAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='));
         $this->assertTrue(v::image($path));
+        $this->assertTrue(v::image(['tmp_name' => $path, 'error' => UPLOAD_ERR_OK]));
+        $this->assertTrue(v::image(['tmp_name' => '', 'error' => UPLOAD_ERR_NO_FILE]));
         unlink($path);
     }
 }
