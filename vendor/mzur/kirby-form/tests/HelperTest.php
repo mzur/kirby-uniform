@@ -91,33 +91,23 @@ class HelperTest extends TestCase
         }
     }
 
-    public function testFileValidatorRequired()
+    public function testRequiredFileValidator()
     {
-        $this->assertTrue(v::file([
+        $this->assertTrue(v::requiredFile([
             'name' => 'testname',
             'type' => 'text/plain',
             'size' => 0,
             'tmp_name' => 'qwert',
             'error' => UPLOAD_ERR_OK,
-        ], true));
+        ]));
 
-        $this->assertFalse(v::file([
+        $this->assertFalse(v::requiredFile([
             'name' => 'testname',
             'type' => 'text/plain',
             'size' => 0,
             'tmp_name' => 'qwert',
             'error' => UPLOAD_ERR_NO_FILE,
-        ], true));
-
-        // If used with the invalid helper function a string may be passed as second
-        // argument. But only 'true' should indicate a required file.
-        $this->assertTrue(v::file([
-            'name' => 'testname',
-            'type' => 'text/plain',
-            'size' => 0,
-            'tmp_name' => 'qwert',
-            'error' => UPLOAD_ERR_NO_FILE,
-        ], 'file'));
+        ]));
     }
 
     public function testFilesizeValidator()
