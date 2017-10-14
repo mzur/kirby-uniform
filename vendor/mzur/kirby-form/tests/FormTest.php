@@ -178,6 +178,42 @@ class FormTest extends TestCase
         $form = new Form(['filefield' => ['rules' => ['file']]]);
         $this->assertEquals('', $form->data('filefield'));
     }
+
+    public function testFileFieldValidateEmpty()
+    {
+        $_FILES['filefield'] = [
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_NO_FILE,
+        ];
+        $form = new Form(['filefield' => ['rules' => ['file']]]);
+        $this->assertTrue($form->validates());
+    }
+
+    public function testFileFieldValidateRequired()
+    {
+        $_FILES['filefield'] = [
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_NO_FILE,
+        ];
+        $form = new Form(['filefield' => ['rules' => ['required', 'file']]]);
+        $this->assertFalse($form->validates());
+
+        $_FILES['filefield'] = [
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_OK,
+        ];
+        $form = new Form(['filefield' => ['rules' => ['required', 'file']]]);
+        $this->assertTrue($form->validates());
+    }
 }
 
 class FormStub extends Form

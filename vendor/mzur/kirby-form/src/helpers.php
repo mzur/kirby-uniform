@@ -25,8 +25,18 @@ if (!function_exists('csrf_field')) {
 
 if (class_exists('v')) {
     // Extended validation rules for file uploads.
-    v::$validators['file'] = function ($value) {
-        return is_array($value) && array_key_exists('tmp_name', $value) && is_uploaded_file($value['tmp_name']);
+    v::$validators['file'] = function ($value, $required = false) {
+        // If used with the invalid helper function a string may be passed as second
+        // argument. But only 'true' should indicate a required file.
+        $required = $required === true;
+
+        return is_array($value) &&
+            array_key_exists('name', $value) &&
+            array_key_exists('type', $value) &&
+            array_key_exists('size', $value) &&
+            array_key_exists('tmp_name', $value) &&
+            array_key_exists('error', $value) &&
+                ($value['error'] === UPLOAD_ERR_OK || !$required && $value['error'] === UPLOAD_ERR_NO_FILE);
     };
 
     v::$validators['filesize'] = function ($value, $size) {

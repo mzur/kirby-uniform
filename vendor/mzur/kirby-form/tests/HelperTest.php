@@ -18,6 +18,108 @@ class HelperTest extends TestCase
         $this->assertContains('value="abc"', csrf_field('abc'));
     }
 
+    public function testFileValidator()
+    {
+        $this->assertTrue(v::file([
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_OK,
+        ]));
+
+        $this->assertTrue(v::file([
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_NO_FILE,
+        ]));
+
+        $this->assertFalse(v::file([
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_OK,
+        ]));
+
+        $this->assertFalse(v::file([
+            'name' => 'testname',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_OK,
+        ]));
+
+        $this->assertFalse(v::file([
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_OK,
+        ]));
+
+        $this->assertFalse(v::file([
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'error' => UPLOAD_ERR_OK,
+        ]));
+
+        $this->assertFalse(v::file([
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+        ]));
+
+        $codes = [
+            UPLOAD_ERR_INI_SIZE,
+            UPLOAD_ERR_FORM_SIZE,
+            UPLOAD_ERR_PARTIAL,
+            UPLOAD_ERR_NO_TMP_DIR,
+            UPLOAD_ERR_CANT_WRITE,
+            UPLOAD_ERR_EXTENSION,
+        ];
+
+        foreach ($codes as $code) {
+            $this->assertFalse(v::file([
+                'name' => 'testname',
+                'type' => 'text/plain',
+                'size' => 0,
+                'tmp_name' => 'qwert',
+                'error' => $code,
+            ]));
+        }
+    }
+
+    public function testFileValidatorRequired()
+    {
+        $this->assertTrue(v::file([
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_OK,
+        ], true));
+
+        $this->assertFalse(v::file([
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_NO_FILE,
+        ], true));
+
+        // If used with the invalid helper function a string may be passed as second
+        // argument. But only 'true' should indicate a required file.
+        $this->assertTrue(v::file([
+            'name' => 'testname',
+            'type' => 'text/plain',
+            'size' => 0,
+            'tmp_name' => 'qwert',
+            'error' => UPLOAD_ERR_NO_FILE,
+        ], 'file'));
+    }
+
     public function testFilesizeValidator()
     {
         $this->assertTrue(v::filesize(['size' => 9000], 9));
