@@ -63,3 +63,40 @@ return function ($site, $pages, $page)
     return compact('form');
 };
 ```
+
+## How can I have one or more forms on cached pages, that are submitted via AJAX?
+
+When you use Uniform on cached pages, the CSRF token is also cached and may be outdated when the user retrieves it. To manually update the CSRF token, you can add an uncached route to your Kirby config file and set the token with JavaScript. Don't forget to add the new route to the `cache.ignore` array in your config file.
+
+**Route:**
+```
+c::set('routes', [[
+    'pattern' => 'gettoken',
+    'method' => 'GET',
+    'action'  => function() {
+      return response::json(['token' => csrf()]);
+    },
+]]);
+
+c::set('cache.ignore', ['gettoken']);
+```
+
+**JS:**
+```
+var token_request = new XMLHttpRequest();
+var request_path = 'gettoken';
+
+token_request.onreadystatechange = function() {
+  var token_fields = document.querySelectorAll('form.contact-form input[name="csrf_token"]');
+
+  if (this.status === 200 && this.readyState === 4) {
+    var token = JSON.parse(this.response).token;
+    for(i = 0; i < token_fields.length; i++) {
+      token_fields[i].value = token;
+    }
+  }
+};
+
+token_request.open('GET', request_path);
+token_request.send();
+```
