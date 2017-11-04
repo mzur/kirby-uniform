@@ -121,4 +121,4 @@ Contributions are always welcome!
 
 ## Donations
 
-Since some people insist on sending me money for this (free) plugin you can do this [here](https://www.paypal.me/mzur/14eur).
+Since some people insist on sending me money for this (free) plugin you can do this [here](https://www.paypal.me/mzur/10eur). You can also say [thank you](https://saythanks.io/to/mzur).
