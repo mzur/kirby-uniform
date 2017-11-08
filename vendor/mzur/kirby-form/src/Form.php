@@ -93,7 +93,7 @@ class Form implements FormInterface
 
         // Prepopulate the fields with old input data, if it exists
         foreach ($this->fields as $field => $attributes) {
-            if (in_array('file', $this->rules[$field])) {
+            if (in_array('file', $this->rules[$field], true)) {
                 if (in_array('required', $this->rules[$field])) {
                     $this->rules[$field][array_search('file', $this->rules[$field])] = 'requiredFile';
                 }
