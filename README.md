@@ -2,7 +2,7 @@
 
 A versatile [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
-[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](http://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg?branch=v3)](https://travis-ci.org/mzur/kirby-uniform)
+[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](http://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg?branch=v3)](https://travis-ci.org/mzur/kirby-uniform) [![saythanks](https://img.shields.io/badge/say-thanks-blue.svg)](https://saythanks.io/to/mzur)
 
 This is Uniform v3. For Uniform v2.3 head over to the [v2 branch](https://github.com/mzur/kirby-uniform/tree/v2).
 
@@ -121,4 +121,4 @@ Contributions are always welcome!
 
 ## Donations
 
-Since some people insist on sending me money for this (free) plugin you can do this [here](https://www.paypal.me/mzur/14eur).
+Since some people insist on sending me money for this (free) plugin you can do this [here](https://www.paypal.me/mzur/10eur). You can also say [thank you](https://saythanks.io/to/mzur).
