@@ -44,7 +44,7 @@ class LogAction extends Action
      */
     protected function getContent()
     {
-        $snippet = $this->option('snippet');
+        $snippet = $this->option('snippet', 'uniform/log-default');
         $data = $this->form->data();
 
         if ($snippet) {
@@ -53,6 +53,7 @@ class LogAction extends Action
                 'options' => $this->options
             ]);
         } else {
+            // This is the last resort for when something happens to the default snippet
             $content = '['.date('c').'] '.Visitor::ip().' '.Visitor::userAgent();
 
             foreach ($data as $key => $value) {
