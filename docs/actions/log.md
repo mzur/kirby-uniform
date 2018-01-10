@@ -66,3 +66,12 @@ Path to the log file where the form data should be appended to. The file will be
 ### snippet
 
 By default the action lists all form fields with their values along with some information on the submitter of the form in each log entry (see [above](log-entry)). To customize the format you can also supply the name of a snippet in this option. Inside the snippet you have access to the `$data` array, which is a plain associative array containing the form data, and the `$options` array which is the options array that you passed on to the log action.
+
+#### `'snippet' => 'uniform/log-json'`
+
+There is a pre-made snippet already, that saves the `$data` along with some information on the submitter as a json string on one line. That could help if you want to process the logs further.
+
+```
+{"timestamp":"2016-12-20T09:16:18+00:00","ip":"127.0.0.1","userAgent":"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:37.0) Gecko/20100101 Firefox/51.0","email":"joe@user.com","message":"This is a test submission."}
+```
+
