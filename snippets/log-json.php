@@ -1,8 +1,9 @@
-<?php 
-$header = array(
+<?php
+
+$header = [
 	'timestamp' => date('c'),
 	'ip' => Visitor::ip(),
 	'userAgent' => Visitor::userAgent(),
-);
+];
 
-print(json_encode(array_merge($header, $data)) . "\n");
+echo json_encode(array_merge($header, $data));
