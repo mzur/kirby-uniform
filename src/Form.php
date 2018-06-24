@@ -94,7 +94,11 @@ class Form extends BaseForm
             try {
                 include_once __DIR__.DS.'..'.DS.'languages'.DS.$code.'.php';
             } catch (ErrorException $e) {
-                throw new Exception("Uniform does not have a translation for the language '$code'.");
+                if (Config::get('debug') === true) {
+                    throw new Exception("Uniform does not have a translation for the language '$code'.");
+                }
+
+                include_once __DIR__.DS.'..'.DS.'languages'.DS.'en.php';
             }
         }
     }
