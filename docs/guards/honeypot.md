@@ -24,7 +24,7 @@ Template:
 <?php echo honeypot_field('url', 'my-class'); ?>
 ```
 
-The the honeypot field will not be available in actions even if you explicitly defined it in the constructor array of validation rules of the `Form` class (which you don't have to).
+The honeypot field will not be available in actions even if you explicitly defined it in the constructor array of validation rules of the `Form` class (which you don't have to).
 
 ## Options
 
