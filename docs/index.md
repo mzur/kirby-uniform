@@ -14,7 +14,7 @@ Builtin actions:
 
 ## Installation
 
-Uniform requires PHP 5.5 or higher. It is highly recommended to use a version under [active support](https://php.net/supported-versions.php).
+Uniform requires PHP 5.6 or higher. It is highly recommended to use a version under [active support](https://php.net/supported-versions.php).
 
 ### Kirby CLI
 
