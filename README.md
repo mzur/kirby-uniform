@@ -2,19 +2,19 @@
 
 A versatile [Kirby 2](http://getkirby.com) plugin to handle web form actions.
 
-[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](http://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg?branch=v3)](https://travis-ci.org/mzur/kirby-uniform) [![saythanks](https://img.shields.io/badge/say-thanks-blue.svg)](https://saythanks.io/to/mzur)
+[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=kirby-2)](https://kirby-uniform.readthedocs.io/en/kirby-2/?badge=kirby-2) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg?branch=kirby-2)](https://travis-ci.org/mzur/kirby-uniform) [![saythanks](https://img.shields.io/badge/say-thanks-blue.svg)](https://saythanks.io/to/mzur)
 
 This is Uniform v3. For Uniform v2.3 head over to the [v2 branch](https://github.com/mzur/kirby-uniform/tree/v2).
 
 Builtin actions:
 
-- [Email](http://kirby-uniform.readthedocs.io/en/latest/actions/email/): Send the form data by email.
-- [EmailSelect](http://kirby-uniform.readthedocs.io/en/latest/actions/email-select/): Choose from multiple recipients to send the form data by email.
-- [Log](http://kirby-uniform.readthedocs.io/en/latest/actions/log/): Log the form data to a file.
-- [Login](http://kirby-uniform.readthedocs.io/en/latest/actions/login/): Log in to the Kirby frontend.
-- [SessionStore](http://kirby-uniform.readthedocs.io/en/latest/actions/session-store): Store the form in the user's session.
-- [Upload](http://kirby-uniform.readthedocs.io/en/latest/actions/upload): Handle file uploads.
-- [Webhook](http://kirby-uniform.readthedocs.io/en/latest/actions/webhook/): Send the form data as an HTTP request to a webhook.
+- [Email](https://kirby-uniform.readthedocs.io/en/kirby-2/actions/email/): Send the form data by email.
+- [EmailSelect](https://kirby-uniform.readthedocs.io/en/kirby-2/actions/email-select/): Choose from multiple recipients to send the form data by email.
+- [Log](https://kirby-uniform.readthedocs.io/en/kirby-2/actions/log/): Log the form data to a file.
+- [Login](https://kirby-uniform.readthedocs.io/en/kirby-2/actions/login/): Log in to the Kirby frontend.
+- [SessionStore](https://kirby-uniform.readthedocs.io/en/kirby-2/actions/session-store): Store the form in the user's session.
+- [Upload](https://kirby-uniform.readthedocs.io/en/kirby-2/actions/upload): Handle file uploads.
+- [Webhook](https://kirby-uniform.readthedocs.io/en/kirby-2/actions/webhook/): Send the form data as an HTTP request to a webhook.
 
 ## Quick example
 
@@ -109,11 +109,11 @@ See [here](https://github.com/mzur/kirby-uniform/tree/master/languages) for all 
 
 ## Documentation
 
-For the full documentation head over to [Read the Docs](http://kirby-uniform.readthedocs.io).
+For the full documentation head over to [Read the Docs](https://kirby-uniform.readthedocs.io/en/kirby-2).
 
 ## Questions
 
-See the [answers](http://kirby-uniform.readthedocs.io/en/latest/answers/) in the docs, [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to use the `uniform` tag or mention `@mzur`).
+See the [answers](https://kirby-uniform.readthedocs.io/en/kirby-2/answers/) in the docs, [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to use the `uniform` tag or mention `@mzur`).
 
 ## Contributing
 
