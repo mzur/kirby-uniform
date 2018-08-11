@@ -2,9 +2,9 @@
 
 namespace Jevets\Kirby\Form\Tests;
 
-use Kirby\Cms\App;
 use Jevets\Kirby\Form;
 use Jevets\Kirby\Flash;
+use Mzur\Kirby\DefuseSession\Defuse;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -14,7 +14,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         parent::setUp();
-        App::instance(new SessionTestApp);
+        Defuse::defuse();
         $flash = Flash::getInstance();
         $flash->set(Form::FLASH_KEY_DATA, null);
         $flash->set(Form::FLASH_KEY_ERRORS, null);

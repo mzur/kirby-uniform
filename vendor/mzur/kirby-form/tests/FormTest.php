@@ -2,8 +2,8 @@
 
 namespace Jevets\Kirby\Form\Tests;
 
-use Kirby\Cms\App;
 use Jevets\Kirby\Form;
+use Mzur\Kirby\DefuseSession\Defuse;
 use Jevets\Kirby\Exceptions\TokenMismatchException;
 
 class FormTest extends TestCase
@@ -151,7 +151,7 @@ class FormTest extends TestCase
     public function testValidateCsrfException()
     {
         unset($_POST['csrf_token']);
-        App::instance(new SessionTestApp(['options' => ['debug' => true]]));
+        Defuse::defuse(['options' => ['debug' => true]]);
         csrf();
         $form = new Form;
         $this->expectException(TokenMismatchException::class);
@@ -161,10 +161,27 @@ class FormTest extends TestCase
     public function testValidateCsrfExceptionNoDebug()
     {
         unset($_POST['csrf_token']);
-        App::instance(new SessionTestApp(['options' => ['debug' => false]]));
+        Defuse::defuse(['options' => ['debug' => false]]);
         csrf();
         $form = new Form;
         $this->assertFalse($form->validates());
+    }
+
+    public function testValidateCsrfMissing()
+    {
+        unset($_POST['csrf_token']);
+        // Defuse::defuse();
+        $form = new Form;
+        $this->assertFalse($form->validates());
+    }
+
+    public function testValidateCsrfMissingDebug()
+    {
+        unset($_POST['csrf_token']);
+        Defuse::defuse(['options' => ['debug' => true]]);
+        $form = new Form;
+        $this->expectException(TokenMismatchException::class);
+        $form->validates();
     }
 
     public function testValidateCsrfSuccess()
