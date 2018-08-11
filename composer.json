@@ -16,12 +16,12 @@
         "docs": "http://kirby-uniform.readthedocs.io"
     },
     "require": {
-        "php": ">=5.5.0",
-        "mzur/kirby-form": "^1.0"
+        "getkirby/cms": "dev-develop || >=3.0.0-beta-4.2",
+        "mzur/kirby-form": "^2.0.0-beta"
     },
     "require-dev": {
-        "getkirby/toolkit": "dev-master",
-        "phpunit/phpunit": "^4.6 || ^5.0"
+        "phpunit/phpunit": "^6.0",
+        "mzur/kirby-defuse-session": "@beta"
     },
     "minimum-stability": "dev",
     "autoload": {
@@ -29,13 +29,19 @@
             "Uniform\\": "src/"
         },
         "files": [
-            "src/helpers.php",
-            "index.php"
+            "config.php",
+            "src/helpers.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
             "Uniform\\Tests\\": "tests/"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/k-next/kirby.git"
+        }
+    ]
 }

@@ -1,0 +1,44 @@
+{
+    "name": "mzur/kirby-form",
+    "description": "A form helper for Kirby-based websites, using the Post/Redirect/Get pattern.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["kirby", "form"],
+    "authors": [
+        {
+            "name": "Steve Jamesson",
+            "email": "steve@evendev.com"
+        },
+        {
+            "name": "Martin Zurowietz",
+            "email": "martin@the-inspired-ones.de"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "mzur/kirby-flash": "dev-master",
+        "getkirby/cms": "dev-develop"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jevets\\Kirby\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jevets\\Kirby\\Form\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/k-next/kirby.git"
+        }
+    ]
+}
