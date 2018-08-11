@@ -2,9 +2,8 @@
 
 namespace Uniform\Guards;
 
-use L;
-use S;
-use R;
+use Kirby\Cms\App;
+use Kirby\Toolkit\I18n;
 
 /**
  * Guard that checks a simple arithmetic problem.
@@ -33,9 +32,9 @@ class CalcGuard extends Guard
     public function perform()
     {
         $field = $this->option('field', self::FIELD_NAME);
-        $result = S::get(self::FLASH_KEY, null);
-        if ($result === null || R::postData($field) != $result) {
-            $this->reject(L::get('uniform-calc-incorrect'), $field);
+        $result = App::instance()->session()->get(self::FLASH_KEY, null);
+        if ($result === null || App::instance()->request()->body()->get($field) != $result) {
+            $this->reject(I18n::translate('uniform-calc-incorrect'), $field);
         }
         $this->form->forget($field);
     }

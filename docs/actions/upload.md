@@ -18,7 +18,7 @@ Note that multiple validation messages only work since Kirby 2.5. The `file`, `m
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'filefield' => [
@@ -37,7 +37,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->uploadAction(['fields' => [
             'filefield' => [
                 'target' => kirby()->roots()->content(),

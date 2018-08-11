@@ -21,7 +21,7 @@ class WebhookActionTest extends TestCase
     public function testFileOptionRequired()
     {
         $action = new WebhookActionStub($this->form);
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
         $action->perform();
     }
 
@@ -74,7 +74,7 @@ class WebhookActionTest extends TestCase
     {
         $action = new WebhookActionStub($this->form, ['url' => 'example.com']);
         $action->shouldFail = true;
-        $this->setExpectedException(PerformerException::class);
+        $this->expectException(PerformerException::class);
         $action->perform();
     }
 

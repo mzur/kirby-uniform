@@ -2,9 +2,8 @@
 
 namespace Uniform\Actions;
 
-use A;
-use L;
-use Str;
+use Kirby\Toolkit\A;
+use Kirby\Toolkit\I18n;
 
 /*
  * Action to store one or more uploaded files in some directory.
@@ -66,7 +65,7 @@ class UploadAction extends Action
             if (@mkdir($target, 0755)) {
                 $this->createdDirectories[] = $target;
             } else {
-                $this->fail(L::get('uniform-upload-mkdir-fail'), $field);
+                $this->fail(I18n::translate('uniform-upload-mkdir-fail'), $field);
             }
         }
 
@@ -74,14 +73,14 @@ class UploadAction extends Action
         $prefix = A::get($options, 'prefix');
 
         if (is_null($prefix)) {
-            $name = Str::random(10).'_'.$name;
+            $name = $this->getRandomPrefix($name);
         } elseif ($prefix !== false) {
             $name = $prefix.$name;
         }
 
         $path = $target.DIRECTORY_SEPARATOR.$name;
         if (is_file($path)) {
-            $this->fail(L::get('uniform-upload-exists'), $field);
+            $this->fail(I18n::translate('uniform-upload-exists'), $field);
         }
 
         $success = $this->moveFile($file['tmp_name'], $path);
@@ -89,7 +88,7 @@ class UploadAction extends Action
         if ($success) {
             $this->createdFiles[] = $path;
         } else {
-            $this->fail(L::get('uniform-upload-failed'), $field);
+            $this->fail(I18n::translate('uniform-upload-failed'), $field);
         }
     }
 
@@ -114,5 +113,20 @@ class UploadAction extends Action
     protected function moveFile($source, $target)
     {
         return move_uploaded_file($source, $target);
+    }
+
+    /**
+     * Adds a random prefix to the name
+     *
+     * @param string $name The name
+     * @param integer $length Length of the prefix
+     *
+     * @return Name with prefix, sepatated by a '_'
+     */
+    protected function getRandomPrefix($name, $length = 10)
+    {
+        $prefix = bin2hex(random_bytes(intval($length / 2)));
+
+        return "{$prefix}_{$name}";
     }
 }

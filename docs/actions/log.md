@@ -11,7 +11,7 @@ This action appends the form data and some information on the submitter to a log
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'email' => [
@@ -24,7 +24,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->logAction([
             'file' => kirby()->roots()->site().'/messages.log',
         ]);

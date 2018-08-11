@@ -1,6 +1,6 @@
 # Email Action
 
-This actions sends the form data by email. In its simplest form it just appends all form fields in `name: value` pairs as plain text. But it can use a [snippet](#snippet) to build the email, too. You can also define custom [email services](#service) to send e.g. HTML emails.
+This actions sends the form data by email. In its simplest form it just appends all form fields in `name: value` pairs as plain text. But it can use a [snippet](#snippet) to build the email, too. You can use snippets to send HTML instead of plain text emails, too.
 
 If there is an `email` field in the form data, the action will use it as `replyTo` of the sent email and remove it from the email body. If there is a `receive_copy` field present (e.g. a checkbox) and the [receive-copy](#receive-copy) option is set, the action will send a copy of the email to the address specified in the `email` field. The subject of this copy email will get the `uniform-email-copy` prefix.
 
@@ -13,7 +13,7 @@ If there is an `email` field in the form data, the action will use it as `replyT
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'email' => [
@@ -26,7 +26,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->emailAction([
             'to' => 'me@example.com',
             'from' => 'info@example.com',
@@ -50,6 +50,8 @@ return function ($site, $pages, $page)
 
 ## Options
 
+The email action accepts the same options than the [email function of Kirby](https://nnnnext.getkirby.com/docs/guide/emails). You can pass on options like `cc`, `bcc` or even `attachments`. The `body` is ignored, however, as it is dynamically generated based on the form data. Here are some special options:
+
 ### to (required)
 
 The email address that should be the receiver of the emails. It can be dynamically chosen based on the form content with the [EmailSelectAction](email-select).
@@ -60,9 +62,10 @@ The email address that will be the sender of the emails. This should be some add
 
 ### subject
 
-The subject of the email. By default the `uniform-email-subject` language variable is taken. The subject supports templates, too, so you can dynamically add form data to it. A template is a name of a form field surrounded by `{}`. Example:
+The subject of the email. By default the `uniform-email-subject` language variable is taken. The subject supports templates, too, so you can dynamically add form data to it. A template is a name of a form field surrounded by `{{}}`. Example:
+
 ```php
-'subject' => 'New request from {email}',
+'subject' => 'New request from {{email}}',
 ```
 
 !!! warning "Note"
@@ -77,14 +80,6 @@ Check out the `email-*` snippets of the [Uniform repo](https://github.com/mzur/k
 ### replyTo
 
 Set a static email address as `replyTo` of the email instead of the value of the `email` form field.
-
-### service
-
-Name of an [email service](https://getkirby.com/docs/developer-guide/advanced/emails) to use. The default service is `mail`. For other services, make sure to provide the [service-options](#service-options) option as well.
-
-### service-options
-
-An array of options to pass along to the email service. If you use the [SES service](https://getkirby.com/docs/developer-guide/advanced/emails#amazon-ses), for example, you need to provide the `key`, `secret` and `host` in this array. This will be the `$email->options` array you can access in a custom email service.
 
 ### receive-copy
 

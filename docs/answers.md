@@ -1,10 +1,10 @@
 # Answers
 
-This is a collection of answers to all sorts of questions regarding Uniform that popped up over the time. If you still have questions [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to use the `uniform` tag or mention `@mzur`).
+This is a collection of answers to all sorts of questions regarding Uniform that popped up over the time. If you still have questions [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to mention `@mzur`).
 
 ## How can I send an HTML email?
 
-How an email is sent within Kirby is defined by email services. For an HTML email you can implement a service like [this one](https://github.com/mzur/kirby-uniform/issues/7#issuecomment-68592134) and then configure the email action to [use it](actions/email#service).
+You can send HTML emails by using [email templates](https://nnnnext.getkirby.com/docs/guide/emails#html-plain-text).
 
 ## Can Uniform be used with AJAX?
 
@@ -19,7 +19,7 @@ Check if the HTTP request for submitting the form is redirected. Some server con
 Yes, just add this to your controller code after Uniform executed the actions:
 
 ```php
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     // execute Uniform actions
 
     if ($form->success()) {
@@ -30,7 +30,7 @@ if (r::is('POST')) {
 
 ## Can I work with the submitted form data outside of Uniform snippets?
 
-Sure, since the form data is submitted with an ordinary `POST` request you can access the value of a field with name `myfield` anywhere in your code using the [`get` Kirby helper](https://getkirby.com/docs/cheatsheet/helpers/get) `get('myfield')`. If you have access to the `$form` object, you can use the [data method](methods#datakey-value), too.
+Sure, since the form data is submitted with an ordinary `POST` request you can access the value of a field with name `myfield` anywhere in your code using the [`get` Kirby helper](https://nnnnext.getkirby.com/docs/cheatsheet/helpers/get) `get('myfield')`. If you have access to the `$form` object, you can use the [data method](methods#datakey-value), too.
 
 ## I have multiple static forms on one page. When one fails the error messages are also displayed for the other forms. Why?
 
@@ -41,12 +41,12 @@ This happens because the forms share the same session storage by default. In thi
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $contactForm = new Form([/* rules */], 'contact-form');
     $newsletterForm = new Form([/* rules */], 'newsletter-form');
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         if (/* contact form sent */) {
             $contactForm->emailAction([
                 'to' => 'me@example.com',
@@ -66,19 +66,17 @@ return function ($site, $pages, $page)
 
 ## How can I have one or more forms on cached pages, that are submitted via AJAX?
 
-When you use Uniform on cached pages, the CSRF token is also cached and may be outdated when the user retrieves it. To manually update the CSRF token, you can add an uncached route to your Kirby config file and set the token with JavaScript. Don't forget to add the new route to the `cache.ignore` array in your config file.
+When you use Uniform on cached pages, the CSRF token is also cached and may be outdated when the user retrieves it. To manually update the CSRF token, you can add an uncached route to your Kirby config file and set the token with JavaScript. Don't forget to ignore this route in the cache.
 
 **Route:**
 ```
-c::set('routes', [[
+[
     'pattern' => 'gettoken',
     'method' => 'GET',
     'action'  => function() {
-      return response::json(['token' => csrf()]);
+      return Response::json(['token' => csrf()]);
     },
-]]);
-
-c::set('cache.ignore', ['gettoken']);
+]
 ```
 
 **JS:**

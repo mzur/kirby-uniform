@@ -13,7 +13,7 @@ This is an example for a very basic form that asks the user to enter an email ad
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'email' => [
@@ -27,7 +27,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->emailAction([
             'to' => 'me@example.com',
             'from' => 'info@example.com',

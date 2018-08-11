@@ -2,12 +2,12 @@
 
 namespace Uniform\Tests;
 
-use C as Config;
 use Uniform\Form;
 use Jevets\Kirby\Flash;
 use Uniform\Guards\Guard;
 use Uniform\Actions\Action;
 use Uniform\Exceptions\Exception;
+use Mzur\Kirby\DefuseSession\Defuse;
 use Jevets\Kirby\Exceptions\TokenMismatchException;
 
 class FormTest extends TestCase
@@ -17,20 +17,20 @@ class FormTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        Config::set('debug', true);
+        Defuse::defuse(['options' => ['debug' => true]]);
         $this->form = new FormStub;
     }
 
     public function testValidateCsrfException()
     {
         csrf(); // Generate a token.
-        $this->setExpectedException(TokenMismatchException::class);
+        $this->expectException(TokenMismatchException::class);
         $this->form->validate();
     }
 
     public function testValidateCsrfExceptionNoDebug()
     {
-        Config::set('debug', false);
+        Defuse::defuse(['options' => ['debug' => false]]);
         csrf(); // Generate a token.
 
         try {
@@ -66,11 +66,11 @@ class FormTest extends TestCase
 
     public function testGuardValidates()
     {
-        $this->setExpectedException(TokenMismatchException::class);
+        $this->expectException(TokenMismatchException::class);
         $this->form->guard();
     }
 
-    public function testGuardDefault()
+    public function testGuardDefaultNoHoneypot()
     {
         $_POST['csrf_token'] = csrf();
         try {
@@ -79,9 +79,15 @@ class FormTest extends TestCase
         } catch (Exception $e) {
             $this->assertEquals('Redirected', $e->getMessage());
         }
+    }
+
+    public function testGuardDefaultEmptyHoneypot()
+    {
+        $_POST['csrf_token'] = csrf();
         $_POST['website'] = '';
         $this->form = new FormStub;
         $this->form->guard();
+        $this->assertTrue(true);
     }
 
     public function testGuard()
@@ -125,13 +131,13 @@ class FormTest extends TestCase
 
     public function testActionValidates()
     {
-        $this->setExpectedException(TokenMismatchException::class);
+        $this->expectException(TokenMismatchException::class);
         $this->form->action(Action::class);
     }
 
     public function testActionValidatesWithoutGuards()
     {
-        $this->setExpectedException(TokenMismatchException::class);
+        $this->expectException(TokenMismatchException::class);
         $this->form->withoutGuards()->action(Action::class);
     }
 

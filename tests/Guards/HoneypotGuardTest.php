@@ -14,6 +14,7 @@ class HoneypotGuardTest extends TestCase
         $_POST['website'] = '';
         $guard = new HoneypotGuard(new Form);
         $guard->perform();
+        $this->assertTrue(true);
     }
 
     public function testPerformField()
@@ -21,13 +22,14 @@ class HoneypotGuardTest extends TestCase
         $_POST['url'] = '';
         $guard = new HoneypotGuard(new Form, ['field' => 'url']);
         $guard->perform();
+        $this->assertTrue(true);
     }
 
     public function testFail()
     {
         $_POST['url'] = '';
         $guard = new HoneypotGuard(new Form);
-        $this->setExpectedException(PerformerException::class);
+        $this->expectException(PerformerException::class);
         $guard->perform();
     }
 }

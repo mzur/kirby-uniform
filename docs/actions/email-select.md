@@ -11,7 +11,7 @@ This action can choose the `to` email address for the email action based on the 
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'email' => [
@@ -28,7 +28,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->emailSelectAction([
             'from' => 'info@example.com',
             'allowed-recipients' => [

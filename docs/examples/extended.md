@@ -11,7 +11,7 @@ If the form is successfully validated, the content is sent via email to the owne
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'name' => [
@@ -37,7 +37,7 @@ return function ($site, $pages, $page)
         'message' => [],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->emailAction([
                 'to' => 'me@example.com',
                 'from' => 'info@example.com',
@@ -45,7 +45,7 @@ return function ($site, $pages, $page)
                 'subject' => 'New registration for a {booth} booth',
             ])
             ->logAction([
-                'file' => kirby()->roots()->site().'/registrations.log',
+                'file' => $kirby->roots()->site().'/registrations.log',
             ])
             ->emailAction([
                 // Send the success email to the email address of the submitter.

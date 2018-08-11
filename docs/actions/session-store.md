@@ -13,7 +13,7 @@ This example stores the the form data in the session and redirects the user to a
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'email' => [
@@ -22,7 +22,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->sessionStoreAction(['name' => 'user-form']);
 
         if ($form->success()) {
@@ -48,8 +48,8 @@ return function ($site, $pages, $page)
 ### Confirmation Page Template
 
 ```html+php
-<?php if (s::get('user-form')): ?>
-    Thank you <?php echo s::get('user-form')->data('email'); ?> for subscribing.
+<?php if (kirby()->session()->get('user-form')): ?>
+    Thank you <?php echo kirby()->session()->get('user-form')->data('email'); ?> for subscribing.
 <?php endif; ?>
 ```
 

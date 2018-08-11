@@ -2,8 +2,8 @@
 
 namespace Uniform\Tests\Guards;
 
-use S;
 use Uniform\Form;
+use Kirby\Cms\App;
 use Uniform\Tests\TestCase;
 use Uniform\Guards\CalcGuard;
 use Uniform\Exceptions\PerformerException;
@@ -12,34 +12,36 @@ class CalcGuardTest extends TestCase
 {
     public function testPerform()
     {
-        S::set(CalcGuard::FLASH_KEY, 5);
+        App::instance()->session()->set(CalcGuard::FLASH_KEY, 5);
         $_POST[CalcGuard::FIELD_NAME] = 5;
         $guard = new CalcGuard(new Form);
         $guard->perform();
+        $this->assertTrue(true);
     }
 
     public function testPerformField()
     {
-        S::set(CalcGuard::FLASH_KEY, 5);
+        App::instance()->session()->set(CalcGuard::FLASH_KEY, 5);
         $_POST['calc'] = 5;
         $guard = new CalcGuard(new Form, ['field' => 'calc']);
         $guard->perform();
+        $this->assertTrue(true);
     }
 
     public function testFailWrong()
     {
-        S::set(CalcGuard::FLASH_KEY, 5);
+        App::instance()->session()->set(CalcGuard::FLASH_KEY, 5);
         $_POST[CalcGuard::FIELD_NAME] = 4;
         $guard = new CalcGuard(new Form);
-        $this->setExpectedException(PerformerException::class);
+        $this->expectException(PerformerException::class);
         $guard->perform();
     }
 
     public function testFailEmpty()
     {
-        S::set(CalcGuard::FLASH_KEY, 5);
+        App::instance()->session()->set(CalcGuard::FLASH_KEY, 5);
         $guard = new CalcGuard(new Form);
-        $this->setExpectedException(PerformerException::class);
+        $this->expectException(PerformerException::class);
         $guard->perform();
     }
 }

@@ -1,5 +1,8 @@
 <?php
 
+use Kirby\Cms\App;
+use Kirby\Toolkit\Str;
+use Kirby\Toolkit\I18n;
 use Uniform\Guards\CalcGuard;
 use Uniform\Guards\HoneypotGuard;
 
@@ -29,9 +32,9 @@ if (!function_exists('uniform_captcha')) {
     function uniform_captcha()
     {
         list($a, $b) = [rand(0, 9), rand(0, 9)];
-        s::set(CalcGuard::FLASH_KEY, $a + $b);
+        App::instance()->session()->set(CalcGuard::FLASH_KEY, $a + $b);
 
-        return str::encode($a.' '.l::get('uniform-calc-plus').' '.$b);
+        return Str::encode($a.' '.I18n::translate('uniform-calc-plus').' '.$b);
     }
 }
 

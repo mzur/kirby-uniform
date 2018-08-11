@@ -2,8 +2,8 @@
 
 namespace Uniform\Actions;
 
-use L;
-use Visitor;
+use Kirby\Cms\App;
+use Kirby\Toolkit\I18n;
 
 /**
  * Action to log the form data to a file
@@ -21,7 +21,7 @@ class LogAction extends Action
         $content = $this->getContent();
 
         if ($this->write($file, $content) === false) {
-            $this->fail(L::get('uniform-log-error'));
+            $this->fail(I18n::translate('uniform-log-error'));
         }
     }
 
@@ -53,7 +53,8 @@ class LogAction extends Action
                 'options' => $this->options
             ]);
         } else {
-            $content = '['.date('c').'] '.Visitor::ip().' '.Visitor::userAgent();
+            $visitor = App::instance()->visitor();
+            $content = '['.date('c').'] '.$visitor->ip().' '.$visitor->userAgent();
 
             foreach ($data as $key => $value) {
                 if (is_array($value)) {

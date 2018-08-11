@@ -2,8 +2,8 @@
 
 namespace Uniform\Tests\Actions;
 
-use S;
 use Uniform\Form;
+use Kirby\Cms\App;
 use Uniform\Tests\TestCase;
 use Uniform\Actions\SessionStoreAction;
 
@@ -18,13 +18,14 @@ class SessionStoreActionTest extends TestCase
 
     public function testPerform()
     {
+        $session = App::instance()->session();
         $this->form->data('message', 'my message');
         $action = new SessionStoreAction($this->form);
 
-        $this->assertEmpty(S::get('session-store'));
+        $this->assertEmpty($session->get('session-store'));
 
         $action->perform();
-        $form = S::get('session-store');
+        $form = $session->get('session-store');
 
         $this->assertInstanceOf(Form::class, $form);
         $this->assertEquals('my message', $form->data('message'));
@@ -32,13 +33,14 @@ class SessionStoreActionTest extends TestCase
 
     public function testPerformWithName()
     {
+        $session = App::instance()->session();
         $this->form->data('message', 'my message');
         $action = new SessionStoreAction($this->form, ['name' => 'my-session-store']);
 
-        $this->assertEmpty(S::get('my-session-store'));
+        $this->assertEmpty($session->get('my-session-store'));
 
         $action->perform();
-        $form = S::get('my-session-store');
+        $form = $session->get('my-session-store');
 
         $this->assertInstanceOf(Form::class, $form);
         $this->assertEquals('my message', $form->data('message'));

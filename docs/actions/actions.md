@@ -6,7 +6,7 @@ When you have a web form you most probably want to do something with the submitt
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->emailAction([/* options */])
         ->logAction([/* options */])
         ->webhookAction([/* options */]);
@@ -24,7 +24,7 @@ use Uniform\Form;
 use Uniform\Actions\EmailAction;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $action = new EmailAction($form, [/* options */]);
     $form->action($action);
 }
@@ -37,7 +37,7 @@ use Uniform\Form;
 use Uniform\Actions\EmailAction;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->action(EmailAction::class, [/* options */]);
 }
 ```

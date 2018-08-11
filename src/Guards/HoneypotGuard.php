@@ -2,8 +2,8 @@
 
 namespace Uniform\Guards;
 
-use L;
-use R;
+use Kirby\Cms\App;
+use Kirby\Toolkit\I18n;
 
 /**
  * Guard that checks a honeypot form field.
@@ -25,8 +25,8 @@ class HoneypotGuard extends Guard
     public function perform()
     {
         $field = $this->option('field', self::FIELD_NAME);
-        if (R::postData($field) !== '') {
-            $this->reject(L::get('uniform-filled-potty'), $field);
+        if (App::instance()->request()->body()->get($field) !== '') {
+            $this->reject(I18n::translate('uniform-filled-potty'), $field);
         }
         $this->form->forget($field);
     }

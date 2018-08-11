@@ -6,7 +6,7 @@ Guards are the spam protection mechanism of Uniform. When no guard is explicitly
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->honeypotGuard([/* options */])
         ->calcGuard([/* options */])
         // more guards or call actions
@@ -19,7 +19,7 @@ In cases where you don't want to execute even the default guard, you can disable
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->withoutGuards()
         // call actions
 }
@@ -34,7 +34,7 @@ use Uniform\Form;
 use Uniform\Guards\CalcGuard;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $guard = new CalcGuard($form, [/* options */]);
     $form->guard($guard);
 }
@@ -47,7 +47,7 @@ use Uniform\Form;
 use Uniform\Guards\CalcGuard;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->guard(CalcGuard::class, [/* options */]);
 }
 ```

@@ -7,7 +7,7 @@ Uniform is initialized in the page controller like this:
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'email' => [
@@ -20,7 +20,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->emailAction([
             'to' => 'me@example.com',
             'from' => 'info@example.com',
@@ -42,7 +42,7 @@ If any of these steps fail, Uniform will immediately redirect back to the form p
 
 ## Validation rules
 
-The constructor argument of `Uniform\Form` is an array of validation rules and error messages for each form field. To validate the form data Kirby's [invalid helper function](https://getkirby.com/docs/cheatsheet/helpers/invalid) is used, so you can use all [validators](https://getkirby.com/docs/cheatsheet#validators) that are available for the invalid function (or [implement your own](https://getkirby.com/docs/developer-guide/objects/validators)). If the form field validation failed, the individual error messages can be fetched through the [error method](methods#errorkey) of the `$form` object.
+The constructor argument of `Uniform\Form` is an array of validation rules and error messages for each form field. To validate the form data you can use all [validators](https://nnnnext.getkirby.com/docs/cheatsheet#validators) that are available (or [implement your own](https://getkirby.com/docs/developer-guide/objects/validators)). If the form field validation failed, the individual error messages can be fetched through the [error method](methods#errorkey) of the `$form` object.
 
 Besides validation rules and error messages, the constructor array also defines which form fields Uniform should use in the first place. If only `email` and `message` are defined but the form also has a `name` field, it will be ignored because it was not defined in the constructor array. You can define form fields that should not be included in the validation with an empty validation array like this:
 
@@ -76,7 +76,7 @@ $form = new Form([
 ]);
 ```
 
-As of Kirby 2.5 you are able to specify an error message for each individual validation rule like this:
+You can also specify an error message for each individual validation rule like this:
 
 ```php
 $form = new Form([
@@ -87,12 +87,31 @@ $form = new Form([
 ]);
 ```
 
+Arguments for the validators are passed on as values of an associative array:
+
+```php
+$form = new Form([
+    'password' => [
+        'rules' => ['required', 'min' => 8],
+        'message' => ['Please enter a password', 'The password must contain at least eight characters'],
+    ],
+    'role' => [
+        'rules' => ['required', 'in' => [['manager', 'editor', 'admin']]],
+        'message' => ['Please choose a role', 'Invalid role'],
+    ],
+    'salary' => [
+        'rules' => ['between' => [70000, 5000000]],
+        'message' => 'Please choose an adequate salary',
+    ],
+]);
+```
+
 ## Guards
 
 Once the form fields were successfully validated the form data is passed on to the [guards](guards/guards) which are mechanisms for spam protection. If you don't explicitly specify a guard, Uniform will use the default [HoneypotGuard](guards/honeypot). Another guard (like the [CalcGuard](guards/calc)) can be specified before the actions like this:
 
 ```php
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->calcGuard(['field' => 'result'])
         ->emailAction([
             'to' => 'me@example.com',
@@ -104,7 +123,7 @@ if (r::is('POST')) {
 As you can see, guards may receive an options array as argument. Here we use it to specify a custom form field name for the user input. You can also see the fluid interface of calling guards and actions where the individual methods are chained. This can be used to call multiple different guards or actions in a row:
 
 ```php
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->honeypotGuard()
         ->calcGuard()
         ->emailAction([
@@ -117,7 +136,7 @@ if (r::is('POST')) {
 If you don't want to execute any guards you can disable them before the actions are executed:
 
 ```php
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->withoutGuards()
         ->emailAction([
             'to' => 'me@example.com',
@@ -131,7 +150,7 @@ if (r::is('POST')) {
 When Uniform is convinced that the submitted form data is no spam, the [actions](actions/actions) are executed. Similar to the guards you can choose from several built-in actions but you can easily [write your own](actions/actions#custom-actions), too. Most actions require some options in the options array. Multiple actions can be chained, too, but keep in mind that subsequent actions are not executed if an action fails:
 
 ```php
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->emailAction([
             'to' => 'me@example.com',
             'from' => 'info@example.com',

@@ -28,7 +28,7 @@ class UploadActionTest extends TestCase
     {
         $this->form->data('testfield', ['name' => 'myfile.txt']);
         $action = new UploadActionStub($this->form, ['fields' => ['testfield' => []]]);
-        $this->setExpectedException(PerformerException::class, 'target directory is missing');
+        $this->expectException(PerformerException::class, 'target directory is missing');
         $action->perform();
     }
 
@@ -40,7 +40,7 @@ class UploadActionTest extends TestCase
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path],
         ]]);
-        $this->setExpectedException(PerformerException::class, 'Could not create target directory');
+        $this->expectException(PerformerException::class, 'Could not create target directory');
         try {
             $action->perform();
         } finally {
@@ -57,7 +57,7 @@ class UploadActionTest extends TestCase
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path, 'prefix' => false],
         ]]);
-        $this->setExpectedException(PerformerException::class, 'file already exists');
+        $this->expectException(PerformerException::class, 'file already exists');
 
         try {
             $action->perform();
@@ -76,7 +76,7 @@ class UploadActionTest extends TestCase
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path, 'prefix' => 'prefix'],
         ]]);
-        $this->setExpectedException(PerformerException::class, 'file already exists');
+        $this->expectException(PerformerException::class, 'file already exists');
 
         try {
             $action->perform();
@@ -107,7 +107,7 @@ class UploadActionTest extends TestCase
         // Second call simulates error with a second file. Action should roll back
         // stuff of first file.
         $action->success = false;
-        $this->setExpectedException(PerformerException::class, 'file could not be uploaded');
+        $this->expectException(PerformerException::class, 'file could not be uploaded');
 
         try {
             $action->perform();

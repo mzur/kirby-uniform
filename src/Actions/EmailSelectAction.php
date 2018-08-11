@@ -2,7 +2,7 @@
 
 namespace Uniform\Actions;
 
-use L;
+use Kirby\Toolkit\I18n;
 
 /**
  * Action to set a recipient email address and send the form data via email.
@@ -39,7 +39,7 @@ class EmailSelectAction extends EmailAction
         $allowed = $this->requireOption('allowed-recipients');
 
         if (!array_key_exists($recipient, $allowed)) {
-            $this->fail(L::get('uniform-email-error').' '.L::get('uniform-email-select-error'), self::RECIPIENT_FIELD);
+            $this->fail(I18n::translate('uniform-email-error').' '.I18n::translate('uniform-email-select-error'), self::RECIPIENT_FIELD);
         }
 
         return $allowed[$recipient];

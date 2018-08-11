@@ -56,7 +56,7 @@ use Uniform\Form;
 use Uniform\Guards\CalcGuard;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->guard(CalcGuard::class, [/* guard options */]);
     // alternative:
     // $guard = new CalcGuard($form, [/* guard options */]);
@@ -72,7 +72,7 @@ Guards can be conveniently called through magic methods, too. This is the same t
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->calcGuard([/* guard options */]);
     // call actions
 }
@@ -89,7 +89,7 @@ use Uniform\Form;
 use Uniform\Actions\EmailAction;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->action(EmailAction::class, [/* action options */]);
     // alternative:
     // $action = new EmailAction($form, [/* action options */]);
@@ -103,7 +103,7 @@ Actions can be called through magic methods, too:
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->emailAction([/* action options */]);
 }
 ```
@@ -118,7 +118,7 @@ Return: `boolean`
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->emailAction([/* action options */]);
 
     if ($form->success()) {
@@ -139,7 +139,7 @@ An action calls the default guard if no guard was called yet. This can be disabl
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->withoutGuards()
         ->emailAction([/* action options */]);
 }
@@ -157,7 +157,7 @@ Typically the form immediately redirects back if an error occurred. In some case
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->withoutRedirect()
         ->emailAction([/* action options */]);
 
@@ -179,7 +179,7 @@ Old form data and errors are usually flashed to the session so they can be displ
 use Uniform\Form;
 
 $form = new Form;
-if (r::is('POST')) {
+if (kirby()->request()->is('POST')) {
     $form->withoutFlashing()
         ->emailAction([/* action options */]);
 

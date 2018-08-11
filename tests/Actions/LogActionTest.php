@@ -20,7 +20,7 @@ class LogActionTest extends TestCase
     public function testFileOptionRequired()
     {
         $action = new LogActionStub($this->form);
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
         $action->perform();
     }
 
@@ -52,7 +52,7 @@ class LogActionTest extends TestCase
     {
         $action = new LogActionStub($this->form, ['file' => '/dev/null']);
         $action->shouldFail = true;
-        $this->setExpectedException(PerformerException::class);
+        $this->expectException(PerformerException::class);
         $action->perform();
     }
 }

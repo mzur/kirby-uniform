@@ -2,12 +2,12 @@
 
 namespace Uniform\Tests\Actions;
 
-use Error;
 use Exception;
-use C as Config;
 use Uniform\Form;
+use Kirby\Cms\App;
 use Uniform\Tests\TestCase;
 use Uniform\Actions\EmailAction;
+use Mzur\Kirby\DefuseSession\Defuse;
 use Uniform\Exceptions\PerformerException;
 
 class EmailActionTest extends TestCase
@@ -22,14 +22,14 @@ class EmailActionTest extends TestCase
     public function testSenderOptionRequired()
     {
         $action = new EmailActionStub($this->form, ['to' => 'mail']);
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
         $action->perform();
     }
 
     public function testToOptionRequired()
     {
         $action = new EmailActionStub($this->form, ['from' => 'mail']);
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
         $action->perform();
     }
 
@@ -41,27 +41,13 @@ class EmailActionTest extends TestCase
             'from' => 'info@user.com',
         ]);
         $action->perform();
-        $expected = [
-            'service' => 'mail',
-            'options' => [],
-            'to' => 'jane@user.com',
-            'from' => 'info@user.com',
-            'replyTo' => 'joe@user.com',
-            'subject' => 'Message from the web form',
-            'body' => '',
-        ];
-        $this->assertEquals($expected, $action->params);
-    }
-
-    public function testFail()
-    {
-        $action = new EmailActionStub($this->form, [
-            'to' => 'jane@user.com',
-            'from' => 'info@user.com',
-        ]);
-        $action->shouldFail = true;
-        $this->setExpectedException(PerformerException::class);
-        $action->perform();
+        $email = $action->email;
+        $this->assertEquals(['jane@user.com'], $email->to());
+        $this->assertEquals('info@user.com', $email->from());
+        $this->assertEquals('joe@user.com', $email->replyTo());
+        $this->assertEquals('Message from the web form', $email->subject());
+        $this->assertEquals('', $email->body()->text());
+        $this->assertEquals('', $email->body()->html());
     }
 
     public function testReplyTo()
@@ -72,33 +58,52 @@ class EmailActionTest extends TestCase
             'replyTo' => 'joe@user.com',
         ]);
         $action->perform();
-        $this->assertEquals('joe@user.com', $action->params['replyTo']);
+        $this->assertEquals('joe@user.com', $action->email->replyTo());
     }
 
-    public function testService()
+    public function testSubject()
     {
-         $action = new EmailActionStub($this->form, [
+        $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
             'from' => 'info@user.com',
-            'service' => 'aws',
-            'service-options' => ['someoptions'],
+            'subject' => 'My subject',
         ]);
         $action->perform();
-        $this->assertEquals('aws', $action->params['service']);
-        $this->assertEquals(['someoptions'], $action->params['options']);
+        $this->assertEquals('My subject', $action->email->subject());
+    }
+
+    public function testPassthroughOptions()
+    {
+        $this->form->data('message', 'hello');
+        $this->form->data('a', 3);
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'body' => ['text' => 'text', 'html' => 'html'],
+            'cc' => ['janet@user.com', 'jessica@user.com'],
+            'data' => ['a' => 1, 'b' => 2],
+        ]);
+        $action->perform();
+
+        $email = $action->email;
+        $this->assertEquals("Message: hello\n\nA: 3\n\n", $email->body()->text());
+        $this->assertEquals(['janet@user.com', 'jessica@user.com'], $email->cc());
+        $expect = ['a' => 3, 'b' => 2, 'message' => 'hello'];
+        $this->assertEquals($expect, $action->params['data']);
     }
 
     public function testSubjectTemplate()
     {
-        $this->form->data('email', "joe@user.com\n\n");
+        $this->form->data('email', "joe@user.com");
+        $this->form->data('name', "Joe\n\n");
         $this->form->data('data', ['somedata']);
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
             'from' => 'info@user.com',
-            'subject' => 'Message from {email} with {data}',
+            'subject' => 'Message from {{name}} with {{data}}',
         ]);
         $action->perform();
-        $this->assertEquals('Message from joe@user.com with {data}', $action->params['subject']);
+        $this->assertEquals('Message from Joe with ', $action->email->subject());
     }
 
     public function testBody()
@@ -112,7 +117,7 @@ class EmailActionTest extends TestCase
         ]);
         $action->perform();
         $expect = "Message: hello\n\nData: some, data\n\n";
-        $this->assertEquals($expect, $action->params['body']);
+        $this->assertEquals($expect, $action->email->body()->text());
     }
 
     public function testBodySnippet()
@@ -123,7 +128,7 @@ class EmailActionTest extends TestCase
             'snippet' => 'my snippet',
         ]);
         $action->perform();
-        $this->assertEquals('my snippet', $action->params['body']);
+        $this->assertEquals('my snippet', $action->email->body()->text());
     }
 
     public function testSnippetData()
@@ -149,7 +154,7 @@ class EmailActionTest extends TestCase
         ]);
         $action->perform();
         $this->assertEquals(1, $action->calls);
-        $this->assertEquals('jane@user.com', $action->params['to']);
+        $this->assertEquals(['jane@user.com'], $action->email->to());
     }
 
     public function testReceiveCopy()
@@ -165,22 +170,22 @@ class EmailActionTest extends TestCase
         $this->form->data('receive_copy', '1');
         $action->perform();
         $this->assertEquals(3, $action->calls);
-        $this->assertEquals('joe@user.com', $action->params['to']);
-        $this->assertEquals('jane@user.com', $action->params['replyTo']);
-        $this->assertEquals('info@user.com', $action->params['from']);
+        $email = $action->email;
+        $this->assertEquals(['joe@user.com'], $email->to());
+        $this->assertEquals('jane@user.com', $email->replyTo());
+        $this->assertEquals('info@user.com', $email->from());
     }
 
-    public function testHandleServiceException()
+    public function testHandleEmailExceptionNoDebug()
     {
         $this->form->data('field', 'value');
-        $action = new EmailAction($this->form, [
+        $action = new EmailActionStub($this->form, [
             'service' => 'thrower',
             'to' => 'jane@user.com',
             'from' => 'info@user.com',
             'subject' => 'Test',
         ]);
-
-        Config::set('debug', false);
+        $action->shouldFail = true;
 
         try {
             $action->perform();
@@ -188,43 +193,25 @@ class EmailActionTest extends TestCase
         } catch (PerformerException $e) {
             $this->assertEquals('There was an error sending the form.', $e->getMessage());
         }
-
-        Config::set('debug', true);
-
-        try {
-            $action->perform();
-            $this->assertFalse(true);
-        } catch (PerformerException $e) {
-            $this->assertEquals("There was an error sending the form: Throw it like it's hoot", $e->getMessage());
-        }
     }
 
-    public function testHandleServiceError()
+    public function testHandleEmailExceptionDebug()
     {
+        Defuse::defuse(['options' => ['debug' => true]]);
         $this->form->data('field', 'value');
-        $action = new EmailAction($this->form, [
-            'service' => 'thrower2',
+        $action = new EmailActionStub($this->form, [
+            'service' => 'thrower',
             'to' => 'jane@user.com',
             'from' => 'info@user.com',
             'subject' => 'Test',
         ]);
-
-        Config::set('debug', false);
-
-        try {
-            $action->perform();
-            $this->assertFalse(true);
-        } catch (PerformerException $e) {
-            $this->assertEquals('There was an error sending the form.', $e->getMessage());
-        }
-
-        Config::set('debug', true);
+        $action->shouldFail = true;
 
         try {
             $action->perform();
             $this->assertFalse(true);
         } catch (PerformerException $e) {
-            $this->assertEquals("There was an error sending the form: Throw it like it's hoot", $e->getMessage());
+            $this->assertEquals("There was an error sending the form: Failed", $e->getMessage());
         }
     }
 }
@@ -239,6 +226,8 @@ class EmailActionStub extends EmailAction
         $this->params = $params;
         if (isset($this->shouldFail)) {
             throw new Exception('Failed');
+        } else {
+            $this->email = App::instance()->email($params, ['debug' => true]);
         }
     }
 
@@ -253,11 +242,3 @@ class EmailActionStub extends EmailAction
         return $name;
     }
 }
-
-\Email::$services['thrower'] = function($email) {
-    throw new Exception("Throw it like it's hoot");
-};
-
-\Email::$services['thrower2'] = function($email) {
-    throw new Error("Throw it like it's hoot");
-};

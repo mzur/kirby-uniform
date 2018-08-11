@@ -2,9 +2,9 @@
 
 namespace Uniform\Actions;
 
-use A;
-use L;
-use Remote;
+use Kirby\Toolkit\A;
+use Kirby\Http\Remote;
+use Kirby\Toolkit\I18n;
 
 /**
  * Action to call a webhook with the form data.
@@ -52,7 +52,7 @@ class WebhookAction extends Action
         $response = $this->request($url, $params);
 
         if ($response->error !== 0) {
-            $this->fail(L::get('uniform-webhook-error').$response->message);
+            $this->fail(I18n::translate('uniform-webhook-error').$response->message);
         }
     }
 

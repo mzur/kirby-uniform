@@ -2,13 +2,11 @@
 
 namespace Uniform\Actions;
 
-use C;
-use L;
-use Str;
-use Email;
-use Error;
 use Exception;
 use Uniform\Form;
+use Kirby\Cms\App;
+use Kirby\Toolkit\Str;
+use Kirby\Toolkit\I18n;
 
 /**
  * Action to send the form data via email.
@@ -36,29 +34,35 @@ class EmailAction extends Action
      */
     public function perform()
     {
-        $params = [
-            'service' => $this->option('service', 'mail'),
-            'options' => $this->option('service-options', []),
+        $params = array_merge($this->options, [
             'to' => $this->requireOption('to'),
             'from' => $this->requireOption('from'),
             'replyTo' => $this->option('replyTo', $this->form->data(self::EMAIL_KEY)),
             'subject' => $this->getSubject(),
             'body' => $this->getBody(),
-        ];
+        ]);
+
+        if (empty($params['replyTo'])) {
+            unset($params['replyTo']);
+        }
+
+        if (array_key_exists('data', $params)) {
+            $params['data'] = array_merge($params['data'], $this->form->data());
+        } else {
+            $params['data'] = $this->form->data();
+        }
 
         try {
             $this->sendEmail($params);
 
             if ($this->shouldReceiveCopy()) {
-                $params['subject'] = L::get('uniform-email-copy').' '.$params['subject'];
+                $params['subject'] = I18n::translate('uniform-email-copy').' '.$params['subject'];
                 $to = $params['to'];
                 $params['to'] = $params['replyTo'];
                 $params['replyTo'] = $to;
                 $this->sendEmail($params);
             }
         } catch (Exception $e) {
-            $this->handleException($e);
-        } catch (Error $e) {
             $this->handleException($e);
         }
     }
@@ -70,11 +74,11 @@ class EmailAction extends Action
      */
     protected function handleException($e)
     {
-        if (c::get('debug') === true) {
-            $this->fail(L::get('uniform-email-error').': '.$e->getMessage());
+        if (App::instance()->option('debug') === true) {
+            $this->fail(I18n::translate('uniform-email-error').': '.$e->getMessage());
         }
 
-        $this->fail(L::get('uniform-email-error').'.');
+        $this->fail(I18n::translate('uniform-email-error').'.');
     }
 
     /**
@@ -84,11 +88,7 @@ class EmailAction extends Action
      */
     protected function sendEmail(array $params)
     {
-        $email = new Email($params);
-
-        if (!$email->send()) {
-            throw $email->error;
-        }
+        App::instance()->email($params);
     }
 
     /**
@@ -103,7 +103,7 @@ class EmailAction extends Action
             return is_scalar($item);
         });
 
-        $subject = Str::template($this->option('subject', L::get('uniform-email-subject')), $templatableItems);
+        $subject = Str::template($this->option('subject', I18n::translate('uniform-email-subject')), $templatableItems);
 
         // Remove newlines to prevent malicious modifications of the email header.
         return str_replace("\n", '', $subject);

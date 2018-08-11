@@ -13,7 +13,7 @@ This example calls the MailChimp API to add an email address to a list.
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'email_address' => [
@@ -22,7 +22,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->webhookAction([
             'url' => 'https://us6.api.mailchimp.com/3.0/lists/9e67587f52/members/',
             'json' => true,
@@ -57,7 +57,7 @@ The url, the request should be sent to.
 
 ### params
 
-Additional parameters for the request. See the [remote class of the Toolkit](https://github.com/getkirby/toolkit/blob/9ffaca5bab847fdac1cca5577a4c629152f1fb6d/lib/remote.php#L18) for all possible parameters. The `data` parameter will be merged with the form data.
+Additional parameters for the request. See the [Remote class]https://nnnnext.getkirby.com/docs/framework/http/remote) for all possible parameters. The `data` parameter will be merged with the form data.
 
 ### only
 

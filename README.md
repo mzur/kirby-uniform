@@ -1,10 +1,10 @@
 # Kirby Uniform
 
-A versatile [Kirby 2](http://getkirby.com) plugin to handle web form actions.
+A versatile [Kirby](http://getkirby.com) plugin to handle web form actions.
 
-[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](http://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg?branch=v3)](https://travis-ci.org/mzur/kirby-uniform) [![saythanks](https://img.shields.io/badge/say-thanks-blue.svg)](https://saythanks.io/to/mzur)
+[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](http://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg)](https://travis-ci.org/mzur/kirby-uniform) [![saythanks](https://img.shields.io/badge/say-thanks-blue.svg)](https://saythanks.io/to/mzur)
 
-This is Uniform v3. For Uniform v2.3 head over to the [v2 branch](https://github.com/mzur/kirby-uniform/tree/v2).
+This is Uniform for Kirby 3. You can find Uniform for Kirby 2 in the [kirby-2 branch](https://github.com/mzur/kirby-uniform/tree/kirby-2).
 
 Builtin actions:
 
@@ -25,7 +25,7 @@ Controller:
 
 use Uniform\Form;
 
-return function ($site, $pages, $page) {
+return function ($kirby) {
    $form = new Form([
       'email' => [
          'rules' => ['required', 'email'],
@@ -34,7 +34,7 @@ return function ($site, $pages, $page) {
       'message' => [],
    ]);
 
-   if (r::is('POST')) {
+   if ($kirby->request()->is('POST')) {
       $form->emailAction([
          'to' => 'me@example.com',
          'from' => 'info@example.com',
@@ -64,27 +64,11 @@ Template:
 
 ## Installation
 
-Uniform requires PHP 5.6 or higher. It is highly recommended to use a version under [active support](https://php.net/supported-versions.php).
-
-### Kirby CLI
-
-Get the [Kirby CLI](https://github.com/getkirby/cli) and run `kirby plugin:install mzur/kirby-uniform`.
-
-### Traditional
-
-[Download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
-
-### Composer
-
-Run `composer require mzur/kirby-uniform`. Then create the file `site/plugins/autoload.php` with the content:
-
-```php
-<?php
-
-require kirby()->roots()->index().DS.'vendor'.DS.'autoload.php';
+```bash
+composer require mzur/kirby-uniform:^4.0
 ```
 
-Be sure to include the new `vendor` directory in your deployment.
+You can also [download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
 
 ## Setup
 
@@ -97,14 +81,6 @@ Add this to your CSS:
 }
 ```
 
-If you have a single language site you can choose the language Uniform should use in `site/config/config.php` (default is `en`):
-
-```php
-c::set('uniform.language', 'de');
-```
-
-See [here](https://github.com/mzur/kirby-uniform/tree/master/languages) for all supported languages.
-
 **Note:** [Disable the Kirby cache](https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use Uniform to make sure the form is generated dynamically.
 
 ## Documentation
@@ -113,7 +89,7 @@ For the full documentation head over to [Read the Docs](http://kirby-uniform.rea
 
 ## Questions
 
-See the [answers](http://kirby-uniform.readthedocs.io/en/latest/answers/) in the docs, [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to use the `uniform` tag or mention `@mzur`).
+See the [answers](http://kirby-uniform.readthedocs.io/en/latest/answers/) in the docs, [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to  mention `@mzur`).
 
 ## Contributing
 

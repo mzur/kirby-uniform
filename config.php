@@ -2,10 +2,10 @@
 
 Kirby::plugin('mzur/kirby-uniform', [
     'snippets' => [
-        'uniform/errors' => __DIR__.DS.'snippets'.DS.'errors.php',
-        'uniform/email-default' => __DIR__.DS.'snippets'.DS.'email-default.php',
-        'uniform/email-table' => __DIR__.DS.'snippets'.DS.'email-table.php',
-        'uniform/log-json' => __DIR__.DS.'snippets'.DS.'log-json.php',
+        'uniform/errors' => __DIR__.'/snippets/errors.php',
+        'uniform/email-default' => __DIR__.'/snippets/email-default.php',
+        'uniform/email-table' => __DIR__.'/snippets/email-table.php',
+        'uniform/log-json' => __DIR__.'/snippets/log-json.php',
     ],
     'translations' => [
         'de' => [

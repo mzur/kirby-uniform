@@ -21,7 +21,7 @@ class LoginActionTest extends TestCase
     public function testWrongUser()
     {
         $action = new LoginActionStub($this->form);
-        $this->setExpectedException(PerformerException::class);
+        $this->expectException(PerformerException::class);
         $action->perform();
     }
 
@@ -29,7 +29,7 @@ class LoginActionTest extends TestCase
     {
         $action = new LoginActionStub($this->form);
         $action->user = new UserStub(false);
-        $this->setExpectedException(PerformerException::class);
+        $this->expectException(PerformerException::class);
         $action->perform();
     }
 

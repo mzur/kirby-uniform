@@ -23,7 +23,7 @@ class EmailSelectActionTest extends TestCase
             'to' => 'jane@user.com',
             'from' => 'infor@user.com',
         ]);
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
         $action->perform();
     }
 
@@ -46,7 +46,7 @@ class EmailSelectActionTest extends TestCase
             'allowed-recipients' => ['jane' => 'jane@user.com'],
             'from' => 'infor@user.com',
         ]);
-        $this->setExpectedException(PerformerException::class);
+        $this->expectException(PerformerException::class);
         $action->perform();
     }
 }

@@ -11,7 +11,7 @@ This action provides a simple way of logging in to the Kirby frontend. For this 
 
 use Uniform\Form;
 
-return function ($site, $pages, $page)
+return function ($kirby)
 {
     $form = new Form([
         'username' => [
@@ -24,7 +24,7 @@ return function ($site, $pages, $page)
         ],
     ]);
 
-    if (r::is('POST')) {
+    if ($kirby->request()->is('POST')) {
         $form->withoutGuards()
             ->loginAction();
 

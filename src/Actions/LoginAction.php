@@ -2,7 +2,8 @@
 
 namespace Uniform\Actions;
 
-use L;
+use Kirby\Cms\App;
+use Kirby\Toolkit\I18n;
 
 /**
  * Action to log in a user.
@@ -20,7 +21,7 @@ class LoginAction extends Action
         $user = $this->getUser($this->form->data($userField));
 
         if (!$user || !$user->login($this->form->data($passwordField))) {
-            $this->fail(L::get('uniform-login-error'), $userField);
+            $this->fail(I18n::translate('uniform-login-error'), $userField);
         }
     }
 
@@ -32,6 +33,6 @@ class LoginAction extends Action
      */
     protected function getUser($name)
     {
-        return site()->user($name);
+        return App::instance()->user($name);
     }
 }

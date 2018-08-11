@@ -1,6 +1,6 @@
 # AJAX Example
 
-This example shows how to submit a form and handle validation via AJAX. It uses a [route](https://getkirby.com/docs/developer-guide/advanced/routing) as endpoint for the form submission. The action of the route is similar to the page controller code you have seen in the other examples. This form is equivalent to the [basic example](basic).
+This example shows how to submit a form and handle validation via AJAX. It uses a [route](https://nnnnext.getkirby.com/docs/guide/routing) as endpoint for the form submission. The action of the route is similar to the page controller code you have seen in the other examples. This form is equivalent to the [basic example](basic).
 
 ## Route
 
@@ -30,7 +30,7 @@ The route listens for `POST` requests on `/contact`. Note the use of [`withoutFl
 
         if (!$form->success()) {
             // Return validation errors.
-            return response::json($form->errors(), 400);
+            return Response::json($form->errors(), 400);
         }
 
         // If validation and guards passed, execute the action.
@@ -41,7 +41,7 @@ The route listens for `POST` requests on `/contact`. Note the use of [`withoutFl
 
         if (!$form->success()) {
             // This should not happen and is our fault.
-            return response::json($form->errors(), 500);
+            return Response::json($form->errors(), 500);
         }
 
         // Return code 200 on success.

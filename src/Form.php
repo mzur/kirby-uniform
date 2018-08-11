@@ -2,10 +2,10 @@
 
 namespace Uniform;
 
-use Str;
-use Redirect;
-use C as Config;
+use Kirby\Http\Url;
 use ErrorException;
+use Kirby\Toolkit\Str;
+use Kirby\Http\Response;
 use Uniform\Guards\Guard;
 use Uniform\Actions\Action;
 use Uniform\Guards\HoneypotGuard;
@@ -71,36 +71,12 @@ class Form extends BaseForm
     function __construct($rules = [], $sessionKey = null)
     {
         parent::__construct($rules, $sessionKey);
-        static::loadTranslation();
         $this->shouldValidate = true;
         $this->shouldCallGuard = true;
         $this->shouldRedirect = true;
         $this->shouldFlash = true;
         $this->shouldFallThrough = false;
         $this->success = false;
-    }
-
-    /**
-     * Load the translation file for the current language
-     */
-    public static function loadTranslation()
-    {
-        if (defined('KIRBY')) {
-            $site = kirby()->site();
-            $code = $site->multilang()
-                ? $site->language()->code()
-                : Config::get('uniform.language', 'en');
-
-            try {
-                include_once __DIR__.DS.'..'.DS.'languages'.DS.$code.'.php';
-            } catch (ErrorException $e) {
-                if (Config::get('debug') === true) {
-                    throw new Exception("Uniform does not have a translation for the language '$code'.");
-                }
-
-                include_once __DIR__.DS.'..'.DS.'languages'.DS.'en.php';
-            }
-        }
     }
 
     /**
@@ -275,7 +251,7 @@ class Form extends BaseForm
         $this->success = false;
 
         if ($this->shouldRedirect) {
-            Redirect::back();
+            Response::redirect(Url::last())->send();
         } else {
             $this->shouldFallThrough = true;
         }

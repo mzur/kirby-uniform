@@ -1,6 +1,6 @@
 # Kirby Uniform Documentation
 
-A versatile [Kirby 2](http://getkirby.com) plugin to handle web form actions.
+A versatile [Kirby](http://getkirby.com) plugin to handle web form actions.
 
 Builtin actions:
 
@@ -14,27 +14,11 @@ Builtin actions:
 
 ## Installation
 
-Uniform requires PHP 5.6 or higher. It is highly recommended to use a version under [active support](https://php.net/supported-versions.php).
-
-### Kirby CLI
-
-Get the [Kirby CLI](https://github.com/getkirby/cli) and run `kirby plugin:install mzur/kirby-uniform`.
-
-### Traditional
-
-[Download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
-
-### Composer
-
-Run `composer require mzur/kirby-uniform`. Then create the file `site/plugins/autoload.php` with the content:
-
-```php
-<?php
-
-require kirby()->roots()->index().DS.'vendor'.DS.'autoload.php';
+```bash
+composer require mzur/kirby-uniform:^4.0
 ```
 
-Be sure to include the new `vendor` directory in your deployment.
+You can also [download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
 
 ## Setup
 
@@ -47,20 +31,12 @@ Add this to your CSS:
 }
 ```
 
-If you have a single language site you can choose the language Uniform should use in `site/config/config.php` (default is `en`):
-
-```php
-c::set('uniform.language', 'de');
-```
-
-See [here](https://github.com/mzur/kirby-uniform/tree/master/languages) for all supported languages.
+!!! warning "Note"
+    [Disable the Kirby cache](https://nnnnext.getkirby.com/docs/guide/cache) for pages where you use Uniform to make sure the form is generated dynamically.
 
 !!! warning "Note"
-    [Disable the Kirby cache](https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use Uniform to make sure the form is generated dynamically.
-
-!!! warning "Note"
-    Uniform makes use of Kirby sessions and the CSRF helper. This requires a session cookie to be set.
+    Uniform makes use of Kirby sessions. This requires a session cookie to be set.
 
 ## Questions
 
-See the [answers](answers), [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to use the `uniform` tag or mention `@mzur`).
+See the [answers](answers), [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to mention `@mzur`).

@@ -2,7 +2,7 @@
 
 namespace Uniform\Actions;
 
-use S;
+use Kirby\Cms\App;
 
 /*
  * Action to store the form data in the user's session under a key given
@@ -16,6 +16,6 @@ class SessionStoreAction extends Action
         $name = $this->option('name', 'session-store');
 
         // put form into session
-        S::set($name, $this->form);
+        App::instance()->session()->set($name, $this->form);
     }
 }
