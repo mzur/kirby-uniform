@@ -82,9 +82,7 @@ Uniform v4 / Kirby 3:
 
 ## Email services
 
-Kirby no longer uses email services. All emails are sent using PHPMailer. You can [configure the transport settings](https://nnnnext.getkirby.com/docs/guide/emails#transport-configuration) in Kirby's config file.
-
-Remove `service` and `service-options` from the options array of the [EmailAction(actions/email)] wherever you used them.
+Kirby 3 no longer uses email services. All emails are sent using PHPMailer. You can [configure the transport settings](https://nnnnext.getkirby.com/docs/guide/emails#transport-configuration) in Kirby's config file. Remove `service` and `service-options` from the options array of the [EmailAction](actions/email) wherever you used them.
 
 ## Email snippets/templates
 
