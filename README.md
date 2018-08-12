@@ -81,7 +81,7 @@ Add this to your CSS:
 }
 ```
 
-**Note:** [Disable the Kirby cache](https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use Uniform to make sure the form is generated dynamically.
+**Note:** [Disable the Kirby cache](https://nnnnext.getkirby.com/docs/guide/cache) for pages where you use Uniform to make sure the form is generated dynamically.
 
 ## Documentation
 

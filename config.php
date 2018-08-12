@@ -2,7 +2,7 @@
 
 Kirby::plugin('mzur/kirby-uniform', [
     'templates' => [
-        'uniform/log-json' => __DIR__.'/snippets/log-json.php',
+        'uniform/log-json' => __DIR__.'/templates/log-json.php',
     ],
     'snippets' => [
         'uniform/errors' => __DIR__.'/snippets/errors.php',

@@ -71,11 +71,11 @@ The subject of the email. By default the `uniform-email-subject` language variab
 !!! warning "Note"
     Subject templates do not work with [array form fields](http://stackoverflow.com/a/1978788/1796523).
 
-### snippet
+### template
 
-Name of a snippet to use as email body. If this option is set the action will use the snippet for the email body instead of printing the `name: value` pairs as plain text. Inside the snippet you have access to the `$data` array, which is a plain associative array containing the form data, and the `$options` array which is the options array that you passed on to the email action.
+Name of a email template to use as email body. If this option is set, the action will use the template for the email body instead of printing the `name: value` pairs as plain text. Read more on email templates in the [Kirby documentation](https://nnnnext.getkirby.com/docs/guide/emails#plain-text). In addition to the variables of the form data, you have access to the `$options` array which is the options array that you passed on to the email action.
 
-Check out the `email-*` snippets of the [Uniform repo](https://github.com/mzur/kirby-uniform/tree/master/snippets) for examples.
+Check out the `email-*` templates of the [Uniform repo](https://github.com/mzur/kirby-uniform/tree/master/templates) for examples.
 
 ### replyTo
 
