@@ -1,9 +1,11 @@
 <?php
 
+use Kirby\Cms\App;
+
 $header = [
 	'timestamp' => date('c'),
-	'ip' => Visitor::ip(),
-	'userAgent' => Visitor::userAgent(),
+	'ip' => App::instance()->visitor()->ip(),
+	'userAgent' => App::instance()->visitor()->userAgent(),
 ];
 
 echo json_encode(array_merge($header, $data));

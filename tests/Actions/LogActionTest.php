@@ -38,14 +38,18 @@ class LogActionTest extends TestCase
         $this->assertContains('data: some, data', $action->content);
     }
 
-    public function testPerformSnippet()
+    public function testPerformTemplate()
     {
         $action = new LogActionStub($this->form, [
             'file' => '/dev/null',
-            'snippet' => 'my snippet',
+            'template' => 'uniform/log-json',
         ]);
         $action->perform();
-        $this->assertEquals('my snippet', $action->content);
+        $this->assertContains('"timestamp"', $action->content);
+        $this->assertContains('"ip"', $action->content);
+        $this->assertContains('"userAgent"', $action->content);
+        $this->assertStringStartsWith('{', $action->content);
+        $this->assertStringEndsWith('}', $action->content);
     }
 
     public function testFail()
@@ -64,14 +68,5 @@ class LogActionStub extends LogAction
         $this->filename = $filename;
         $this->content = $content;
         return !isset($this->shouldFail);
-    }
-
-    protected function getSnippet($name, array $data)
-    {
-        if (!array_key_exists('data', $data) || !array_key_exists('options', $data)) {
-            throw new Exception;
-        }
-
-        return $name;
     }
 }

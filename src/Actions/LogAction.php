@@ -44,11 +44,11 @@ class LogAction extends Action
      */
     protected function getContent()
     {
-        $snippet = $this->option('snippet');
+        $template = $this->option('template');
         $data = $this->form->data();
 
-        if ($snippet) {
-            $content = $this->getSnippet($snippet, [
+        if ($template) {
+            $content = $this->getTemplate($template, [
                 'data' => $data,
                 'options' => $this->options
             ]);
