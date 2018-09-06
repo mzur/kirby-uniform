@@ -26,7 +26,7 @@ Get the [Kirby CLI](https://github.com/getkirby/cli) and run `kirby plugin:insta
 
 ### Composer
 
-Run `composer require mzur/kirby-uniform`. Then create the file `site/plugins/autoload.php` with the content:
+Run `composer require mzur/kirby-uniform:^3.0`. Then create the file `site/plugins/autoload.php` with the content:
 
 ```php
 <?php
