@@ -72,7 +72,7 @@ This example assumes you're using [page controllers in Kirby](http://getkirby.co
 
 use Jevets\Kirby\Form;
 
-return function ($page, $site, $kirby) {
+return function ($kirby) {
 
     // Initialize the Form
     $form = new Form([

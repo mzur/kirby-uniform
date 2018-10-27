@@ -100,7 +100,8 @@ class Form implements FormInterface
                 $this->data[$field] = $request->files()->get($field);
             } else {
                 // Decode HTML entities that might have been encoded by $this->old()
-                $this->data[$field] = $this->decodeField($request->body()->get($field));
+                $data = $this->decodeField($request->body()->get($field));
+                $this->data[$field] = $this->trimWhitespace($data);
             }
         }
 
@@ -126,7 +127,7 @@ class Form implements FormInterface
             return isset($this->data[$key]) ? $this->data[$key] : '';
         }
 
-        $this->data[$key] = $value;
+        $this->data[$key] = $this->trimWhitespace($value);
     }
 
     /**
@@ -329,5 +330,19 @@ class Form implements FormInterface
         return is_array($data)
             ? array_map([$this, 'decodeField'], $data)
             : htmlspecialchars_decode($data);
+    }
+
+    /**
+     * Trim whitespace from input data
+     *
+     * @param string|array $data
+     *
+     * @return string|array
+     */
+    protected function trimWhitespace($data)
+    {
+        return is_array($data)
+            ? array_map('trim', $data)
+            : trim($data);
     }
 }

@@ -7,6 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInit31769a3e8c41a0f7172192d16f413b22
 {
     public static $files = array (
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
+        '87988fc7b1c1f093da22a1a3de972f3a' => __DIR__ . '/..' . '/getkirby/cms/config/helpers.php',
+        '428e0a6316e676194f2283f47fbd1fc4' => __DIR__ . '/..' . '/getkirby/cms/config/aliases.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'e862d9fce5eaa28c798b151ac7fc8bc6' => __DIR__ . '/..' . '/mzur/kirby-flash/src/helpers.php',
         '316f57472eecfe71b6733d9d2acbcae9' => __DIR__ . '/..' . '/mzur/kirby-form/src/helpers.php',
         '513c89d6408d266be7db63374b5a5cc9' => __DIR__ . '/../..' . '/config.php',
@@ -14,46 +19,46 @@ class ComposerStaticInit31769a3e8c41a0f7172192d16f413b22
     );
 
     public static $prefixLengthsPsr4 = array (
-        'p' =>
+        'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
-        'W' =>
+        'W' => 
         array (
             'Whoops\\' => 7,
             'Webmozart\\Assert\\' => 17,
         ),
-        'U' =>
+        'U' => 
         array (
             'Uniform\\Tests\\' => 14,
             'Uniform\\' => 8,
         ),
-        'T' =>
+        'T' => 
         array (
             'TrueBV\\' => 7,
         ),
-        'S' =>
+        'S' => 
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
         ),
-        'P' =>
+        'P' => 
         array (
             'Psr\\Log\\' => 8,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'M' =>
+        'M' => 
         array (
             'Mzur\\Kirby\\DefuseSession\\' => 25,
         ),
-        'K' =>
+        'K' => 
         array (
             'Kirby\\' => 6,
         ),
-        'J' =>
+        'J' => 
         array (
             'Jevets\\Kirby\\' => 13,
         ),
-        'D' =>
+        'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
@@ -61,62 +66,62 @@ class ComposerStaticInit31769a3e8c41a0f7172192d16f413b22
     );
 
     public static $prefixDirsPsr4 = array (
-        'phpDocumentor\\Reflection\\' =>
+        'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
-            1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
-            2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+            2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
         ),
-        'Whoops\\' =>
+        'Whoops\\' => 
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
         ),
-        'Webmozart\\Assert\\' =>
+        'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
         ),
-        'Uniform\\Tests\\' =>
+        'Uniform\\Tests\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests',
         ),
-        'Uniform\\' =>
+        'Uniform\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'TrueBV\\' =>
+        'TrueBV\\' => 
         array (
             0 => __DIR__ . '/..' . '/true/punycode/src',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' =>
+        'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Psr\\Log\\' =>
+        'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'PHPMailer\\PHPMailer\\' =>
+        'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'Mzur\\Kirby\\DefuseSession\\' =>
+        'Mzur\\Kirby\\DefuseSession\\' => 
         array (
             0 => __DIR__ . '/..' . '/mzur/kirby-defuse-session/src',
         ),
-        'Kirby\\' =>
+        'Kirby\\' => 
         array (
             0 => __DIR__ . '/..' . '/getkirby/cms/src',
         ),
-        'Jevets\\Kirby\\' =>
+        'Jevets\\Kirby\\' => 
         array (
             0 => __DIR__ . '/..' . '/mzur/kirby-flash/src',
             1 => __DIR__ . '/..' . '/mzur/kirby-form/src',
         ),
-        'Doctrine\\Instantiator\\' =>
+        'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
-        'DeepCopy\\' =>
+        'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
@@ -127,31 +132,31 @@ class ComposerStaticInit31769a3e8c41a0f7172192d16f413b22
     );
 
     public static $prefixesPsr0 = array (
-        'c' =>
+        'c' => 
         array (
-            'claviska' =>
+            'claviska' => 
             array (
                 0 => __DIR__ . '/..' . '/claviska/simpleimage/src',
             ),
         ),
-        'P' =>
+        'P' => 
         array (
-            'Prophecy\\' =>
+            'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
             ),
-            'ParsedownExtra' =>
+            'ParsedownExtra' => 
             array (
                 0 => __DIR__ . '/..' . '/erusev/parsedown-extra',
             ),
-            'Parsedown' =>
+            'Parsedown' => 
             array (
                 0 => __DIR__ . '/..' . '/erusev/parsedown',
             ),
         ),
-        'M' =>
+        'M' => 
         array (
-            'Michelf' =>
+            'Michelf' => 
             array (
                 0 => __DIR__ . '/..' . '/michelf/php-smartypants',
             ),

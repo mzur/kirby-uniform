@@ -123,6 +123,24 @@ class FormTest extends TestCase
         $this->assertEquals('<value>', $form->data('test'));
     }
 
+    public function testTrimWhitespace()
+    {
+        $_POST['test'] = " value\n2\n";
+        $form = new Form(['test' => []]);
+        $form->data('key', ' value');
+        $this->assertEquals("value\n2", $form->data('test'));
+        $this->assertEquals('value', $form->data('key'));
+    }
+
+    public function testTrimWhitespaceArray()
+    {
+        $_POST['test'] = [' value1', 'value2 '];
+        $form = new Form(['test' => []]);
+        $form->data('key', [' value1', 'value2 ']);
+        $this->assertEquals(['value1', 'value2'], $form->data('test'));
+        $this->assertEquals(['value1', 'value2'], $form->data('key'));
+    }
+
     public function testForget()
     {
         $_POST['test'] = 'value';
@@ -170,7 +188,6 @@ class FormTest extends TestCase
     public function testValidateCsrfMissing()
     {
         unset($_POST['csrf_token']);
-        // Defuse::defuse();
         $form = new Form;
         $this->assertFalse($form->validates());
     }

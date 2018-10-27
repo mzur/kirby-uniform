@@ -16,8 +16,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "mzur/kirby-flash": "@beta",
-        "getkirby/cms": "dev-develop || >=3.0.0-beta-4.2"
+        "mzur/kirby-flash": "@beta"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +33,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
-        "mzur/kirby-defuse-session": "@beta"
+        "mzur/kirby-defuse-session": "@beta",
+        "getkirby/cms": "@beta"
     },
     "repositories": [
         {
