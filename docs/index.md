@@ -14,11 +14,9 @@ Builtin actions:
 
 ## Installation
 
-```bash
-composer require mzur/kirby-uniform:^4.0
-```
+Install Uniform via Composer if you use the Devkit: `composer require mzur/kirby-uniform:^4.0`
 
-You can also [download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
+Or [download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
 
 ## Setup
 
