@@ -251,7 +251,7 @@ class Form extends BaseForm
         $this->success = false;
 
         if ($this->shouldRedirect) {
-            Response::redirect(Url::last())->send();
+            die(Response::redirect(Url::last()));
         } else {
             $this->shouldFallThrough = true;
         }
