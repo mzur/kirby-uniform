@@ -54,8 +54,6 @@ The route listens for `POST` requests on `/contact`. Note the use of [`withoutFl
 This is the `/contact` page. If your page has another URL, update the form action URL or the route pattern accordingly.
 
 ```html+php
-<?php snippet('header') ?>
-
 <h1><?php echo $page->title()->html() ?></h1>
 
 <style type="text/css">
@@ -86,8 +84,6 @@ This is the `/contact` page. If your page has another URL, update the form actio
     <input type="submit" value="Submit">
     <p id="message"></p>
 </form>
-
-<?php snippet('footer') ?>
 ```
 
 ## JavaScript

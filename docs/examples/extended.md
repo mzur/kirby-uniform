@@ -54,8 +54,8 @@ return function ($kirby)
                 // Set replyTo manually, else it would be set to the value of 'email'.
                 'replyTo' => 'me@example.com',
                 'subject' => 'Thank you for your registration!',
-                // Use a snippet for the email body (see below).
-                'snippet' => 'emails/success',
+                // Use a template for the email body (see below).
+                'template' => 'success',
             ]);
 
         if ($form->success()) {
@@ -70,8 +70,6 @@ return function ($kirby)
 ## Template
 
 ```html+php
-<?php snippet('header') ?>
-
 <h1><?php echo $page->title()->html() ?></h1>
 
 <style type="text/css">
@@ -137,8 +135,6 @@ return function ($kirby)
     <!-- Show errors of the email actions if there are any -->
     <?php snippet('form/error', ['field' => \Uniform\Actions\EmailAction::class]) ?>
 </form>
-
-<?php snippet('footer') ?>
 ```
 
 ## Snippets
@@ -151,10 +147,10 @@ return function ($kirby)
 <?php endif; ?>
 ```
 
-### snippets/emails/success.php
+### templates/emails/success.php
 
 ```html+php
-Dear <?php echo $data['name'] ?>,
+Dear <?php echo $name ?>,
 
-thank you for the registration of a <?php echo $data['booth'] ?> booth with <?php echo $data['attendees'] ?> attendees<?php if ($data['newsletter'] === 'yes'): ?> and your subscription to our newsletter<?php endif; ?>!
+thank you for the registration of a <?php echo $booth ?> booth with <?php echo $attendees ?> attendees<?php if ($newsletter === 'yes'): ?> and your subscription to our newsletter<?php endif; ?>!
 ```

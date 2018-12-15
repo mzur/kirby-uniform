@@ -41,8 +41,6 @@ return function ($kirby)
 ## Template
 
 ```html+php
-<?php snippet('header') ?>
-
 <h1><?php echo $page->title()->html() ?></h1>
 
 <style type="text/css">
@@ -77,7 +75,4 @@ return function ($kirby)
 <?php else: ?>
     <?php snippet('uniform/errors', ['form' => $form]) ?>
 <?php endif; ?>
-
-<?php snippet('footer') ?>
-
 ```
