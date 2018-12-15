@@ -73,9 +73,12 @@ The subject of the email. By default the `uniform-email-subject` language variab
 
 ### template
 
-Name of a email template to use as email body. If this option is set, the action will use the template for the email body instead of printing the `name: value` pairs as plain text. Read more on email templates in the [Kirby documentation](https://nnnnext.getkirby.com/docs/guide/emails#plain-text). In addition to the variables of the form data, you have access to the `$options` array which is the options array that you passed on to the email action.
+Name of a email template to use as email body. If this option is set, the action will use the template for the email body instead of printing the `name: value` pairs as plain text. Read more on email templates in the [Kirby documentation](https://nnnnext.getkirby.com/docs/guide/emails#plain-text). In addition to the variables of the form data, you have access to the `$_options` array which is the options array that you passed on to the email action.
 
-Check out the `email-*` templates of the [Uniform repo](https://github.com/mzur/kirby-uniform/tree/master/templates) for examples.
+Check out the email templates of the [Uniform repo](https://github.com/mzur/kirby-uniform/tree/master/templates/emails) for examples.
+
+!!! warning "Note"
+    You cannot access form fields with the name `_data` or `_options` directly in the template as these are reserved for the additional variables provided by Uniform. Use `$_data['_data']` and `$_data['_options']` in this case.
 
 ### replyTo
 

@@ -17,6 +17,13 @@ class EmailActionTest extends TestCase
     {
         parent::setUp();
         $this->form = new Form;
+        App::instance()->extend([
+            'templates' => [
+                'emails/test' => __DIR__.'/../templates/test.php',
+                'emails/test-data' => __DIR__.'/../templates/test-data.php',
+                'emails/test-options' => __DIR__.'/../templates/test-options.php',
+            ],
+        ]);
     }
 
     public function testSenderOptionRequired()
@@ -120,28 +127,39 @@ class EmailActionTest extends TestCase
         $this->assertEquals($expect, $action->email->body()->text());
     }
 
-    public function testBodySnippet()
-    {
-        $action = new EmailActionStub($this->form, [
-            'to' => 'jane@user.com',
-            'from' => 'info@user.com',
-            'snippet' => 'my snippet',
-        ]);
-        $action->perform();
-        $this->assertEquals('my snippet', $action->email->body()->text());
-    }
-
-    public function testSnippetData()
+    public function testTemplate()
     {
         $this->form->data('email', 'joe@user.com');
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
             'from' => 'info@user.com',
-            'snippet' => 'my snippet',
+            'template' => 'test',
         ]);
         $action->perform();
-        $this->assertEquals('joe@user.com', $action->data['data']['email']);
-        $this->assertEquals('info@user.com', $action->data['options']['from']);
+        $this->assertEquals('joe@user.com', $action->email->body()->text());
+    }
+
+    public function testTemplateOptions()
+    {
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'template' => 'test-options',
+        ]);
+        $action->perform();
+        $this->assertEquals('jane@user.com', $action->email->body()->text());
+    }
+
+    public function testTemplateData()
+    {
+        $this->form->data('email', 'joe@user.com');
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'template' => 'test-data',
+        ]);
+        $action->perform();
+        $this->assertEquals('joe@user.com', $action->email->body()->text());
     }
 
     public function testReceiveCopyDisabled()
@@ -219,7 +237,6 @@ class EmailActionTest extends TestCase
 class EmailActionStub extends EmailAction
 {
     public $calls = 0;
-    public $data;
     protected function sendEmail(array $params)
     {
         $this->calls++;
@@ -229,16 +246,5 @@ class EmailActionStub extends EmailAction
         } else {
             $this->email = App::instance()->email($params, ['debug' => true]);
         }
-    }
-
-    protected function getSnippet($name, array $data)
-    {
-        if (!array_key_exists('data', $data) || !array_key_exists('options', $data)) {
-            throw new Exception;
-        }
-
-        $this->data = $data;
-
-        return $name;
     }
 }

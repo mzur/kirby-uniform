@@ -262,12 +262,12 @@
     },
     {
         "name": "getkirby/cms",
-        "version": "3.0.0-beta-6",
-        "version_normalized": "3.0.0.0-beta6",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
         "source": {
             "type": "git",
             "url": "https://github.com/k-next/kirby.git",
-            "reference": "fa3cb2d95d806ae400772a846ae5f91b886d10f3"
+            "reference": "d0dc99f496c39381182702999ecb610dc7311fbc"
         },
         "archive": {
             "exclude": [
@@ -308,13 +308,14 @@
             "mustangostang/spyc": "0.6.*",
             "php": ">=7.1.0",
             "phpmailer/phpmailer": "6.0.*",
-            "true/punycode": "2.1.*"
+            "true/punycode": "2.1.*",
+            "zendframework/zend-escaper": "^2.6"
         },
         "require-dev": {
             "friendsofphp/php-cs-fixer": "^2.11.1",
             "phpunit/phpunit": "^6.0"
         },
-        "time": "2018-09-28T10:11:37+00:00",
+        "time": "2018-12-14T16:33:38+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -2359,6 +2360,53 @@
             "assert",
             "check",
             "validate"
+        ]
+    },
+    {
+        "name": "zendframework/zend-escaper",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/zendframework/zend-escaper.git",
+            "reference": "c9e7e54dac46175e93cd08111dc5963bfb9f2f7e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/zendframework/zend-escaper/zipball/c9e7e54dac46175e93cd08111dc5963bfb9f2f7e",
+            "reference": "c9e7e54dac46175e93cd08111dc5963bfb9f2f7e",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.6 || ^7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2",
+            "zendframework/zend-coding-standard": "~1.0.0"
+        },
+        "time": "2018-04-25T15:50:09+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.6.x-dev",
+                "dev-develop": "2.7.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Zend\\Escaper\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "description": "Securely and safely escape HTML, HTML attributes, JavaScript, CSS, and URLs",
+        "keywords": [
+            "ZendFramework",
+            "escaper",
+            "zf"
         ]
     }
 ]

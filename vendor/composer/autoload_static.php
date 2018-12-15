@@ -23,6 +23,10 @@ class ComposerStaticInit31769a3e8c41a0f7172192d16f413b22
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'Z' => 
+        array (
+            'Zend\\Escaper\\' => 13,
+        ),
         'W' => 
         array (
             'Whoops\\' => 7,
@@ -71,6 +75,10 @@ class ComposerStaticInit31769a3e8c41a0f7172192d16f413b22
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'Zend\\Escaper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zend-escaper/src',
         ),
         'Whoops\\' => 
         array (

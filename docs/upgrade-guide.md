@@ -88,7 +88,9 @@ Kirby 3 no longer uses email services. All emails are sent using PHPMailer. You 
 
 The email snippets of the [EmailAction](actions/email) are now replaced by Kirby's native [email templates](https://nnnnext.getkirby.com/docs/guide/emails#plain-text). Just move your old email snippets to the email template directory and rename the key in the email action options array from `snippet` to `template`.
 
-Form fields are directly accessible in email templates, as shown in the Kirby documentation. However, the `$data` and `$options` arrays are still there to provide backwards compatibility. You can update your email templates for better readability, though:
+Form fields are now directly accessible in email templates, as shown in the Kirby documentation. However, the old `$data` and `$options` arrays are still there as `$_data` and `$_options` to provide an easier upgrade path.
+
+You can update your email templates for better readability, though.
 
 Uniform v3 / Kirby 2:
 
@@ -103,6 +105,8 @@ This is a message from <?= $firstname ?> <?= $lastname ?>.
 ```
 
 Of course, defining and using both a `text` and `html` email template as shown in the Kirby documentation just works.
+
+The default email snippets provided by Uniform are now available as the `uniform-default` and `uniform-table` email templates.
 
 ## Log snippets/templates
 

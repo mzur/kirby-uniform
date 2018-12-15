@@ -13,8 +13,6 @@ use Kirby\Toolkit\I18n;
  */
 class EmailAction extends Action
 {
-    use UsesSnippet;
-
     /**
      * Name of the form field for the user's email address.
      *
@@ -39,7 +37,6 @@ class EmailAction extends Action
             'from' => $this->requireOption('from'),
             'replyTo' => $this->option('replyTo', $this->form->data(self::EMAIL_KEY)),
             'subject' => $this->getSubject(),
-            'body' => $this->getBody(),
         ]);
 
         if (empty($params['replyTo'])) {
@@ -50,6 +47,15 @@ class EmailAction extends Action
             $params['data'] = array_merge($params['data'], $this->form->data());
         } else {
             $params['data'] = $this->form->data();
+        }
+
+        if (isset($params['template'])) {
+            $params['data'] = array_merge($params['data'], [
+                '_data' => $params['data'],
+                '_options' => $this->options,
+            ]);
+        } else {
+            $params['body'] = $this->getBody();
         }
 
         try {
@@ -116,27 +122,19 @@ class EmailAction extends Action
      */
     protected function getBody()
     {
-        $snippet = $this->option('snippet');
         $data = $this->form->data();
 
-        if ($snippet) {
-            $body = $this->getSnippet($snippet, [
-                'data' => $data,
-                'options' => $this->options
-            ]);
-        } else {
-            unset($data[self::EMAIL_KEY]);
-            unset($data[self::RECEIVE_COPY_KEY]);
-            $body = '';
-            foreach ($data as $key => $value) {
-                if (is_array($value)) {
-                    $value = implode(', ', array_filter($value, function ($i) {
-                        return $i !== '';
-                    }));
-                }
-
-                $body .= ucfirst($key).': '.$value."\n\n";
+        unset($data[self::EMAIL_KEY]);
+        unset($data[self::RECEIVE_COPY_KEY]);
+        $body = '';
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $value = implode(', ', array_filter($value, function ($i) {
+                    return $i !== '';
+                }));
             }
+
+            $body .= ucfirst($key).': '.$value."\n\n";
         }
 
         return $body;

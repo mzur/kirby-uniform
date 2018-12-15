@@ -3,11 +3,11 @@
 Kirby::plugin('mzur/kirby-uniform', [
     'templates' => [
         'uniform/log-json' => __DIR__.'/templates/log-json.php',
+        'emails/uniform-default' => __DIR__.'/templates/emails/default.php',
+        'emails/uniform-table' => __DIR__.'/templates/emails/table.php',
     ],
     'snippets' => [
         'uniform/errors' => __DIR__.'/snippets/errors.php',
-        'uniform/email-default' => __DIR__.'/snippets/email-default.php',
-        'uniform/email-table' => __DIR__.'/snippets/email-table.php',
     ],
     'translations' => [
         'de' => [
