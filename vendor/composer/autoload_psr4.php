@@ -6,20 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
-    'Zend\\Escaper\\' => array($vendorDir . '/zendframework/zend-escaper/src'),
-    'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
-    'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
-    'Uniform\\Tests\\' => array($baseDir . '/tests'),
     'Uniform\\' => array($baseDir . '/src'),
-    'TrueBV\\' => array($vendorDir . '/true/punycode/src'),
-    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
-    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
-    'Mzur\\Kirby\\DefuseSession\\' => array($vendorDir . '/mzur/kirby-defuse-session/src'),
-    'Kirby\\' => array($vendorDir . '/getkirby/cms/src'),
     'Jevets\\Kirby\\' => array($vendorDir . '/mzur/kirby-flash/src', $vendorDir . '/mzur/kirby-form/src'),
-    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
-    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
-    '' => array($vendorDir . '/league/color-extractor/src'),
 );
