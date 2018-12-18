@@ -3,5 +3,4 @@ vendor/*
 !vendor/mzur/kirby-form
 !vendor/mzur/kirby-flash
 !vendor/autoload.php
-composer.lock
 *.sublime-*
