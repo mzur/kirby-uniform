@@ -22,7 +22,7 @@ Get the [Kirby CLI](https://github.com/getkirby/cli) and run `kirby plugin:insta
 
 ### Traditional
 
-[Download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
+[Download](https://github.com/mzur/kirby-uniform/archive/kirby-2.zip) the repository and extract it to `site/plugins/uniform`.
 
 ### Composer
 
