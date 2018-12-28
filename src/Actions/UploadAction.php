@@ -47,7 +47,7 @@ class UploadAction extends Action
     {
         $file = $this->form->data($field);
 
-        if (!is_array($file)) {
+        if (!is_array($file) || !isset($file['error']) || intval($file['error']) !== UPLOAD_ERR_OK) {
             // If this is an array, kirby-form already recognized and validated the
             // uploaded file. If the file is required, this should have been checked
             // during validation.

@@ -18,6 +18,7 @@ class UploadActionTest extends TestCase
 
     public function testSkipMissingFile()
     {
+        $this->form->data('testfield', ['error' => UPLOAD_ERR_NO_FILE]);
         $action = new UploadActionStub($this->form, ['fields' => ['testfield' => []]]);
         $action->perform();
         $this->assertNull($action->source);
@@ -26,7 +27,10 @@ class UploadActionTest extends TestCase
 
     public function testTargetRequired()
     {
-        $this->form->data('testfield', ['name' => 'myfile.txt']);
+        $this->form->data('testfield', [
+            'name' => 'myfile.txt',
+            'error' => UPLOAD_ERR_OK,
+        ]);
         $action = new UploadActionStub($this->form, ['fields' => ['testfield' => []]]);
         $this->expectException(PerformerException::class, 'target directory is missing');
         $action->perform();
@@ -36,7 +40,10 @@ class UploadActionTest extends TestCase
     {
         $path = $this->dir.'/uniform_abc123';
         touch($path);
-        $this->form->data('testfield', ['name' => 'myfile.txt']);
+        $this->form->data('testfield', [
+            'name' => 'myfile.txt',
+            'error' => UPLOAD_ERR_OK,
+        ]);
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path],
         ]]);
@@ -53,7 +60,10 @@ class UploadActionTest extends TestCase
         $path = $this->dir.'/uniform_abc123';
         @mkdir($path);
         touch("{$path}/myfile.txt");
-        $this->form->data('testfield', ['name' => 'myfile.txt']);
+        $this->form->data('testfield', [
+            'name' => 'myfile.txt',
+            'error' => UPLOAD_ERR_OK,
+        ]);
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path, 'prefix' => false],
         ]]);
@@ -72,7 +82,10 @@ class UploadActionTest extends TestCase
         $path = $this->dir.'/uniform_abc123';
         @mkdir($path);
         touch("{$path}/prefixmyfile.txt");
-        $this->form->data('testfield', ['name' => 'myfile.txt']);
+        $this->form->data('testfield', [
+            'name' => 'myfile.txt',
+            'error' => UPLOAD_ERR_OK,
+        ]);
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $path, 'prefix' => 'prefix'],
         ]]);
@@ -90,7 +103,8 @@ class UploadActionTest extends TestCase
     {
         $this->form->data('testfield', [
             'tmp_name' => $this->dir.'/uniform_123abc',
-            'name' => 'myfile.txt'
+            'name' => 'myfile.txt',
+            'error' => UPLOAD_ERR_OK,
         ]);
         $action = new UploadActionStub($this->form, ['fields' => [
             'testfield' => ['target' => $this->dir.'/uniform_test'],
