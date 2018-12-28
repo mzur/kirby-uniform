@@ -26,6 +26,7 @@ pages:
         - Basic: examples/basic.md
         - Extended: examples/extended.md
         - AJAX: examples/ajax.md
+        - Dynamic Fields: examples/dynamic.md
     - Answers: answers.md
     - 'Upgrade Guide': upgrade-guide.md
 theme: readthedocs
