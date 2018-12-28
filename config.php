@@ -21,6 +21,9 @@ Kirby::plugin('mzur/kirby-uniform', [
             'uniform-login-error' => 'Benutzername oder Passwort falsch.',
             'uniform-webhook-error' => 'Beim Aufruf des Webhook ist ein Fehler aufgetreten: ',
             'uniform-email-select-error' => 'Ungültiger Empfänger.',
+            'uniform-upload-mkdir-fail' => 'Zielverzeichnis konnte nicht erstellt werden.',
+            'uniform-upload-exists' => 'Die Datei existiert bereits.',
+            'uniform-upload-failed' => 'Die Datei konnte nicht hochgeladen werden.',
         ],
         'en' => [
             'uniform-filled-potty' => 'The form field that is supposed to be empty was filled. In case you are not a spam-bot, please try again leaving the field blank.',
