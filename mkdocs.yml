@@ -24,6 +24,7 @@ pages:
         - Upload: actions/upload.md
     - Examples:
         - Basic: examples/basic.md
+        - Building Blocks: examples/blocks.md
         - Extended: examples/extended.md
         - AJAX: examples/ajax.md
         - Dynamic Fields: examples/dynamic.md
