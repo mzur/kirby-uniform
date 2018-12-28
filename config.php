@@ -51,6 +51,9 @@ Kirby::plugin('mzur/kirby-uniform', [
             'uniform-login-error' => 'El usuario o la contraseña no son correctos.',
             'uniform-webhook-error' => 'Se ha producido un error al llamar el webhook: ',
             'uniform-email-select-error' => 'Destinatario incorrecto.',
+            // 'uniform-upload-mkdir-fail' => '',
+            // 'uniform-upload-exists' => '',
+            // 'uniform-upload-failed' => '',
         ],
         'fr' => [
             'uniform-filled-potty' => 'Le champ du formulaire supposé être vide a été renseigné. Dans le cas où vous ne seriez pas un robot spammeur, merci de ré-essayer en laissant ce champ vide.',
@@ -63,6 +66,9 @@ Kirby::plugin('mzur/kirby-uniform', [
             'uniform-login-error' => 'Identifiant ou mot de passe invalide.',
             'uniform-webhook-error' => 'Une erreur s’est produite lors de l’appel du webhook : ',
             'uniform-email-select-error' => 'Destinataire invalide.',
+            // 'uniform-upload-mkdir-fail' => '',
+            // 'uniform-upload-exists' => '',
+            // 'uniform-upload-failed' => '',
         ],
         'it' => [
             'uniform-filled-potty' => 'Il campo che doveva restare vuoto è stato compilato. Se non sei uno spam-bot, per favore riprova a inviare il modulo senza compilarlo.',
@@ -90,6 +96,9 @@ Kirby::plugin('mzur/kirby-uniform', [
             'uniform-login-error' => 'Ongeldige gebruikersnaam of wachtwoord.',
             'uniform-webhook-error' => 'Er is een fout opgetreden bij het aanroepen van de webhook: ',
             'uniform-email-select-error' => 'Ongeldige ontvanger.',
+            // 'uniform-upload-mkdir-fail' => '',
+            // 'uniform-upload-exists' => '',
+            // 'uniform-upload-failed' => '',
         ],
         'pt_BR' => [
             'uniform-filled-potty' => 'O campo de formulário que deveria estar vazio foi preenchido. Caso você não seja um robô de SPAM, por favor tente novamente deixando o campo em branco.',
@@ -132,6 +141,9 @@ Kirby::plugin('mzur/kirby-uniform', [
             'uniform-login-error' => 'Yanlis kullanici adi veya sifre.',
             'uniform-webhook-error' => 'Webhook cagirilirken bir hata olustu: ',
             'uniform-email-select-error' => 'Gecersiz alici.',
+            // 'uniform-upload-mkdir-fail' => '',
+            // 'uniform-upload-exists' => '',
+            // 'uniform-upload-failed' => '',
         ],
     ],
 ]);
