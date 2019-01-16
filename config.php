@@ -96,9 +96,9 @@ Kirby::plugin('mzur/kirby-uniform', [
             'uniform-login-error' => 'Ongeldige gebruikersnaam of wachtwoord.',
             'uniform-webhook-error' => 'Er is een fout opgetreden bij het aanroepen van de webhook: ',
             'uniform-email-select-error' => 'Ongeldige ontvanger.',
-            // 'uniform-upload-mkdir-fail' => '',
-            // 'uniform-upload-exists' => '',
-            // 'uniform-upload-failed' => '',
+            'uniform-upload-mkdir-fail' => 'De map kon niet worden aangemaakt.',
+            'uniform-upload-exists' => 'Het bestand bestaat al.',
+            'uniform-upload-failed' => 'Het bestand kon niet worden geupload.',
         ],
         'pt_BR' => [
             'uniform-filled-potty' => 'O campo de formulário que deveria estar vazio foi preenchido. Caso você não seja um robô de SPAM, por favor tente novamente deixando o campo em branco.',
