@@ -42,7 +42,7 @@ If any of these steps fail, Uniform will immediately redirect back to the form p
 
 ## Validation rules
 
-The constructor argument of `Uniform\Form` is an array of validation rules and error messages for each form field. To validate the form data you can use all [validators](https://nnnnext.getkirby.com/docs/cheatsheet#validators) that are available (or [implement your own](https://getkirby.com/docs/developer-guide/objects/validators)). If the form field validation failed, the individual error messages can be fetched through the [error method](methods#errorkey) of the `$form` object.
+The constructor argument of `Uniform\Form` is an array of validation rules and error messages for each form field. To validate the form data you can use all [validators](https://getkirby.com/docs/cheatsheet#validators) that are available (or [implement your own](https://getkirby.com/docs/reference/plugins/extensions/validators)). If the form field validation failed, the individual error messages can be fetched through the [error method](methods#errorkey) of the `$form` object.
 
 Besides validation rules and error messages, the constructor array also defines which form fields Uniform should use in the first place. If only `email` and `message` are defined but the form also has a `name` field, it will be ignored because it was not defined in the constructor array. You can define form fields that should not be included in the validation with an empty validation array like this:
 

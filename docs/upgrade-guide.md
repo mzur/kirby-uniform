@@ -82,11 +82,11 @@ Uniform v4 / Kirby 3:
 
 ## Email services
 
-Kirby 3 no longer uses email services. All emails are sent using PHPMailer. You can [configure the transport settings](https://nnnnext.getkirby.com/docs/guide/emails#transport-configuration) in Kirby's config file. Remove `service` and `service-options` from the options array of the [EmailAction](actions/email) wherever you used them.
+Kirby 3 no longer uses email services. All emails are sent using PHPMailer. You can [configure the transport settings](https://getkirby.com/docs/guide/emails#transport-configuration) in Kirby's config file. Remove `service` and `service-options` from the options array of the [EmailAction](actions/email) wherever you used them.
 
 ## Email snippets/templates
 
-The email snippets of the [EmailAction](actions/email) are now replaced by Kirby's native [email templates](https://nnnnext.getkirby.com/docs/guide/emails#plain-text). Just move your old email snippets to the email template directory and rename the key in the email action options array from `snippet` to `template`.
+The email snippets of the [EmailAction](actions/email) are now replaced by Kirby's native [email templates](https://getkirby.com/docs/guide/emails#plain-text). Just move your old email snippets to the email template directory and rename the key in the email action options array from `snippet` to `template`.
 
 Form fields are now directly accessible in email templates, as shown in the Kirby documentation. However, the old `$data` and `$options` arrays are still there as `$_data` and `$_options` to provide an easier upgrade path.
 

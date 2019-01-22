@@ -57,7 +57,7 @@ The url, the request should be sent to.
 
 ### params
 
-Additional parameters for the request. See the [Remote class]https://nnnnext.getkirby.com/docs/framework/http/remote) for all possible parameters. The `data` parameter will be merged with the form data.
+Additional parameters for the request. See the [Remote class](https://github.com/getkirby/kirby/blob/master/src/Http/Remote.php) for all possible parameters. The `data` parameter will be merged with the form data.
 
 ### only
 

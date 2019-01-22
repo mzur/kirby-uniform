@@ -30,7 +30,7 @@ Add this to your CSS:
 ```
 
 !!! warning "Note"
-    [Disable the Kirby cache](https://nnnnext.getkirby.com/docs/guide/cache) for pages where you use Uniform to make sure the form is generated dynamically.
+    [Disable the Kirby cache](https://getkirby.com/docs/guide/cache) for pages where you use Uniform to make sure the form is generated dynamically.
 
 !!! warning "Note"
     Uniform makes use of Kirby sessions. This requires a session cookie to be set.
