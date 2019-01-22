@@ -1,26 +1,29 @@
 [
     {
         "name": "mzur/kirby-flash",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mzur/kirby-flash.git",
-            "reference": "8f270b623a5a1e8e0caf235dbe024a058804abe9"
+            "reference": "a48131bad4a5178a883223f2f83a6a59d8f5cc6a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mzur/kirby-flash/zipball/8f270b623a5a1e8e0caf235dbe024a058804abe9",
-            "reference": "8f270b623a5a1e8e0caf235dbe024a058804abe9",
+            "url": "https://api.github.com/repos/mzur/kirby-flash/zipball/a48131bad4a5178a883223f2f83a6a59d8f5cc6a",
+            "reference": "a48131bad4a5178a883223f2f83a6a59d8f5cc6a",
             "shasum": ""
         },
         "require-dev": {
-            "getkirby/cms": "@beta",
-            "mzur/kirby-defuse-session": "@beta",
+            "getkirby/kirby": "^3.0",
+            "mzur/kirby-defuse-session": "^1.0",
             "phpunit/phpunit": "^6.0"
         },
-        "time": "2018-10-27T11:50:31+00:00",
+        "time": "2019-01-15T19:28:31+00:00",
         "type": "library",
+        "extra": {
+            "kirby-cms-path": "vendor/getkirby/kirby"
+        },
         "installation-source": "source",
         "autoload": {
             "psr-4": {
@@ -53,29 +56,32 @@
     },
     {
         "name": "mzur/kirby-form",
-        "version": "v2.0.0-beta4",
-        "version_normalized": "2.0.0.0-beta4",
+        "version": "v2.0.0",
+        "version_normalized": "2.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mzur/kirby-form.git",
-            "reference": "5dc993a5497d23ae677c4a79215fc8707e0eef2b"
+            "reference": "1ca69fa9e9b33c48021607c22e7831267fa88d89"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mzur/kirby-form/zipball/5dc993a5497d23ae677c4a79215fc8707e0eef2b",
-            "reference": "5dc993a5497d23ae677c4a79215fc8707e0eef2b",
+            "url": "https://api.github.com/repos/mzur/kirby-form/zipball/1ca69fa9e9b33c48021607c22e7831267fa88d89",
+            "reference": "1ca69fa9e9b33c48021607c22e7831267fa88d89",
             "shasum": ""
         },
         "require": {
-            "mzur/kirby-flash": "@beta"
+            "mzur/kirby-flash": "^2.0"
         },
         "require-dev": {
-            "getkirby/cms": "@beta",
-            "mzur/kirby-defuse-session": "@beta",
+            "getkirby/kirby": "^3.0",
+            "mzur/kirby-defuse-session": "^1.0",
             "phpunit/phpunit": "^6.0"
         },
-        "time": "2018-10-27T12:09:52+00:00",
+        "time": "2019-01-15T19:33:19+00:00",
         "type": "library",
+        "extra": {
+            "kirby-cms-path": "vendor/getkirby/kirby"
+        },
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
