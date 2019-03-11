@@ -45,6 +45,7 @@ The route listens for `POST` requests on `/contact`. Note the use of [`withoutFl
         }
 
         // Return code 200 on success.
+        return Response::json([], 200);
     }
 ]
 ```
