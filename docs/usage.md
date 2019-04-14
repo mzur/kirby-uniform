@@ -160,7 +160,7 @@ if (kirby()->request()->is('POST')) {
             'from' => 'info@example.com',
         ])
         ->logAction([
-            'file' => kirby()->roots()->site().'/messages.log'
+            'file' => $kirby()->roots()->site().'/messages.log'
         ]);
 }
 ```
