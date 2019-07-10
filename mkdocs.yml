@@ -1,5 +1,5 @@
 site_name: Kirby Uniform
-site_description: A versatile Kirby 2 plugin to handle web form actions.
+site_description: A versatile Kirby plugin to handle web form actions.
 site_author: Martin Zurowietz
 site_url: https://github.com/mzur/kirby-uniform/
 repo_url: https://github.com/mzur/kirby-uniform/
@@ -12,7 +12,6 @@ pages:
         - Guards: guards/guards.md
         - Honeypot: guards/honeypot.md
         - Calc: guards/calc.md
-        - reCAPTCHA: guards/recaptcha.md
     - Actions:
         - Actions: actions/actions.md
         - Email: actions/email.md
