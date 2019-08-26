@@ -4,7 +4,6 @@ install:
     - composer install
 script:
     - vendor/bin/phpunit
-sudo: false
 php:
   - 7.1
   - 7.2
