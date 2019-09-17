@@ -173,7 +173,7 @@ There is no equivalent method to check this. The required validation is now hand
 
 ### token()
 
-Use the `csrf()` [helper function](https://getkirby.com/docs/cheatsheet/helpers/csrf) to get the token or the `csrf_field()` helper function to get a hidden form field with the token.
+Use the `csrf()` [helper function](https://k2.getkirby.com/docs/cheatsheet/helpers/csrf) to get the token or the `csrf_field()` helper function to get a hidden form field with the token.
 
 ### id()
 

@@ -53,10 +53,10 @@ If you have a single language site you can choose the language Uniform should us
 c::set('uniform.language', 'de');
 ```
 
-See [here](https://github.com/mzur/kirby-uniform/tree/master/languages) for all supported languages.
+See [here](https://github.com/mzur/kirby-uniform/tree/kirby-2/languages) for all supported languages.
 
 !!! warning "Note"
-    [Disable the Kirby cache](https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use Uniform to make sure the form is generated dynamically.
+    [Disable the Kirby cache](https://k2.getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use Uniform to make sure the form is generated dynamically.
 
 !!! warning "Note"
     Uniform makes use of Kirby sessions and the CSRF helper. This requires a session cookie to be set.
