@@ -103,9 +103,9 @@ If you have a single language site you can choose the language Uniform should us
 c::set('uniform.language', 'de');
 ```
 
-See [here](https://github.com/mzur/kirby-uniform/tree/master/languages) for all supported languages.
+See [here](https://github.com/mzur/kirby-uniform/tree/kirby-2/languages) for all supported languages.
 
-**Note:** [Disable the Kirby cache](https://getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use Uniform to make sure the form is generated dynamically.
+**Note:** [Disable the Kirby cache](https://k2.getkirby.com/docs/developer-guide/advanced/caching#ignoring-pages) for pages where you use Uniform to make sure the form is generated dynamically.
 
 ## Documentation
 

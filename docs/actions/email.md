@@ -72,7 +72,7 @@ The subject of the email. By default the `uniform-email-subject` language variab
 
 Name of a snippet to use as email body. If this option is set the action will use the snippet for the email body instead of printing the `name: value` pairs as plain text. Inside the snippet you have access to the `$data` array, which is a plain associative array containing the form data, and the `$options` array which is the options array that you passed on to the email action.
 
-Check out the `email-*` snippets of the [Uniform repo](https://github.com/mzur/kirby-uniform/tree/master/snippets) for examples.
+Check out the `email-*` snippets of the [Uniform repo](https://github.com/mzur/kirby-uniform/tree/kirby-2/snippets) for examples.
 
 ### replyTo
 
@@ -80,11 +80,11 @@ Set a static email address as `replyTo` of the email instead of the value of the
 
 ### service
 
-Name of an [email service](https://getkirby.com/docs/developer-guide/advanced/emails) to use. The default service is `mail`. For other services, make sure to provide the [service-options](#service-options) option as well.
+Name of an [email service](https://k2.getkirby.com/docs/developer-guide/advanced/emails) to use. The default service is `mail`. For other services, make sure to provide the [service-options](#service-options) option as well.
 
 ### service-options
 
-An array of options to pass along to the email service. If you use the [SES service](https://getkirby.com/docs/developer-guide/advanced/emails#amazon-ses), for example, you need to provide the `key`, `secret` and `host` in this array. This will be the `$email->options` array you can access in a custom email service.
+An array of options to pass along to the email service. If you use the [SES service](https://k2.getkirby.com/docs/developer-guide/advanced/emails#amazon-ses), for example, you need to provide the `key`, `secret` and `host` in this array. This will be the `$email->options` array you can access in a custom email service.
 
 ### receive-copy
 
