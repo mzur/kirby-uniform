@@ -87,7 +87,7 @@ For the full documentation head over to [Read the Docs](https://kirby-uniform.re
 
 ## Questions
 
-See the [answers](https://kirby-uniform.readthedocs.io/en/latest/answers/) in the docs, [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help (be sure to  mention `@mzur`).
+See the [answers](https://kirby-uniform.readthedocs.io/en/latest/answers/) in the docs, [post an issue](https://github.com/mzur/kirby-uniform/issues) if you think it is a bug or create a topic in [the forum](https://forum.getkirby.com/) if you need help.
 
 ## Contributing
 
