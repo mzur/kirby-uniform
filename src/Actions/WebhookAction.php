@@ -2,6 +2,7 @@
 
 namespace Uniform\Actions;
 
+use Exception;
 use Kirby\Toolkit\A;
 use Kirby\Http\Remote;
 use Kirby\Toolkit\I18n;
@@ -49,10 +50,10 @@ class WebhookAction extends Action
 
         $params['headers'] = array_merge(A::get($params, 'headers', []), $headers);
 
-        $response = $this->request($url, $params);
-
-        if ($response->error !== 0) {
-            $this->fail(I18n::translate('uniform-webhook-error').$response->message);
+        try {
+            $this->request($url, $params);
+        } catch (Exception $e) {
+            $this->fail(I18n::translate('uniform-webhook-error').$e->getMessage());
         }
     }
 

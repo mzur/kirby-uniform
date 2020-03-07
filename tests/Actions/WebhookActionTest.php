@@ -2,7 +2,6 @@
 
 namespace Uniform\Tests\Actions;
 
-use StdClass;
 use Exception;
 use Uniform\Form;
 use Uniform\Tests\TestCase;
@@ -89,14 +88,15 @@ class WebhookActionTest extends TestCase
 
 class WebhookActionStub extends WebhookAction
 {
+    public $shouldFail = false;
+
     protected function request($url, $params)
     {
         $this->url = $url;
         $this->params = $params;
-        $response = new StdClass;
-        $response->error = isset($this->shouldFail) ? 1 : 0;
-        $response->message = '';
-        return $response;
+        if ($this->shouldFail) {
+            throw new Exception;
+        }
     }
 }
 
