@@ -66,9 +66,9 @@ Kirby::plugin('mzur/kirby-uniform', [
             'uniform-login-error' => 'Identifiant ou mot de passe invalide.',
             'uniform-webhook-error' => 'Une erreur s’est produite lors de l’appel du webhook : ',
             'uniform-email-select-error' => 'Destinataire invalide.',
-            // 'uniform-upload-mkdir-fail' => '',
-            // 'uniform-upload-exists' => '',
-            // 'uniform-upload-failed' => '',
+            'uniform-upload-mkdir-fail' => 'Le répertoire de destination n’a pu être créé.',
+            'uniform-upload-exists' => 'Le fichier existe déjà.',
+            'uniform-upload-failed' => 'Le fichier n’a pu être transféré.',
         ],
         'it' => [
             'uniform-filled-potty' => 'Il campo che doveva restare vuoto è stato compilato. Se non sei uno spam-bot, per favore riprova a inviare il modulo senza compilarlo.',
