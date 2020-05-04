@@ -42,7 +42,7 @@ return function ($kirby)
                 'to' => 'me@example.com',
                 'from' => 'info@example.com',
                 // Dynamically generate the subject with a template.
-                'subject' => 'New registration for a {booth} booth',
+                'subject' => 'New registration for a {{booth}} booth',
             ])
             ->logAction([
                 'file' => $kirby->roots()->site().'/registrations.log',
