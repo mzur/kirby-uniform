@@ -10,6 +10,21 @@ Kirby::plugin('mzur/kirby-uniform', [
         'uniform/errors' => __DIR__.'/snippets/errors.php',
     ],
     'translations' => [
+        'cs' => [
+            'uniform-filled-potty' => 'Pole, které má zůstat prázdné, bylo vyplněno. Pole prosím nevyplňujte a zkuste formulář odeslat znovu.',
+            'uniform-calc-incorrect' => 'Doplňte prosím výsledek příkladu.',
+            'uniform-email-subject' => 'Zpráva z webového formuláře',
+            'uniform-email-error' => 'Při odesílání formuláře se vyskytla chyba',
+            'uniform-email-copy' => 'Kopie:',
+            'uniform-calc-plus' => 'plus',
+            'uniform-log-error' => 'Při zapisování do logu se vyskytla chyba.',
+            'uniform-login-error' => 'Špatné uživatelské jméno nebo heslo.',
+            'uniform-webhook-error' => 'Při volání webhooku se vyskytla chyba: ',
+            'uniform-email-select-error' => 'Adresa příjemce je neplatná.',
+            'uniform-upload-mkdir-fail' => 'Nepodařilo se vytvořit cílovou složku.',
+            'uniform-upload-exists' => 'Soubor již existuje.',
+            'uniform-upload-failed' => 'Soubor se nepodařilo nahrát.',
+        ],
         'de' => [
             'uniform-filled-potty' => 'Es wurde das Feld ausgefüllt, das leer bleiben sollte. Falls Sie kein Spam-Bot sind, versuchen Sie es bitte erneut ohne das Feld auszufüllen.',
             'uniform-calc-incorrect' => 'Bitte lösen Sie die Rechenaufgabe.',
