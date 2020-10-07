@@ -2,7 +2,7 @@
 
 A versatile [Kirby](http://getkirby.com) plugin to handle web form actions.
 
-[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](https://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg)](https://travis-ci.org/mzur/kirby-uniform) ![Kirby 3](https://img.shields.io/badge/Kirby-3-green.svg) [![saythanks](https://img.shields.io/badge/say-thanks-blue.svg)](https://saythanks.io/to/mzur)
+[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](https://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Build Status](https://travis-ci.org/mzur/kirby-uniform.svg)](https://travis-ci.org/mzur/kirby-uniform) ![Kirby 3](https://img.shields.io/badge/Kirby-3-green.svg)
 
 This is Uniform for Kirby 3. You can find Uniform for Kirby 2 in the [kirby-2 branch](https://github.com/mzur/kirby-uniform/tree/kirby-2).
 
