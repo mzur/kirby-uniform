@@ -1,5 +1,7 @@
 <?php
 
+use Kirby\Cms\App as Kirby;
+
 Kirby::plugin('mzur/kirby-uniform', [
     'templates' => [
         'uniform/log-json' => __DIR__.'/templates/log-json.php',
