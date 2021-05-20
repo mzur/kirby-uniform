@@ -1,12 +1,12 @@
 language: php
 install:
     - rm -rf vendor
-    - composer self-update --1
     - composer install
 script:
     - vendor/bin/phpunit
 php:
-  - 7.1
-  - 7.2
+  - 7.3
+  - 7.4
+  - 8.0
 matrix:
   fast_finish: true
