@@ -59,6 +59,7 @@ class Validator
             foreach ($validations as $method => $options) {
                 if (is_numeric($method)) {
                     $method = $options;
+                    $options = [];
                 }
                 $validationIndex++;
                 if ($method === 'required') {
