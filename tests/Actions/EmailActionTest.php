@@ -49,7 +49,7 @@ class EmailActionTest extends TestCase
         ]);
         $action->perform();
         $email = $action->email;
-        $this->assertEquals(['jane@user.com'], $email->to());
+        $this->assertEquals(['jane@user.com' => null], $email->to());
         $this->assertEquals('info@user.com', $email->from());
         $this->assertEquals('joe@user.com', $email->replyTo());
         $this->assertEquals('Message from the web form', $email->subject());
@@ -94,7 +94,7 @@ class EmailActionTest extends TestCase
 
         $email = $action->email;
         $this->assertEquals("Message: hello\n\nA: 3\n\n", $email->body()->text());
-        $this->assertEquals(['janet@user.com', 'jessica@user.com'], $email->cc());
+        $this->assertEquals(['janet@user.com' => null, 'jessica@user.com' => null], $email->cc());
         $expect = ['a' => 3, 'b' => 2, 'message' => 'hello'];
         $this->assertEquals($expect, $action->params['data']);
     }
@@ -172,7 +172,7 @@ class EmailActionTest extends TestCase
         ]);
         $action->perform();
         $this->assertEquals(1, $action->calls);
-        $this->assertEquals(['jane@user.com'], $action->email->to());
+        $this->assertEquals(['jane@user.com' => null], $action->email->to());
     }
 
     public function testReceiveCopy()
@@ -189,7 +189,7 @@ class EmailActionTest extends TestCase
         $action->perform();
         $this->assertEquals(3, $action->calls);
         $email = $action->email;
-        $this->assertEquals(['joe@user.com'], $email->to());
+        $this->assertEquals(['joe@user.com' => null], $email->to());
         $this->assertEquals('jane@user.com', $email->replyTo());
         $this->assertEquals('info@user.com', $email->from());
     }

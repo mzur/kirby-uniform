@@ -26,7 +26,7 @@ class LogActionTest extends TestCase
 
     public function testPerform()
     {
-        putenv('REMOTE_ADDR=127.0.0.1');
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
         $this->form->data('message', 'hello');
         $this->form->data('data', ['some', 'data']);
