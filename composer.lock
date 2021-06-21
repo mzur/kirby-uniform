@@ -65,16 +65,16 @@
         },
         {
             "name": "mzur/kirby-form",
-            "version": "v2.1.1",
+            "version": "v2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mzur/kirby-form.git",
-                "reference": "21fd4b4929bf03e2be644665e09d2100d6a55b6b"
+                "reference": "745b9f7be2ed5b5f668c8dd68ade4dac22388fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mzur/kirby-form/zipball/21fd4b4929bf03e2be644665e09d2100d6a55b6b",
-                "reference": "21fd4b4929bf03e2be644665e09d2100d6a55b6b",
+                "url": "https://api.github.com/repos/mzur/kirby-form/zipball/745b9f7be2ed5b5f668c8dd68ade4dac22388fb9",
+                "reference": "745b9f7be2ed5b5f668c8dd68ade4dac22388fb9",
                 "shasum": ""
             },
             "require": {
@@ -118,9 +118,9 @@
             ],
             "support": {
                 "issues": "https://github.com/mzur/kirby-form/issues",
-                "source": "https://github.com/mzur/kirby-form/tree/v2.1.1"
+                "source": "https://github.com/mzur/kirby-form/tree/v2.1.2"
             },
-            "time": "2021-05-20T18:13:00+00:00"
+            "time": "2021-06-21T19:17:25+00:00"
         }
     ],
     "packages-dev": [

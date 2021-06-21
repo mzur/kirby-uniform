@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '40eacc81e24c2e02ae04a91061e44d2d24a56aa5',
+    'reference' => 'd21cdc05f0351f604c293bfe3bae40aea7b401e7',
     'name' => 'mzur/kirby-uniform',
   ),
   'versions' => 
@@ -22,12 +22,12 @@
     ),
     'mzur/kirby-form' => 
     array (
-      'pretty_version' => 'v2.1.1',
-      'version' => '2.1.1.0',
+      'pretty_version' => 'v2.1.2',
+      'version' => '2.1.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '21fd4b4929bf03e2be644665e09d2100d6a55b6b',
+      'reference' => '745b9f7be2ed5b5f668c8dd68ade4dac22388fb9',
     ),
     'mzur/kirby-uniform' => 
     array (
@@ -36,7 +36,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '40eacc81e24c2e02ae04a91061e44d2d24a56aa5',
+      'reference' => 'd21cdc05f0351f604c293bfe3bae40aea7b401e7',
     ),
   ),
 );

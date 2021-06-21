@@ -264,6 +264,15 @@ class FormTest extends TestCase
         $form = new Form(['filefield' => ['rules' => ['required', 'file']]]);
         $this->assertTrue($form->validates());
     }
+
+    public function testSetData()
+    {
+        $_POST['titles'] = ['abc'];
+        $this->form = new Form(['titles' => []]);
+        $this->assertEquals(['abc'], $this->form->data('titles'));
+        $this->form->data('titles', []);
+        $this->assertEquals([], $this->form->data('titles'));
+    }
 }
 
 class FormStub extends Form

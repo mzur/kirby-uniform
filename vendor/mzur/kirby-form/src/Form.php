@@ -121,9 +121,9 @@ class Form implements FormInterface
      */
     public function data($key = '', $value = '')
     {
-        if (!$key) {
+        if ($key === '') {
             return $this->data;
-        } elseif (!$value) {
+        } elseif ($value === '') {
             return isset($this->data[$key]) ? $this->data[$key] : '';
         }
 
