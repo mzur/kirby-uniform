@@ -4,3 +4,4 @@ vendor/*
 !vendor/mzur/kirby-flash
 !vendor/autoload.php
 *.sublime-*
+composer.lock
