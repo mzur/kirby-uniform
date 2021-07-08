@@ -62,28 +62,28 @@
         },
         {
             "name": "mzur/kirby-form",
-            "version": "v2.1.2",
-            "version_normalized": "2.1.2.0",
+            "version": "v2.1.3",
+            "version_normalized": "2.1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mzur/kirby-form.git",
-                "reference": "745b9f7be2ed5b5f668c8dd68ade4dac22388fb9"
+                "reference": "bac3dfe0bccbe4ca068daea05ddc07dea76e478f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mzur/kirby-form/zipball/745b9f7be2ed5b5f668c8dd68ade4dac22388fb9",
-                "reference": "745b9f7be2ed5b5f668c8dd68ade4dac22388fb9",
+                "url": "https://api.github.com/repos/mzur/kirby-form/zipball/bac3dfe0bccbe4ca068daea05ddc07dea76e478f",
+                "reference": "bac3dfe0bccbe4ca068daea05ddc07dea76e478f",
                 "shasum": ""
             },
             "require": {
                 "mzur/kirby-flash": "^2.0"
             },
             "require-dev": {
-                "getkirby/kirby": "^3.0",
+                "getkirby/cms": "^3.0",
                 "mzur/kirby-defuse-session": "^1.0",
                 "phpunit/phpunit": "^6.0"
             },
-            "time": "2021-06-21T19:17:25+00:00",
+            "time": "2021-07-08T11:48:47+00:00",
             "type": "library",
             "extra": {
                 "kirby-cms-path": "vendor/getkirby/kirby"
@@ -118,7 +118,7 @@
             ],
             "support": {
                 "issues": "https://github.com/mzur/kirby-form/issues",
-                "source": "https://github.com/mzur/kirby-form/tree/v2.1.2"
+                "source": "https://github.com/mzur/kirby-form/tree/v2.1.3"
             },
             "install-path": "../mzur/kirby-form"
         }

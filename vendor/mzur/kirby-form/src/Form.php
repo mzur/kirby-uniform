@@ -402,7 +402,7 @@ class Form implements FormInterface
     protected function trimWhitespace($data)
     {
         return is_array($data)
-            ? array_map('trim', $data)
+            ? array_map([$this, 'trimWhitespace'], $data)
             : trim($data);
     }
 }

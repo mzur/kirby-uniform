@@ -1,6 +1,6 @@
 # Kirby Form
 
-[![Build Status](https://travis-ci.org/mzur/kirby-form.svg?branch=master)](https://travis-ci.org/mzur/kirby-form)
+[![Tests](https://github.com/mzur/kirby-form/actions/workflows/php.yml/badge.svg)](https://github.com/mzur/kirby-form/actions/workflows/php.yml)
 
 **This is a fork of [jevets\kirby-form](https://github.com/jevets/kirby-form).**
 
