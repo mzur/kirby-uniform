@@ -162,6 +162,33 @@ class EmailActionTest extends TestCase
         $this->assertEquals('joe@user.com', $action->email->body()->text());
     }
 
+    public function testTemplateDefault()
+    {
+        $this->form->data('email', 'joe@user.com');
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'template' => 'uniform-default',
+        ]);
+        $action->perform();
+        $this->assertEquals("Email: joe@user.com\n", $action->email->body()->text());
+    }
+
+    public function testTemplateTable()
+    {
+        $this->form->data('email', 'joe@user.com');
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'template' => 'uniform-table',
+        ]);
+        $action->perform();
+        $text = $action->email->body()->text();
+        $this->assertContains("joe@user.com", $text);
+        $this->assertNotContains("_data", $text);
+        $this->assertNotContains("_options", $text);
+    }
+
     public function testReceiveCopyDisabled()
     {
         $this->form->data('email', 'joe@user.com');
