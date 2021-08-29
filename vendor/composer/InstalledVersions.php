@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'b9c665e52f5cd06e54fc935229e609269ad758f3',
+    'reference' => 'bdcd2761311430561ccd96191c394feec9c218e6',
     'name' => 'mzur/kirby-uniform',
   ),
   'versions' => 
@@ -46,12 +46,12 @@ private static $installed = array (
     ),
     'mzur/kirby-form' => 
     array (
-      'pretty_version' => 'v2.1.3',
-      'version' => '2.1.3.0',
+      'pretty_version' => 'v3.0.0',
+      'version' => '3.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'bac3dfe0bccbe4ca068daea05ddc07dea76e478f',
+      'reference' => 'd60ed61482a14c80649e23f9ddf74c00f04ee470',
     ),
     'mzur/kirby-uniform' => 
     array (
@@ -60,7 +60,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'b9c665e52f5cd06e54fc935229e609269ad758f3',
+      'reference' => 'bdcd2761311430561ccd96191c394feec9c218e6',
     ),
   ),
 );

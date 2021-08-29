@@ -12,6 +12,7 @@ class DumpAction extends Action
      */
     public function perform()
     {
-        var_dump($this->form->data());
+        $escape = $this->option('escapeHtml', true);
+        var_dump($this->form->data('', '', $escape));
     }
 }

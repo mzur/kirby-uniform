@@ -43,7 +43,8 @@ class LogAction extends Action
     protected function getContent()
     {
         $template = $this->option('template');
-        $data = $this->form->data();
+        $escape = $this->option('escapeHtml', true);
+        $data = $this->form->data('', '', $escape);
 
         if ($template) {
             $content = $this->getTemplate($template, [

@@ -26,7 +26,7 @@ class WebhookActionTest extends TestCase
 
     public function testPerform()
     {
-        $this->form->data('message', 'my message');
+        $this->form->data('message', '<my message>');
         $action = new WebhookActionStub($this->form, [
             'url' => 'example.com',
             'params' => [
@@ -36,10 +36,23 @@ class WebhookActionTest extends TestCase
         ]);
         $action->perform();
         $this->assertEquals('example.com', $action->url);
-        $expect = ['message' => 'my message', 'key' => 123];
+        $expect = ['message' => '&lt;my message&gt;', 'key' => 123];
         $this->assertEquals($expect, $action->params['data']);
         $expect = ['X-Auth: ABC', 'Content-Type: application/x-www-form-urlencoded'];
         $this->assertEquals($expect, $action->params['headers']);
+    }
+
+    public function testPerformEscapeHtml()
+    {
+        $this->form->data('message', '<my message>');
+        $action = new WebhookActionStub($this->form, [
+            'url' => 'example.com',
+            'escapeHtml' => false,
+        ]);
+        $action->perform();
+        $this->assertEquals('example.com', $action->url);
+        $expect = ['message' => '<my message>'];
+        $this->assertEquals($expect, $action->params['data']);
     }
 
     public function testPerformJson()

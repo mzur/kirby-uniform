@@ -87,3 +87,7 @@ Set a static email address as `replyTo` of the email instead of the value of the
 ### receive-copy
 
 Set this option to `true` if you want to enable the receive copy functionality of the email action. This is useful if you use multiple email actions in a row and don't want the user to receive an email copy once _for each_ email action that is executed. If this option is not `true` no copy will be sent even if the `receive_copy` form field is present.
+
+### escapeHtml
+
+The form data is HTML-escaped by default. Set this option to `false` to disable escaping.
