@@ -74,3 +74,7 @@ Uniform ships with the `uniform/log-json` template for convenience. Use it to ge
 ```
 
 Be sure to use a unique `file` for each request if you use the JSON template, else the log objects will be appended to the same file and the JSON will become malformed.
+
+### escapeHtml
+
+The form data is HTML-escaped by default. Set this option to `false` to disable escaping.

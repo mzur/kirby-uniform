@@ -120,7 +120,8 @@ class FormTest extends TestCase
     {
         $_POST['test'] = '&lt;value&gt;';
         $form = new Form(['test' => []]);
-        $this->assertEquals('<value>', $form->data('test'));
+        $this->assertEquals('<value>', $form->data('test', '', false));
+        $this->assertEquals('&lt;value&gt;', $form->data('test'));
     }
 
     public function testTrimWhitespace()

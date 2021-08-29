@@ -29,11 +29,13 @@ Return: `array`
 <?php endif; ?>
 ```
 
-## data($key = '', $value = '')
+## data($key = '', $value = '', $escape = true)
 
 Get or set form data
 
 If no argument is provided, all data will be returned. If one argument is provided, the data for the key will be returned. If two arguments are provided, the data for the key will be set.
+
+Returned data is HTML-escaped by default. Set the third argument to `false` to get unescaped data.
 
 Return: `mixed|array`
 

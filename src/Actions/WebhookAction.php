@@ -20,14 +20,15 @@ class WebhookAction extends Action
         $url = $this->requireOption('url');
         $only = $this->option('only');
         $except = $this->option('except');
+        $escape = $this->option('escapeHtml', true);
 
         if (is_array($only)) {
             $data = [];
             foreach ($only as $key) {
-                $data[$key] = $this->form->data($key);
+                $data[$key] = $this->form->data($key, '', $escape);
             }
         } else {
-            $data = $this->form->data();
+            $data = $this->form->data('', '', $escape);
         }
 
         if (is_array($except)) {

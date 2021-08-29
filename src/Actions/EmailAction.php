@@ -39,14 +39,16 @@ class EmailAction extends Action
             'subject' => $this->getSubject(),
         ]);
 
+        $escape = $this->option('escapeHtml', true);
+
         if (empty($params['replyTo'])) {
             unset($params['replyTo']);
         }
 
         if (array_key_exists('data', $params)) {
-            $params['data'] = array_merge($params['data'], $this->form->data());
+            $params['data'] = array_merge($params['data'], $this->form->data('', '', $escape));
         } else {
-            $params['data'] = $this->form->data();
+            $params['data'] = $this->form->data('', '', $escape);
         }
 
         if (isset($params['template'])) {
@@ -55,7 +57,7 @@ class EmailAction extends Action
                 '_options' => $this->options,
             ]);
         } else {
-            $params['body'] = $this->getBody();
+            $params['body'] = $this->getBody($this->form->data('', '', $escape));
         }
 
         try {
@@ -118,12 +120,12 @@ class EmailAction extends Action
     /**
      * Get the email body
      *
+     * @param array $data
+     *
      * @return string
      */
-    protected function getBody()
+    protected function getBody($data)
     {
-        $data = $this->form->data();
-
         unset($data[self::EMAIL_KEY]);
         unset($data[self::RECEIVE_COPY_KEY]);
         $body = '';

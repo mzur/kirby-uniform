@@ -71,6 +71,10 @@ Array of form field names that should be excluded from the webhook request. Only
 
 Set to `true` to send the request as `application/json`. The form data will be encoded in JSON in this case. By default the content type is `application/x-www-form-urlencoded`.
 
+### escapeHtml
+
+The form data is HTML-escaped by default. Set this option to `false` to disable escaping.
+
 ## Extending this action
 
 The webhook action can be easily extended to customize the data that should be sent. Just override the `transfromData` method in a [custom action](actions#custom-actions) like this:

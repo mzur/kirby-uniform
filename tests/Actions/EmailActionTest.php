@@ -116,14 +116,28 @@ class EmailActionTest extends TestCase
     public function testBody()
     {
         $this->form->data('email', 'joe@user.com');
-        $this->form->data('message', 'hello');
+        $this->form->data('message', '<hello>');
         $this->form->data('data', ['some', 'data']);
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
             'from' => 'info@user.com',
         ]);
         $action->perform();
-        $expect = "Message: hello\n\nData: some, data\n\n";
+        $expect = "Message: &lt;hello&gt;\n\nData: some, data\n\n";
+        $this->assertEquals($expect, $action->email->body()->text());
+    }
+
+    public function testBodyEscapeHtml()
+    {
+        $this->form->data('email', 'joe@user.com');
+        $this->form->data('message', '<hello>');
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'escapeHtml' => false,
+        ]);
+        $action->perform();
+        $expect = "Message: <hello>\n\n";
         $this->assertEquals($expect, $action->email->body()->text());
     }
 
@@ -153,13 +167,28 @@ class EmailActionTest extends TestCase
     public function testTemplateData()
     {
         $this->form->data('email', 'joe@user.com');
+        $this->form->data('message', '<hello>');
         $action = new EmailActionStub($this->form, [
             'to' => 'jane@user.com',
             'from' => 'info@user.com',
             'template' => 'test-data',
         ]);
         $action->perform();
-        $this->assertEquals('joe@user.com', $action->email->body()->text());
+        $this->assertEquals("&lt;hello&gt;\njoe@user.com", $action->email->body()->text());
+    }
+
+    public function testTemplateDataEscapeHtml()
+    {
+        $this->form->data('email', 'joe@user.com');
+        $this->form->data('message', '<hello>');
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'template' => 'test-data',
+            'escapeHtml' => false,
+        ]);
+        $action->perform();
+        $this->assertEquals("<hello>\njoe@user.com", $action->email->body()->text());
     }
 
     public function testTemplateDefault()
