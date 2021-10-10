@@ -111,7 +111,7 @@ class EmailAction extends Action
             return is_scalar($item);
         });
 
-        $subject = Str::template($this->option('subject', I18n::translate('uniform-email-subject')), $templatableItems, '');
+        $subject = Str::template($this->option('subject', I18n::translate('uniform-email-subject')), $templatableItems, ['fallback' => '']);
 
         // Remove newlines to prevent malicious modifications of the email header.
         return str_replace("\n", '', $subject);
