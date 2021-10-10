@@ -111,7 +111,15 @@ class EmailAction extends Action
             return is_scalar($item);
         });
 
-        $subject = Str::template($this->option('subject', I18n::translate('uniform-email-subject')), $templatableItems, ['fallback' => '']);
+        $minorVersion = intval(explode('.', App::version())[1]);
+        $fallback = ['fallback' => ''];
+
+        // The arguments to Str::template changed in Kirby 3.6.
+        if ($minorVersion <= 5) {
+            $fallback = '';
+        }
+
+        $subject = Str::template($this->option('subject', I18n::translate('uniform-email-subject')), $templatableItems, $fallback);
 
         // Remove newlines to prevent malicious modifications of the email header.
         return str_replace("\n", '', $subject);
