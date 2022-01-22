@@ -16,7 +16,7 @@ class HelperTest extends TestCase
     {
         // the token should not be regenerated during a single request
         $this->assertEquals(csrf_field(), csrf_field());
-        $this->assertContains('value="abc"', csrf_field('abc'));
+        $this->assertStringContainsString('value="abc"', csrf_field('abc'));
     }
 
     public function testFileValidator()

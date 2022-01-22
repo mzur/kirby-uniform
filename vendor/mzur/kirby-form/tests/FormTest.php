@@ -8,7 +8,7 @@ use Jevets\Kirby\Exceptions\TokenMismatchException;
 
 class FormTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $_POST['csrf_token'] = csrf();

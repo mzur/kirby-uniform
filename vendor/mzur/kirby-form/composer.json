@@ -31,7 +31,7 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0",
+        "phpunit/phpunit": "^9.0",
         "mzur/kirby-defuse-session": "^1.0",
         "getkirby/cms": "^3.0"
     },
