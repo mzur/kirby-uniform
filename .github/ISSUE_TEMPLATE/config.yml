@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Kirby Forum
+    url: https://forum.getkirby.com/tag/uniform
+    about: If you don't want to report a bug or request a new feature, please ask for help in the official Kirby forum.

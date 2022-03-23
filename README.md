@@ -64,7 +64,7 @@ Template:
 
 ## Installation
 
-Install Uniform via Composer: `composer require mzur/kirby-uniform:^4.0`
+Install Uniform via Composer: `composer require mzur/kirby-uniform`
 
 Or [download](https://github.com/mzur/kirby-uniform/archive/master.zip) the repository and extract it to `site/plugins/uniform`.
 

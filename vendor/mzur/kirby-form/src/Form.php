@@ -394,7 +394,7 @@ class Form implements FormInterface
     {
         return is_array($data)
             ? array_map([$this, 'decodeField'], $data)
-            : htmlspecialchars_decode($data);
+            : htmlspecialchars_decode($data ?? '');
     }
 
     /**
@@ -408,6 +408,6 @@ class Form implements FormInterface
     {
         return is_array($data)
             ? array_map([$this, 'trimWhitespace'], $data)
-            : trim($data);
+            : trim($data ?? '');
     }
 }
