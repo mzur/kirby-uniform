@@ -57,7 +57,7 @@ Although you probably want to use magic methods in most cases, it might be usefu
 
 As you have seen in the previous section, each guard is a class in the `Uniform\Guards` namespace. To write your own guards you can either provide them through a PHP package and Composer or implement them in the traditional way as a Kirby plugin. The plugin may be a file `site/plugins/custom-guards/index.php` that will be automatically loaded by Kirby.
 
-Let's take a look at the implementation of a bare bones custom guard:
+Let's take a look at the implementation of a bare bones custom guard, defined in the `site/plugins/uniform-custom-guards/MyCustomGuard.php` file:
 
 ```php
 <?php
@@ -74,6 +74,20 @@ class MyCustomGuard extends Guard
         }
     }
 }
+```
+
+And the complementary `site/plugins/uniform-custom-guards/index.php` to be loaded automatically by Kirby:
+
+```php
+<?php
+
+use Kirby\Cms\App as Kirby;
+
+load([
+    'Uniform\\Actions\\MyCustomGuard' => 'MyCustomGuard.php'
+], __DIR__);
+
+Kirby::plugin('yourname/uniform-custom-guards', []);
 ```
 
 As you can see we also place the class in the `Uniform\Guards` namespace and give it a name with the suffix `Guard`. You don't have to do this but it is a requirement if you want to call the guard through a magic method (`$form->myCustomGuard()`). Also, it makes extending the `Uniform\Guards\Guard` base class easier, which you have to do for all guards.
