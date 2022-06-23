@@ -58,15 +58,7 @@ class MyCustomAction extends Action
     public function perform()
     {
         try {
-            // get the name of the session variable
-            $name = $this->option('name', 'session-store');
-
-            // put a custom value into session
-            Kirby::instance()->session()->set($name, date('H:i:s'));
-
-            // also return the value - if you want to capture it
-            // back in controller for further modification
-            return date('H:i:s');
+            var_dump($this->form->data());
         } catch (\Exception $e) {
             $this->fail($e->getMessage());
         }
@@ -74,18 +66,14 @@ class MyCustomAction extends Action
 }
 ```
 
-And the complementary `site/plugins/uniform-custom-actions/index.php` to be loaded automatically by Kirby:
+And the complementary `site/plugins/uniform-custom-actions/index.php` to be loaded automatically by Kirby (not required if the action is autoloaded by Composer):
 
 ```php
 <?php
 
-use Kirby\Cms\App as Kirby;
-
 load([
     'Uniform\\Actions\\MyCustomAction' => 'MyCustomAction.php'
 ], __DIR__);
-
-Kirby::plugin('yourname/uniform-custom-actions', []);
 ```
 
 As you can see we also place the class in the `Uniform\Actions` namespace and give it a name with the suffix `Action`. You don't have to do this but it is a requirement if you want to call the action through a magic method (`$form->myCustomAction()`). Also, it makes extending the `Uniform\Actions\Action` base class easier, which you have to do for all actions.

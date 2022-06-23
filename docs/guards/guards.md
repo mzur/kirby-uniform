@@ -76,18 +76,14 @@ class MyCustomGuard extends Guard
 }
 ```
 
-And the complementary `site/plugins/uniform-custom-guards/index.php` to be loaded automatically by Kirby:
+And the complementary `site/plugins/uniform-custom-guards/index.php` to be loaded automatically by Kirby (not required if the guard is autoloaded by Composer):
 
 ```php
 <?php
 
-use Kirby\Cms\App as Kirby;
-
 load([
     'Uniform\\Actions\\MyCustomGuard' => 'MyCustomGuard.php'
 ], __DIR__);
-
-Kirby::plugin('yourname/uniform-custom-guards', []);
 ```
 
 As you can see we also place the class in the `Uniform\Guards` namespace and give it a name with the suffix `Guard`. You don't have to do this but it is a requirement if you want to call the guard through a magic method (`$form->myCustomGuard()`). Also, it makes extending the `Uniform\Guards\Guard` base class easier, which you have to do for all guards.
