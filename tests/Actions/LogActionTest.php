@@ -11,7 +11,7 @@ use Uniform\Exceptions\PerformerException;
 class LogActionTest extends TestCase
 {
     protected $form;
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->form = new Form;
@@ -33,9 +33,9 @@ class LogActionTest extends TestCase
         $action = new LogActionStub($this->form, ['file' => '/dev/null']);
         $action->perform();
         $this->assertEquals('/dev/null', $action->filename);
-        $this->assertContains('['.date('c').'] 127.0.0.1 Mozilla', $action->content);
-        $this->assertContains('message: &lt;hello&gt;', $action->content);
-        $this->assertContains('data: some, data', $action->content);
+        $this->assertStringContainsString('['.date('c').'] 127.0.0.1 Mozilla', $action->content);
+        $this->assertStringContainsString('message: &lt;hello&gt;', $action->content);
+        $this->assertStringContainsString('data: some, data', $action->content);
     }
 
     public function testPerformEscapeHtml()
@@ -49,8 +49,8 @@ class LogActionTest extends TestCase
         ]);
         $action->perform();
         $this->assertEquals('/dev/null', $action->filename);
-        $this->assertContains('['.date('c').'] 127.0.0.1 Mozilla', $action->content);
-        $this->assertContains('message: <hello>', $action->content);
+        $this->assertStringContainsString('['.date('c').'] 127.0.0.1 Mozilla', $action->content);
+        $this->assertStringContainsString('message: <hello>', $action->content);
     }
 
     public function testPerformTemplate()
@@ -61,10 +61,10 @@ class LogActionTest extends TestCase
             'template' => 'uniform/log-json',
         ]);
         $action->perform();
-        $this->assertContains('"timestamp"', $action->content);
-        $this->assertContains('"ip"', $action->content);
-        $this->assertContains('"userAgent"', $action->content);
-        $this->assertContains('"&lt;hello&gt;"', $action->content);
+        $this->assertStringContainsString('"timestamp"', $action->content);
+        $this->assertStringContainsString('"ip"', $action->content);
+        $this->assertStringContainsString('"userAgent"', $action->content);
+        $this->assertStringContainsString('"&lt;hello&gt;"', $action->content);
         $this->assertStringStartsWith('{', $action->content);
         $this->assertStringEndsWith('}', $action->content);
     }
@@ -78,10 +78,10 @@ class LogActionTest extends TestCase
             'escapeHtml' => false,
         ]);
         $action->perform();
-        $this->assertContains('"timestamp"', $action->content);
-        $this->assertContains('"ip"', $action->content);
-        $this->assertContains('"userAgent"', $action->content);
-        $this->assertContains('"<hello>"', $action->content);
+        $this->assertStringContainsString('"timestamp"', $action->content);
+        $this->assertStringContainsString('"ip"', $action->content);
+        $this->assertStringContainsString('"userAgent"', $action->content);
+        $this->assertStringContainsString('"<hello>"', $action->content);
         $this->assertStringStartsWith('{', $action->content);
         $this->assertStringEndsWith('}', $action->content);
     }

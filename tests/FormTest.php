@@ -14,7 +14,7 @@ class FormTest extends TestCase
 {
     protected $form;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Defuse::defuse(['options' => ['debug' => true]]);

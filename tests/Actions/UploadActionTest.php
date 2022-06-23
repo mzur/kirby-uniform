@@ -9,7 +9,7 @@ use Uniform\Exceptions\PerformerException;
 
 class UploadActionTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->dir = sys_get_temp_dir();

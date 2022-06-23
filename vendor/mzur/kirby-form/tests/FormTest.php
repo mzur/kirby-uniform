@@ -14,6 +14,12 @@ class FormTest extends TestCase
         $_POST['csrf_token'] = csrf();
     }
 
+    public function tearDown(): void
+    {
+        unset($_POST['csrf_token']);
+        unset($_SERVER['HTTP_X_CSRF']);
+    }
+
     public function testData()
     {
         $_POST['test'] = 'value';
@@ -211,10 +217,19 @@ class FormTest extends TestCase
         $form->validates();
     }
 
-    public function testValidateCsrfSuccess()
+    public function testValidatePostCsrfSuccess()
     {
+        unset($_POST['csrf_token']);
         $form = new Form;
         $_POST['csrf_token'] = csrf();
+        $this->assertTrue($form->validates());
+    }
+
+    public function testValidateHeaderCsrfSuccess()
+    {
+        unset($_POST['csrf_token']);
+        $form = new Form;
+        $_SERVER['HTTP_X_CSRF'] = csrf();
         $this->assertTrue($form->validates());
     }
 
