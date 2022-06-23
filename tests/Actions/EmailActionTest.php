@@ -13,7 +13,7 @@ use Uniform\Exceptions\PerformerException;
 class EmailActionTest extends TestCase
 {
     protected $form;
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->form = new Form;
@@ -213,9 +213,9 @@ class EmailActionTest extends TestCase
         ]);
         $action->perform();
         $text = $action->email->body()->text();
-        $this->assertContains("joe@user.com", $text);
-        $this->assertNotContains("_data", $text);
-        $this->assertNotContains("_options", $text);
+        $this->assertStringContainsString("joe@user.com", $text);
+        $this->assertStringNotContainsString("_data", $text);
+        $this->assertStringNotContainsString("_options", $text);
     }
 
     public function testReceiveCopyDisabled()

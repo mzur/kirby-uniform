@@ -159,7 +159,7 @@ class Form implements FormInterface
     {
         $app = App::instance();
 
-        $token = $app->request()->body()->get(self::CSRF_FIELD);
+        $token = $app->request()->csrf() ?? $app->request()->body()->get(self::CSRF_FIELD);
         if (empty($token) || csrf($token) !== true) {
             if ($app->option('debug', false) === true) {
                 throw new TokenMismatchException('The CSRF token was invalid.');

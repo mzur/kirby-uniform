@@ -11,7 +11,7 @@ use Uniform\Exceptions\PerformerException;
 class EmailSelectActionTest extends TestCase
 {
     protected $form;
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->form = new Form;

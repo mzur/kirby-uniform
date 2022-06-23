@@ -10,7 +10,7 @@ use Uniform\Actions\SessionStoreAction;
 class SessionStoreActionTest extends TestCase
 {
     protected $form;
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->form = new Form;

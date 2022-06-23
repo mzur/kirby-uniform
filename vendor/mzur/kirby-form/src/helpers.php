@@ -1,6 +1,7 @@
 <?php
 
 use Kirby\Toolkit\V;
+use Kirby\Toolkit\F;
 use Jevets\Kirby\Form;
 
 if (!function_exists('csrf_field')) {
@@ -62,7 +63,7 @@ if (class_exists(V::class)) {
           }
         }
         if (isset($name)) {
-          return in_array(f::mime($name), $allowed);
+          return in_array(F::mime($name), $allowed);
         }
         return false;
     };
@@ -78,7 +79,7 @@ if (class_exists(V::class)) {
           }
         }
         if (isset($name)) {
-          return f::type($name) === 'image';
+          return F::type($name) === 'image';
         }
         return false;
     };

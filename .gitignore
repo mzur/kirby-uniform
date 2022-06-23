@@ -5,3 +5,4 @@ vendor/*
 !vendor/autoload.php
 *.sublime-*
 composer.lock
+.phpunit.result.cache
