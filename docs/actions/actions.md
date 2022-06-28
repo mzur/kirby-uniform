@@ -44,16 +44,16 @@ if (kirby()->request()->is('POST')) {
 
 ## Custom Actions
 
-Custom actions are very similar to [custom guards](/guards/guards#custom-guards), too. Each action is a class in the `Uniform\Actions` namespace. To write your own actions you can either provide them through a PHP package and Composer or implement them in the traditional way as a Kirby plugin. The plugin may be a file `site/plugins/uniform-actions.php` that will be automatically loaded by Kirby.
+Custom actions are very similar to [custom guards](/guards/guards#custom-guards), too. Each action is a class in the `Uniform\Actions` namespace. To write your own actions you can either provide them through a PHP package and Composer or implement them in the traditional way as a Kirby plugin.
 
-Let's take a look at the implementation of an exemplary DumpAction:
+Let's take a look at the implementation of an exemplary MyCustomAction, defined in the `site/plugins/uniform-custom-actions/MyCustomAction.php` file:
 
 ```php
 <?php
 
 namespace Uniform\Actions;
 
-class DumpAction extends Action
+class MyCustomAction extends Action
 {
     public function perform()
     {
@@ -64,10 +64,19 @@ class DumpAction extends Action
         }
     }
 }
-
 ```
 
-As you can see we also place the class in the `Uniform\Actions` namespace and give it a name with the suffix `Action`. You don't have to do this but it is a requirement if you want to call the action through a magic method (`$form->dumpAction()`). Also, it makes extending the `Uniform\Actions\Action` base class easier, which you have to do for all actions.
+And the complementary `site/plugins/uniform-custom-actions/index.php` to be loaded automatically by Kirby (not required if the action is autoloaded by Composer):
+
+```php
+<?php
+
+load([
+    'Uniform\\Actions\\MyCustomAction' => 'MyCustomAction.php'
+], __DIR__);
+```
+
+As you can see we also place the class in the `Uniform\Actions` namespace and give it a name with the suffix `Action`. You don't have to do this but it is a requirement if you want to call the action through a magic method (`$form->myCustomAction()`). Also, it makes extending the `Uniform\Actions\Action` base class easier, which you have to do for all actions.
 
 Each action must implement a `perform` method. In the method you do something with the form data. In case anything fails you can call the `fail` method. If an action fails the form will immediately redirect the request and display the form with an error message. The `fail` method takes two optional arguments:
 
