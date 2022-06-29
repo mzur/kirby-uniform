@@ -27,6 +27,9 @@ class LogActionTest extends TestCase
 
     public function testPerform()
     {
+        // We use both SERVER and clone() to be compatible with Kirby 3.5 and 3.7.
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
         App::instance()->clone([
             'server' => [
                 'REMOTE_ADDR' => '127.0.0.1',
@@ -45,6 +48,9 @@ class LogActionTest extends TestCase
 
     public function testPerformEscapeHtml()
     {
+        // We use both SERVER and clone() to be compatible with Kirby 3.5 and 3.7.
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
         App::instance()->clone([
             'server' => [
                 'REMOTE_ADDR' => '127.0.0.1',
