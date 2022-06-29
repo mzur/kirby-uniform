@@ -3,10 +3,11 @@
 namespace Uniform\Tests\Actions;
 
 use Exception;
-use Uniform\Form;
-use Uniform\Tests\TestCase;
+use Kirby\Cms\App;
 use Uniform\Actions\LogAction;
 use Uniform\Exceptions\PerformerException;
+use Uniform\Form;
+use Uniform\Tests\TestCase;
 
 class LogActionTest extends TestCase
 {
@@ -26,8 +27,12 @@ class LogActionTest extends TestCase
 
     public function testPerform()
     {
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
+        App::instance()->clone([
+            'server' => [
+                'REMOTE_ADDR' => '127.0.0.1',
+                'HTTP_USER_AGENT' => 'Mozilla'
+            ]
+        ]);
         $this->form->data('message', '<hello>');
         $this->form->data('data', ['some', 'data']);
         $action = new LogActionStub($this->form, ['file' => '/dev/null']);
@@ -40,8 +45,12 @@ class LogActionTest extends TestCase
 
     public function testPerformEscapeHtml()
     {
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
+        App::instance()->clone([
+            'server' => [
+                'REMOTE_ADDR' => '127.0.0.1',
+                'HTTP_USER_AGENT' => 'Mozilla'
+            ]
+        ]);
         $this->form->data('message', '<hello>');
         $action = new LogActionStub($this->form, [
             'file' => '/dev/null',
