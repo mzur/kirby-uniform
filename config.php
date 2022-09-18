@@ -2,7 +2,7 @@
 
 use Kirby\Cms\App as Kirby;
 
-Kirby::plugin('mzur/kirby-uniform', [
+Kirby::plugin('mzur/uniform', [
     'templates' => [
         'uniform/log-json' => __DIR__.'/templates/log-json.php',
         'emails/uniform-default' => __DIR__.'/templates/emails/default.php',
