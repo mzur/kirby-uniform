@@ -39,5 +39,10 @@
     },
     "extra": {
         "kirby-cms-path": "vendor/getkirby/kirby"
+    },
+    "config": {
+        "allow-plugins": {
+            "getkirby/composer-installer": true
+        }
     }
 }
