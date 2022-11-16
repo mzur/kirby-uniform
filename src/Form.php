@@ -21,6 +21,13 @@ class Form extends BaseForm
      * @var boolean
      */
     protected $shouldValidate;
+    
+    /**
+     * Indicates whether the validation should validate CSRF token
+     *
+     * @var boolean
+     */
+    protected $shouldValidateCSRF;
 
     /**
      * Indicates whether any guards should still be executed
@@ -72,6 +79,7 @@ class Form extends BaseForm
     {
         parent::__construct($rules, $sessionKey);
         $this->shouldValidate = true;
+        $this->shouldValidateCSRF = true;
         $this->shouldCallGuard = true;
         $this->shouldRedirect = true;
         $this->shouldFlash = true;
@@ -114,6 +122,19 @@ class Form extends BaseForm
 
         return $this;
     }
+    
+    /**
+     * Don't validate CSRF.
+     * ⚠️ Not recommended — know what you're doing
+     *
+     * @return  Form
+     */
+    public function withoutCSRF()
+    {
+        $this->shouldValidateCSRF = false;
+
+        return $this;
+    }
 
     /**
      * Check if the form was executed successfully.
@@ -134,7 +155,7 @@ class Form extends BaseForm
     {
         $this->shouldValidate = false;
 
-        if (parent::validates()) {
+        if (parent::validates($this->shouldValidateCSRF)) {
             $this->success = true;
         } else {
             $this->fail();
