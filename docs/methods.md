@@ -192,3 +192,21 @@ if (kirby()->request()->is('POST')) {
     }
 }
 ```
+
+## withoutCSRF()
+
+Don't validate CSRF.
+
+Return: `Form`
+
+Allow the form to be processed without validating CSRF:
+
+```php
+use Uniform\Form;
+
+$form = new Form;
+if (kirby()->request()->is('POST')) {
+    $form->withoutCSRF()
+        ->emailAction([/* action options */]);
+}
+```
