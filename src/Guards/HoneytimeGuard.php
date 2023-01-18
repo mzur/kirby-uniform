@@ -78,7 +78,7 @@ class HoneytimeGuard extends Guard
             $this->reject(I18n::translate('uniform-honeytime-invalid'));
         }
 
-        if (hash_equals($hmac, $calcmac)) {
+        if (!empty($hmac) && hash_equals($hmac, $calcmac)) {
             if ((time() - intval($original_plaintext)) <= $seconds) {
                 $this->reject(I18n::translate('uniform-honeytime-reject'));
             }
