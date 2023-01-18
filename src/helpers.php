@@ -5,6 +5,7 @@ use Kirby\Toolkit\Str;
 use Kirby\Toolkit\I18n;
 use Uniform\Guards\CalcGuard;
 use Uniform\Guards\HoneypotGuard;
+use Uniform\Guards\HoneytimeGuard;
 
 if (!function_exists('honeypot_field')) {
     /**
@@ -52,5 +53,25 @@ if (!function_exists('captcha_field')) {
         $name = $name ?: CalcGuard::FIELD_NAME;
         $class = $class ?: 'uniform__captcha';
         return '<input type="number" name="'.$name.'" class="'.$class.'">';
+    }
+}
+
+if (!function_exists('honeytime_field')) {
+    /**
+     * Generate a honeytime guard field.
+     *
+     * @param string $key The base64 encoded encryption key
+     * @param string $name Name of the honeytime field
+     *
+     * @return string
+     */
+    function honeytime_field($key, $name = null)
+    {
+        $name = $name ?: HoneytimeGuard::FIELD_NAME;
+        $plaintext = strval(time());
+
+        $ciphertext = HoneytimeGuard::encrypt($key, $plaintext);
+
+        return '<input type="hidden" name="'.$name.'" value="'.$ciphertext.'">';
     }
 }
