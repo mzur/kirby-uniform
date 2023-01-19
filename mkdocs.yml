@@ -11,7 +11,7 @@ pages:
     - Guards:
         - Guards: guards/guards.md
         - Honeypot: guards/honeypot.md
-        - Honeytime: guards/honetime.md
+        - Honeytime: guards/honeytime.md
         - SimpleCaptcha: guards/simple-captcha.md
         - Calc: guards/calc.md
         - reCAPTCHA: guards/recaptcha.md
