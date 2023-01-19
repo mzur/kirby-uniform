@@ -16,6 +16,13 @@ use Uniform\Exceptions\PerformerException;
 class Form extends BaseForm
 {
     /**
+     * Session key for the success state.
+     *
+     * @var string
+     */
+    const FLASH_KEY_SUCCESS = 'form.success';
+
+    /**
      * Indicates whether the validation should still be done
      *
      * @var boolean
@@ -76,7 +83,7 @@ class Form extends BaseForm
         $this->shouldRedirect = true;
         $this->shouldFlash = true;
         $this->shouldFallThrough = false;
-        $this->success = false;
+        $this->success = $this->flash->get(self::FLASH_KEY_SUCCESS, false);
     }
 
     /**
@@ -207,6 +214,8 @@ class Form extends BaseForm
      */
     public function done()
     {
+        $this->flash->set(self::FLASH_KEY_SUCCESS, $this->success);
+
         if ($this->shouldRedirect) {
             die(Response::redirect(Url::last()));
         } else {
