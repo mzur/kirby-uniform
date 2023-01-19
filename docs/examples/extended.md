@@ -56,7 +56,7 @@ return function ($kirby)
                 'subject' => 'Thank you for your registration!',
                 // Use a template for the email body (see below).
                 'template' => 'success',
-            ]);
+            ]); // No done() here because we do a custom redirect below.
 
         if ($form->success()) {
             go(page('registration/success')->url());

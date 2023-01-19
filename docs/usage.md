@@ -24,7 +24,7 @@ return function ($kirby)
         $form->emailAction([
             'to' => 'me@example.com',
             'from' => 'info@example.com',
-        ]);
+        ])->done();
     }
 
     return compact('form');
@@ -39,6 +39,8 @@ First, you create a new instance of `Uniform\Form`. The constructor argument is 
 4. Call actions to process the form data
 
 If any of these steps fail, Uniform will immediately redirect back to the form page and skip the subsequent steps ([PRG pattern](https://en.wiki2.org/wiki/Post/Redirect/Get+Milds)). For convenience, steps 1-3 are implicitly called when the first action is performed. So in the controller code above the form will check the CSRF token, validate the form fields and call the default [HoneypotGuard](guards/honeypot) although we only told it to execute the [EmailAction](actions/email).
+
+The form should also redirect back to the form page when the validation, guards and actions were successful. This is done with the `done()` method at the end of the method chain.
 
 ## Validation rules
 
