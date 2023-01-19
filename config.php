@@ -26,6 +26,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Nepodařilo se vytvořit cílovou složku.',
             'uniform-upload-exists' => 'Soubor již existuje.',
             'uniform-upload-failed' => 'Soubor se nepodařilo nahrát.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'de' => [
             'uniform-filled-potty' => 'Es wurde das Feld ausgefüllt, das leer bleiben sollte. Falls Sie kein Spam-Bot sind, versuchen Sie es bitte erneut ohne das Feld auszufüllen.',
@@ -41,6 +43,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Zielverzeichnis konnte nicht erstellt werden.',
             'uniform-upload-exists' => 'Die Datei existiert bereits.',
             'uniform-upload-failed' => 'Die Datei konnte nicht hochgeladen werden.',
+            'uniform-honeytime-reject' => 'Das Formular wurde zu schnell abgeschickt und hat den Spamschutz ausgelöst.',
+            'uniform-honeytime-invalid' => 'Die Formulardaten waren ungültig und haben den Spamschutz ausgelöst.',
         ],
         'en' => [
             'uniform-filled-potty' => 'The form field that is supposed to be empty was filled. In case you are not a spam-bot, please try again leaving the field blank.',
@@ -56,6 +60,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Could not create target directory.',
             'uniform-upload-exists' => 'The file already exists.',
             'uniform-upload-failed' => 'The file could not be uploaded.',
+            'uniform-honeytime-reject' => 'The form was submitted too quickly and triggered spam protection.',
+            'uniform-honeytime-invalid' => 'The form data was invalid and triggered the spam protection.',
         ],
         'es' => [
              'uniform-filled-potty' => 'Se ha rellenado un campo del formulario que debería estar vacío. Si usted no es un spam bot, vuelva a intentarlo dejando el campo en blanco.',
@@ -71,6 +77,8 @@ Kirby::plugin('mzur/uniform', [
             // 'uniform-upload-mkdir-fail' => '',
             // 'uniform-upload-exists' => '',
             // 'uniform-upload-failed' => '',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'fr' => [
             'uniform-filled-potty' => 'Le champ du formulaire supposé être vide a été renseigné. Dans le cas où vous ne seriez pas un robot spammeur, merci de ré-essayer en laissant ce champ vide.',
@@ -86,6 +94,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Le répertoire de destination n’a pu être créé.',
             'uniform-upload-exists' => 'Le fichier existe déjà.',
             'uniform-upload-failed' => 'Le fichier n’a pu être transféré.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'it' => [
             'uniform-filled-potty' => 'Il campo che doveva restare vuoto è stato compilato. Se non sei uno spam-bot, per favore riprova a inviare il modulo senza compilarlo.',
@@ -101,6 +111,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Impossibile creare la cartella di destinazione.',
             'uniform-upload-exists' => 'File già esistente.',
             'uniform-upload-failed' => 'Impossibile effettuare l\'upload del file.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'ja' => [
             'uniform-filled-potty' => '空のはずのフォームフィールドが入力されました。スパムボットではない場合は、フィールドを空欄にして再度お試しください。',
@@ -116,6 +128,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'ターゲットディレクトリを作成できませんでした。',
             'uniform-upload-exists' => 'ファイルはすでに存在しています。',
             'uniform-upload-failed' => 'ファイルをアップロードできませんでした。',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'nl' => [
             'uniform-filled-potty' => 'Er is een veld ingevuld dat leeg moet blijven. Mocht u geen Spam-Bot zijn, probeer het opnieuw zonder dat veld in te vullen.',
@@ -131,6 +145,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'De map kon niet worden aangemaakt.',
             'uniform-upload-exists' => 'Het bestand bestaat al.',
             'uniform-upload-failed' => 'Het bestand kon niet worden geupload.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'pt_BR' => [
             'uniform-filled-potty' => 'O campo de formulário que deveria estar vazio foi preenchido. Caso você não seja um robô de SPAM, por favor tente novamente deixando o campo em branco.',
@@ -146,6 +162,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Não foi possível criar a pasta de destino.',
             'uniform-upload-exists' => 'O arquivo já existe.',
             'uniform-upload-failed' => 'O arquivo não pode ser enviado.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'pt_PT' => [
             'uniform-filled-potty' => 'O campo de formulário que deveria estar vazio foi preenchido. Caso você não seja um robô de SPAM, por favor tente novamente deixando o campo em branco.',
@@ -161,6 +179,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Não foi possível criar a pasta de destino.',
             'uniform-upload-exists' => 'O ficheiro já existe.',
             'uniform-upload-failed' => 'O ficheiro não pode ser enviado.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'ro' => [
             'uniform-filled-potty' => 'Câmpul care trebuia să fie necompletat este completat. Dacă nu ești un robot de tip spam, încearcă din nou și lasă câmpul necompletat.',
@@ -176,6 +196,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Nu s-a putut crea directorul țintă.',
             'uniform-upload-exists' => 'Acest fișier este deja încărcat.',
             'uniform-upload-failed' => 'Acest fișier nu s-a putut încărca.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
         'tr' => [
             'uniform-filled-potty' => 'Boş olması gereken form alanı dolduruldu. Spam bot değilseniz, lütfen alanı boş bırakarak tekrar deneyin.',
@@ -191,6 +213,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Hedef dizin oluşturulamadı.',
             'uniform-upload-exists' => 'Dosya zaten var.',
             'uniform-upload-failed' => 'Dosya yüklenemedi.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
 		'tr_TR' => [
             'uniform-filled-potty' => 'Boş olması gereken form alanı dolduruldu. Spam bot değilseniz, lütfen alanı boş bırakarak tekrar deneyin.',
@@ -206,6 +230,8 @@ Kirby::plugin('mzur/uniform', [
             'uniform-upload-mkdir-fail' => 'Hedef dizin oluşturulamadı.',
             'uniform-upload-exists' => 'Dosya zaten var.',
             'uniform-upload-failed' => 'Dosya yüklenemedi.',
+            // 'uniform-honeytime-reject' => '',
+            // 'uniform-honeytime-invalid' => '',
         ],
     ],
 ]);
