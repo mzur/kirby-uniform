@@ -2,6 +2,10 @@
 
 These are only the most important methods of `Uniform\Form`. For all methods check the [source](https://github.com/mzur/kirby-uniform/blob/master/src/Form.php). Be sure to [check out](https://github.com/mzur/kirby-form) `Jevets\Kirby\Form`, too, which is the base class of `Uniform\Form`.
 
+## done()
+
+Redirect back to the previous URL. This method should be called [after all form actions](usage).
+
 ## old($key)
 
 Get the data that was flashed to the session

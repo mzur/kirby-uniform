@@ -203,6 +203,18 @@ class Form extends BaseForm
     }
 
     /**
+     * Redirect back (after actions have been performed).
+     */
+    public function done()
+    {
+        if ($this->shouldRedirect) {
+            die(Response::redirect(Url::last()));
+        } else {
+            $this->shouldFallThrough = true;
+        }
+    }
+
+    /**
      * Call actions and gards as magic method.
      *
      * Usage:
@@ -249,12 +261,7 @@ class Form extends BaseForm
     protected function fail()
     {
         $this->success = false;
-
-        if ($this->shouldRedirect) {
-            die(Response::redirect(Url::last()));
-        } else {
-            $this->shouldFallThrough = true;
-        }
+        $this->done();
     }
 
     /**
