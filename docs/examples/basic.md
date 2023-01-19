@@ -31,7 +31,7 @@ return function ($kirby)
         $form->emailAction([
             'to' => 'me@example.com',
             'from' => 'info@example.com',
-        ]);
+        ])->done();
     }
 
     return compact('form');
