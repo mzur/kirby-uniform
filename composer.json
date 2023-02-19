@@ -1,7 +1,7 @@
 {
     "name": "mzur/kirby-uniform",
     "description": "A versatile Kirby plugin to handle web form actions.",
-    "type": "library",
+    "type": "kirby-plugin",
     "license": "MIT",
     "keywords": ["kirby", "form"],
     "authors": [
@@ -16,7 +16,8 @@
         "docs": "http://kirby-uniform.readthedocs.io"
     },
     "require": {
-        "mzur/kirby-form": "^3.0"
+        "mzur/kirby-form": "^3.0",
+        "getkirby/composer-installer": "^1.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
@@ -28,7 +29,6 @@
             "Uniform\\": "src/"
         },
         "files": [
-            "config.php",
             "src/helpers.php"
         ]
     },
@@ -37,10 +37,8 @@
             "Uniform\\Tests\\": "tests/"
         }
     },
-    "extra": {
-        "kirby-cms-path": "vendor/getkirby/kirby"
-    },
     "config": {
+        "optimize-autoloader": true,
         "allow-plugins": {
             "getkirby/composer-installer": true
         }

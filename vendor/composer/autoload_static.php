@@ -9,7 +9,6 @@ class ComposerStaticInitacc6b15f3c23738a905ac70a3027e17a
     public static $files = array (
         'e862d9fce5eaa28c798b151ac7fc8bc6' => __DIR__ . '/..' . '/mzur/kirby-flash/src/helpers.php',
         '316f57472eecfe71b6733d9d2acbcae9' => __DIR__ . '/..' . '/mzur/kirby-form/src/helpers.php',
-        '513c89d6408d266be7db63374b5a5cc9' => __DIR__ . '/../..' . '/config.php',
         '1f7ddc2baab73fdd75a4663f7a275bb1' => __DIR__ . '/../..' . '/src/helpers.php',
     );
 
@@ -17,6 +16,10 @@ class ComposerStaticInitacc6b15f3c23738a905ac70a3027e17a
         'U' => 
         array (
             'Uniform\\' => 8,
+        ),
+        'K' => 
+        array (
+            'Kirby\\' => 6,
         ),
         'J' => 
         array (
@@ -29,6 +32,10 @@ class ComposerStaticInitacc6b15f3c23738a905ac70a3027e17a
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
+        'Kirby\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/getkirby/composer-installer/src',
+        ),
         'Jevets\\Kirby\\' => 
         array (
             0 => __DIR__ . '/..' . '/mzur/kirby-flash/src',
@@ -38,6 +45,33 @@ class ComposerStaticInitacc6b15f3c23738a905ac70a3027e17a
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Jevets\\Kirby\\Exceptions\\TokenMismatchException' => __DIR__ . '/..' . '/mzur/kirby-form/src/Exceptions/TokenMismatchException.php',
+        'Jevets\\Kirby\\Flash' => __DIR__ . '/..' . '/mzur/kirby-flash/src/Flash.php',
+        'Jevets\\Kirby\\Form' => __DIR__ . '/..' . '/mzur/kirby-form/src/Form.php',
+        'Jevets\\Kirby\\FormInterface' => __DIR__ . '/..' . '/mzur/kirby-form/src/FormInterface.php',
+        'Jevets\\Kirby\\Validator' => __DIR__ . '/..' . '/mzur/kirby-form/src/Validator.php',
+        'Kirby\\ComposerInstaller\\CmsInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/CmsInstaller.php',
+        'Kirby\\ComposerInstaller\\Installer' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Installer.php',
+        'Kirby\\ComposerInstaller\\Plugin' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/Plugin.php',
+        'Kirby\\ComposerInstaller\\PluginInstaller' => __DIR__ . '/..' . '/getkirby/composer-installer/src/ComposerInstaller/PluginInstaller.php',
+        'Uniform\\Actions\\Action' => __DIR__ . '/../..' . '/src/Actions/Action.php',
+        'Uniform\\Actions\\DumpAction' => __DIR__ . '/../..' . '/src/Actions/DumpAction.php',
+        'Uniform\\Actions\\EmailAction' => __DIR__ . '/../..' . '/src/Actions/EmailAction.php',
+        'Uniform\\Actions\\EmailSelectAction' => __DIR__ . '/../..' . '/src/Actions/EmailSelectAction.php',
+        'Uniform\\Actions\\LogAction' => __DIR__ . '/../..' . '/src/Actions/LogAction.php',
+        'Uniform\\Actions\\LoginAction' => __DIR__ . '/../..' . '/src/Actions/LoginAction.php',
+        'Uniform\\Actions\\SessionStoreAction' => __DIR__ . '/../..' . '/src/Actions/SessionStoreAction.php',
+        'Uniform\\Actions\\UploadAction' => __DIR__ . '/../..' . '/src/Actions/UploadAction.php',
+        'Uniform\\Actions\\WebhookAction' => __DIR__ . '/../..' . '/src/Actions/WebhookAction.php',
+        'Uniform\\Exceptions\\Exception' => __DIR__ . '/../..' . '/src/Exceptions/Exception.php',
+        'Uniform\\Exceptions\\PerformerException' => __DIR__ . '/../..' . '/src/Exceptions/PerformerException.php',
+        'Uniform\\Form' => __DIR__ . '/../..' . '/src/Form.php',
+        'Uniform\\Guards\\CalcGuard' => __DIR__ . '/../..' . '/src/Guards/CalcGuard.php',
+        'Uniform\\Guards\\Guard' => __DIR__ . '/../..' . '/src/Guards/Guard.php',
+        'Uniform\\Guards\\HoneypotGuard' => __DIR__ . '/../..' . '/src/Guards/HoneypotGuard.php',
+        'Uniform\\Guards\\HoneytimeGuard' => __DIR__ . '/../..' . '/src/Guards/HoneytimeGuard.php',
+        'Uniform\\Performer' => __DIR__ . '/../..' . '/src/Performer.php',
+        'Uniform\\PerformerInterface' => __DIR__ . '/../..' . '/src/PerformerInterface.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

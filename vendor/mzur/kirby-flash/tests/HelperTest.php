@@ -14,6 +14,15 @@ class HelperTest extends TestCase
         flash('mykey', 'myvalue');
         $this->assertEquals('myvalue', flash('mykey'));
         flash('mykey', 'myvalue2');
+        $this->nextPageLoad();
         $this->assertEquals('myvalue2', flash('mykey'));
+    }
+
+    public function testFlashNow()
+    {
+        flash('mykey', 'myvalue', true);
+        $this->assertEquals('myvalue', flash('mykey'));
+        $this->nextPageLoad();
+        $this->assertNull(flash('mykey'));
     }
 }

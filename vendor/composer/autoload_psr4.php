@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Uniform\\' => array($baseDir . '/src'),
+    'Kirby\\' => array($vendorDir . '/getkirby/composer-installer/src'),
     'Jevets\\Kirby\\' => array($vendorDir . '/mzur/kirby-flash/src', $vendorDir . '/mzur/kirby-form/src'),
 );

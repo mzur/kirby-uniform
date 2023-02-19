@@ -1,8 +1,10 @@
+*.sublime-*
+composer.lock
+.phpunit.result.cache
+
+# files of Composer dependencies that are not needed for the plugin
 vendor/*
 !vendor/composer
 !vendor/mzur/kirby-form
 !vendor/mzur/kirby-flash
 !vendor/autoload.php
-*.sublime-*
-composer.lock
-.phpunit.result.cache

@@ -1,2 +1,4 @@
 vendor
 composer.lock
+kirby
+.phpunit.result.cache

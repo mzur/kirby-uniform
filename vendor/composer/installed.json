@@ -1,38 +1,88 @@
 {
     "packages": [
         {
-            "name": "mzur/kirby-flash",
-            "version": "v2.0.0",
-            "version_normalized": "2.0.0.0",
+            "name": "getkirby/composer-installer",
+            "version": "1.2.1",
+            "version_normalized": "1.2.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mzur/kirby-flash.git",
-                "reference": "a48131bad4a5178a883223f2f83a6a59d8f5cc6a"
+                "url": "https://github.com/getkirby/composer-installer.git",
+                "reference": "c98ece30bfba45be7ce457e1102d1b169d922f3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mzur/kirby-flash/zipball/a48131bad4a5178a883223f2f83a6a59d8f5cc6a",
-                "reference": "a48131bad4a5178a883223f2f83a6a59d8f5cc6a",
+                "url": "https://api.github.com/repos/getkirby/composer-installer/zipball/c98ece30bfba45be7ce457e1102d1b169d922f3d",
+                "reference": "c98ece30bfba45be7ce457e1102d1b169d922f3d",
                 "shasum": ""
             },
-            "require-dev": {
-                "getkirby/kirby": "^3.0",
-                "mzur/kirby-defuse-session": "^1.0",
-                "phpunit/phpunit": "^6.0"
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0"
             },
-            "time": "2019-01-15T19:28:31+00:00",
-            "type": "library",
+            "require-dev": {
+                "composer/composer": "^1.8 || ^2.0"
+            },
+            "time": "2020-12-28T12:54:39+00:00",
+            "type": "composer-plugin",
             "extra": {
-                "kirby-cms-path": "vendor/getkirby/kirby"
+                "class": "Kirby\\ComposerInstaller\\Plugin"
             },
             "installation-source": "dist",
             "autoload": {
                 "psr-4": {
-                    "Jevets\\Kirby\\": "src/"
-                },
+                    "Kirby\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Kirby's custom Composer installer for the Kirby CMS and for Kirby plugins",
+            "homepage": "https://getkirby.com",
+            "support": {
+                "issues": "https://github.com/getkirby/composer-installer/issues",
+                "source": "https://github.com/getkirby/composer-installer/tree/1.2.1"
+            },
+            "funding": [
+                {
+                    "url": "https://getkirby.com/buy",
+                    "type": "custom"
+                }
+            ],
+            "install-path": "../getkirby/composer-installer"
+        },
+        {
+            "name": "mzur/kirby-flash",
+            "version": "v2.2.0",
+            "version_normalized": "2.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mzur/kirby-flash.git",
+                "reference": "298df11e3adc8d872db8cd48ef3736c3cbdb6c6e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mzur/kirby-flash/zipball/298df11e3adc8d872db8cd48ef3736c3cbdb6c6e",
+                "reference": "298df11e3adc8d872db8cd48ef3736c3cbdb6c6e",
+                "shasum": ""
+            },
+            "require": {
+                "getkirby/composer-installer": "^1.2"
+            },
+            "require-dev": {
+                "getkirby/cms": "^3.0",
+                "mzur/kirby-defuse-session": "^1.0",
+                "phpunit/phpunit": "^9.0"
+            },
+            "time": "2023-01-05T18:59:28+00:00",
+            "type": "kirby-plugin",
+            "installation-source": "dist",
+            "autoload": {
                 "files": [
                     "src/helpers.php"
-                ]
+                ],
+                "psr-4": {
+                    "Jevets\\Kirby\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -56,26 +106,27 @@
             ],
             "support": {
                 "issues": "https://github.com/mzur/kirby-flash/issues",
-                "source": "https://github.com/mzur/kirby-flash/tree/master"
+                "source": "https://github.com/mzur/kirby-flash/tree/v2.2.0"
             },
             "install-path": "../mzur/kirby-flash"
         },
         {
             "name": "mzur/kirby-form",
-            "version": "v3.1.0",
-            "version_normalized": "3.1.0.0",
+            "version": "v3.2.0",
+            "version_normalized": "3.2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mzur/kirby-form.git",
-                "reference": "38ce34bdf51079e099d71131aafbc1a543bd7ea4"
+                "reference": "3d660edbb892c72ffcc36ed81f0ae962176283c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mzur/kirby-form/zipball/38ce34bdf51079e099d71131aafbc1a543bd7ea4",
-                "reference": "38ce34bdf51079e099d71131aafbc1a543bd7ea4",
+                "url": "https://api.github.com/repos/mzur/kirby-form/zipball/3d660edbb892c72ffcc36ed81f0ae962176283c2",
+                "reference": "3d660edbb892c72ffcc36ed81f0ae962176283c2",
                 "shasum": ""
             },
             "require": {
+                "getkirby/composer-installer": "^1.2",
                 "mzur/kirby-flash": "^2.0"
             },
             "require-dev": {
@@ -83,11 +134,8 @@
                 "mzur/kirby-defuse-session": "^1.0",
                 "phpunit/phpunit": "^9.0"
             },
-            "time": "2022-02-22T21:12:22+00:00",
-            "type": "library",
-            "extra": {
-                "kirby-cms-path": "vendor/getkirby/kirby"
-            },
+            "time": "2022-11-18T09:26:06+00:00",
+            "type": "kirby-plugin",
             "installation-source": "dist",
             "autoload": {
                 "files": [
@@ -118,7 +166,7 @@
             ],
             "support": {
                 "issues": "https://github.com/mzur/kirby-form/issues",
-                "source": "https://github.com/mzur/kirby-form/tree/v3.1.0"
+                "source": "https://github.com/mzur/kirby-form/tree/v3.2.0"
             },
             "install-path": "../mzur/kirby-form"
         }

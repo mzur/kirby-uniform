@@ -1,9 +1,12 @@
 {
     "name": "mzur/kirby-form",
     "description": "A form helper for Kirby-based websites, using the Post/Redirect/Get pattern.",
-    "type": "library",
+    "type": "kirby-plugin",
     "license": "MIT",
-    "keywords": ["kirby", "form"],
+    "keywords": [
+        "kirby",
+        "form"
+    ],
     "authors": [
         {
             "name": "Steve Jamesson",
@@ -15,7 +18,8 @@
         }
     ],
     "require": {
-        "mzur/kirby-flash": "^2.0"
+        "mzur/kirby-flash": "^2.0",
+        "getkirby/composer-installer": "^1.2"
     },
     "autoload": {
         "psr-4": {
@@ -34,8 +38,5 @@
         "phpunit/phpunit": "^9.0",
         "mzur/kirby-defuse-session": "^1.0",
         "getkirby/cms": "^3.0"
-    },
-    "extra": {
-        "kirby-cms-path": "vendor/getkirby/kirby"
     }
 }
