@@ -6,21 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
-    'Uniform\\Tests\\' => array($baseDir . '/tests'),
     'Uniform\\' => array($baseDir . '/src'),
-    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
-    'Symfony\\Polyfill\\Intl\\Normalizer\\' => array($vendorDir . '/symfony/polyfill-intl-normalizer'),
-    'Symfony\\Polyfill\\Intl\\Idn\\' => array($vendorDir . '/symfony/polyfill-intl-idn'),
-    'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
-    'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
-    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
-    'Mzur\\Kirby\\DefuseSession\\' => array($vendorDir . '/mzur/kirby-defuse-session/src'),
-    'Laminas\\Escaper\\' => array($vendorDir . '/laminas/laminas-escaper/src'),
-    'Kirby\\' => array($vendorDir . '/getkirby/cms/src', $vendorDir . '/getkirby/composer-installer/src'),
+    'Kirby\\' => array($vendorDir . '/getkirby/composer-installer/src'),
     'Jevets\\Kirby\\' => array($vendorDir . '/mzur/kirby-flash/src', $vendorDir . '/mzur/kirby-form/src'),
-    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
-    'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
-    'Composer\\Semver\\' => array($vendorDir . '/composer/semver/src'),
-    '' => array($vendorDir . '/league/color-extractor/src'),
 );
