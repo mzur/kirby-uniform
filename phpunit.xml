@@ -2,7 +2,7 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
          colors="true"
-         bootstrap="vendor/autoload.php"
+         bootstrap="index.php"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
