@@ -12,13 +12,14 @@ if (!function_exists('flash')) {
      *
      * @param string $key
      * @param mixed optional $value to set
+     * @param boolean optional set $value for current page load only
      */
-    function flash($key, $setValue = '')
+    function flash($key, $setValue = '', $now = false)
     {
         $flash = Flash::getInstance();
 
         if ($setValue) {
-            $flash->set($key, $setValue);
+            $flash->set($key, $setValue, $now);
             return $setValue;
         } else {
             return $flash->get($key);

@@ -1,6 +1,6 @@
 # Kirby Flash
 
-[![Build Status](https://travis-ci.org/mzur/kirby-flash.svg?branch=master)](https://travis-ci.org/mzur/kirby-flash)
+[![Tests](https://github.com/mzur/kirby-flash/actions/workflows/php.yml/badge.svg)](https://github.com/mzur/kirby-flash/actions/workflows/php.yml)
 
 **This is a fork of [jevets\kirby-flash](https://github.com/jevets/kirby-flash).**
 
@@ -106,6 +106,17 @@ flash('messages.errors', ['Email is required.', 'Phone is required.']);
 
 flash('messages.errors'); // Array( 0 => 'Email is required.', 1 => 'Phone is required.' )
 ```
+
+## Flash for current page load only
+
+Sometimes it can be useful to flash a message for the current page load, not the next one. This use case
+arises when a message should be shown in a response to the same request, rather than a redirect.
+
+The `flash()` helper method can be called with an optional third parameter, a boolean to toggle whether to keep the flashed variable only for the current request. The default value of this parameter is `false` which will keep the flashed variable for the next request.
+
+```php
+flash('message', 'Message for redirect'); // Keep for next request
+flash('message', 'Message for this response', true); // Keep only for current request
 
 ## Session Key
 

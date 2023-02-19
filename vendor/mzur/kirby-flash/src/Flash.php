@@ -36,7 +36,9 @@ class Flash
     public function __construct($sessionKey)
     {
         $this->sessionKey = $sessionKey;
-        $this->data = App::instance()->session()->pull($this->sessionKey, []);
+        $this->data = App::instance()
+            ->session()
+            ->pull($this->sessionKey, []);
     }
 
     /**
@@ -60,7 +62,7 @@ class Flash
      */
     public static function sessionKey()
     {
-        return static::$instance->getSessionKey();
+        return static::getInstance()->getSessionKey();
     }
 
     /**
@@ -89,12 +91,21 @@ class Flash
      *
      * @param  string  $key
      * @param  mixed  $value
+     * @param  mixed  optional set $value for current page load only
      * @return void
      */
-    public function set($key, $value)
+    public function set($key, $value, $now = false)
     {
         $this->data[$key] = $value;
-        App::instance()->session()->set($this->sessionKey, $this->data);
+        if ($now === false) {
+            $nextData = App::instance()
+                ->session()
+                ->get($this->sessionKey, []);
+            $nextData[$key] = $value;
+            App::instance()
+                ->session()
+                ->set($this->sessionKey, $nextData);
+        }
     }
 
     /**
@@ -106,7 +117,9 @@ class Flash
      */
     public function get($key, $default = null)
     {
-        return isset($this->data[$key]) ? $this->data[$key] : $default;
+        return isset($this->data[$key])
+            ? $this->data[$key]
+            : $default;
     }
 
     /**

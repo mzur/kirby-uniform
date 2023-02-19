@@ -230,6 +230,8 @@ class FormTest extends TestCase
         unset($_POST['csrf_token']);
         $form = new Form;
         $_SERVER['HTTP_X_CSRF'] = csrf();
+        // Refresh the server variables in Kirby's environment object.
+        kirby()->environment()->detect();
         $this->assertTrue($form->validates());
     }
 
