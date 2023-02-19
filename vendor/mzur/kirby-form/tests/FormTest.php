@@ -40,6 +40,8 @@ class FormTest extends TestCase
         $_POST['test'] = '<value>';
         $form = new Form(['test' => ['rules' => ['num']]]);
         $this->assertEmpty($form->old('test'));
+        $this->assertEquals(null, $form->old('test', null));
+        $this->assertEquals(0, $form->old('test', 0));
         $form->validates();
         $this->assertEquals('&lt;value&gt;', $form->old('test'));
     }

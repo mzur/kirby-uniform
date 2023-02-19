@@ -140,13 +140,14 @@ class Form implements FormInterface
      * Get the data that was flashed to the session
      *
      * @param  string  $key
+     * @param  mixed   $default
      * @return  mixed
      */
-    public function old($key)
+    public function old($key, $default = '')
     {
         $data = $this->flash->get(self::FLASH_KEY_DATA, []);
 
-        return isset($data[$key]) ? $this->encodeField($data[$key]) : '';
+        return isset($data[$key]) ? $this->encodeField($data[$key]) : $default;
     }
 
     /**
