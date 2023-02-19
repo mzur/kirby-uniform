@@ -6,7 +6,7 @@ These are only the most important methods of `Uniform\Form`. For all methods che
 
 Redirect back to the previous URL. This method should be called [after all form actions](usage).
 
-## old($key)
+## old($key, $default = '')
 
 Get the data that was flashed to the session
 
@@ -15,7 +15,7 @@ This method does not work for some types of form fields (such as `type="file"`).
 Return: `mixed`
 
 ```html+php
-<input type="text" name="name" value="<?php echo $form->old('name') ?>">
+<input type="text" name="name" value="<?php echo $form->old('name', 'Joe User') ?>">
 ```
 
 ## error($key = '')
