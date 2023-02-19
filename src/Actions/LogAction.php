@@ -81,7 +81,7 @@ class LogAction extends Action
         $template = App::instance()->template($name);
 
         if (!$template->exists()) {
-            throw new Exception("The template '{$name}' does not exist.");
+            throw new \Exception("The template '{$name}' does not exist.");
         }
 
         return $template->render($data);
