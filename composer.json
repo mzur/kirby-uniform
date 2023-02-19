@@ -29,7 +29,6 @@
             "Uniform\\": "src/"
         },
         "files": [
-            "config.php",
             "src/helpers.php"
         ]
     },
