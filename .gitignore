@@ -6,4 +6,7 @@ composer.lock
 vendor/*
 !vendor/composer
 !vendor/mzur
+vendor/mzur/*
+!vendor/mzur/kirby-form
+!vendor/mzur/kirby-flash
 !vendor/autoload.php
