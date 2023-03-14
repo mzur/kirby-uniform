@@ -55,6 +55,8 @@ class EmailAction extends Action
                 '_data' => $params['data'],
                 '_options' => $this->options,
             ]);
+        } else if (isset($params['body']) && is_string($params['body'])) {
+            $params['body'] = $this->resolveTemplate($params['body']);
         } else {
             $params['body'] = $this->getBody($this->form->data('', '', $escape));
         }
@@ -130,13 +132,13 @@ class EmailAction extends Action
     protected function getSubject()
     {
         $subject = $this->resolveTemplate($this->option('subject', I18n::translate('uniform-email-subject')));
-
+        
         // Remove newlines to prevent malicious modifications of the email header.
         return str_replace("\n", '', $subject);
     }
 
     /**
-     * Get the email body and resolve possible template strings
+     * Get the email body
      *
      * @param array $data
      *
@@ -146,10 +148,6 @@ class EmailAction extends Action
     {
         unset($data[self::EMAIL_KEY]);
         unset($data[self::RECEIVE_COPY_KEY]);
-
-        if (isset($data['body'])) {
-            return $this->resolveTemplate($data['body']);
-        }
 
         $body = '';
         foreach ($data as $key => $value) {
