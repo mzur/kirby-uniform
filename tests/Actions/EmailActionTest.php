@@ -127,6 +127,20 @@ class EmailActionTest extends TestCase
         $this->assertEquals($expect, $action->email->body()->text());
     }
 
+    public function testBodyTemplate()
+    {
+        $this->form->data('email', 'joe@user.com');
+        $this->form->data('name', 'Joe');
+        $this->form->data('data', ['somedata']);
+        $action = new EmailActionStub($this->form, [
+            'to' => 'jane@user.com',
+            'from' => 'info@user.com',
+            'body' => "Hello\n{{name}} with {{data}}"
+        ]);
+        $action->perform();
+        $this->assertEquals("Hello\nJoe with ", $action->email->body()->text());
+    }
+
     public function testBodyEscapeHtml()
     {
         $this->form->data('email', 'joe@user.com');
