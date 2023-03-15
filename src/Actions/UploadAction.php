@@ -129,4 +129,20 @@ class UploadAction extends Action
 
         return "{$prefix}_{$name}";
     }
+
+    /**
+     * @return array
+     */
+    public function getCreatedDirectories()
+    {
+        return $this->createdDirectories;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCreatedFiles()
+    {
+        return $this->createdFiles;
+    }
 }
