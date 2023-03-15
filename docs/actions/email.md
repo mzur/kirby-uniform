@@ -1,6 +1,6 @@
 # Email Action
 
-This actions sends the form data by email. In its simplest form it just appends all form fields in `name: value` pairs as plain text. But it can use a [snippet](#snippet) to build the email, too. You can use snippets to send HTML instead of plain text emails, too.
+This actions sends the form data by email. In its simplest form it just appends all form fields in `name: value` pairs as plain text. But it can use a custom [body](#body) or [template](#template) to build the email, too. You can use templates to send HTML instead of plain text emails, too.
 
 If there is an `email` field in the form data, the action will use it as `replyTo` of the sent email and remove it from the email body. If there is a `receive_copy` field present (e.g. a checkbox) and the [receive-copy](#receive-copy) option is set, the action will send a copy of the email to the address specified in the `email` field. The subject of this copy email will get the `uniform-email-copy` prefix.
 
@@ -79,6 +79,18 @@ Check out the email templates of the [Uniform repo](https://github.com/mzur/kirb
 
 !!! warning "Note"
     You cannot access form fields with the name `_data` or `_options` directly in the template as these are reserved for the additional variables provided by Uniform. Use `$_data['_data']` and `$_data['_options']` in this case.
+
+### body
+
+The body of the email. If not specified, the form data will be used as the body (`name: value` pairs as plain text). The body supports templates, too, so you can dynamically add form data to it. A template is a name of a form field surrounded by `{{}}`. Example:
+
+```php
+'body' => 'Dear {{name}}, we will get back to you soon!',
+```
+The body will only be used, if no [template](#template) is specified.
+
+!!! warning "Note"
+    Body templates do not work with [array form fields](http://stackoverflow.com/a/1978788/1796523).
 
 ### replyTo
 
