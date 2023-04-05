@@ -36,7 +36,7 @@ class EmailSelectActionTest extends TestCase
         ]);
         $action->perform();
         $this->assertEquals('jane@user.com', $action->params['to']);
-        $this->assertFalse(array_key_exists('recipient', $action->params));
+        $this->assertArrayNotHasKey('recipient', $action->params['data']);
     }
 
     public function testRecipientNotAllowed()
