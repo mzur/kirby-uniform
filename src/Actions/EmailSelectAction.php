@@ -22,7 +22,7 @@ class EmailSelectAction extends EmailAction
     public function perform()
     {
         $this->options['to'] = $this->getRecipient();
-        unset($this->data[self::RECIPIENT_FIELD]);
+        $this->form->forget(self::RECIPIENT_FIELD);
         unset($this->options['allowed-recipients']);
 
         return parent::perform();
