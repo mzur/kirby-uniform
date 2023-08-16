@@ -4,7 +4,7 @@ site_author: Martin Zurowietz
 site_url: https://github.com/mzur/kirby-uniform/
 repo_url: https://github.com/mzur/kirby-uniform/
 edit_uri: blob/master/docs/
-pages:
+nav:
     - Home: index.md
     - Usage: usage.md
     - Methods: methods.md
