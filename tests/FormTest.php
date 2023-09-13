@@ -7,7 +7,6 @@ use Jevets\Kirby\Flash;
 use Uniform\Guards\Guard;
 use Uniform\Actions\Action;
 use Uniform\Exceptions\Exception;
-use Mzur\Kirby\DefuseSession\Defuse;
 use Jevets\Kirby\Exceptions\TokenMismatchException;
 
 class FormTest extends TestCase
@@ -17,7 +16,6 @@ class FormTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        Defuse::defuse(['options' => ['debug' => true]]);
         $this->form = new FormStub;
     }
 
@@ -30,7 +28,6 @@ class FormTest extends TestCase
 
     public function testValidateCsrfExceptionNoDebug()
     {
-        Defuse::defuse(['options' => ['debug' => false]]);
         csrf(); // Generate a token.
 
         try {
