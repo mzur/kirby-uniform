@@ -284,6 +284,7 @@ class EmailActionTest extends TestCase
 
     public function testHandleEmailExceptionDebug()
     {
+        App::instance()->extend(['options' => ['debug' => true]]);
         $this->form->data('field', 'value');
         $action = new EmailActionStub($this->form, [
             'service' => 'thrower',

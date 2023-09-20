@@ -2,12 +2,13 @@
 
 namespace Uniform\Tests;
 
-use Uniform\Form;
+use Jevets\Kirby\Exceptions\TokenMismatchException;
 use Jevets\Kirby\Flash;
-use Uniform\Guards\Guard;
+use Kirby\Cms\App;
 use Uniform\Actions\Action;
 use Uniform\Exceptions\Exception;
-use Jevets\Kirby\Exceptions\TokenMismatchException;
+use Uniform\Form;
+use Uniform\Guards\Guard;
 
 class FormTest extends TestCase
 {
@@ -19,8 +20,9 @@ class FormTest extends TestCase
         $this->form = new FormStub;
     }
 
-    public function testValidateCsrfException()
+    public function testValidateCsrfExceptionDebug()
     {
+        App::instance()->extend(['options' => ['debug' => true]]);
         csrf(); // Generate a token.
         $this->expectException(TokenMismatchException::class);
         $this->form->validate();
@@ -63,6 +65,7 @@ class FormTest extends TestCase
 
     public function testGuardValidates()
     {
+        App::instance()->extend(['options' => ['debug' => true]]);
         $this->expectException(TokenMismatchException::class);
         $this->form->guard();
     }
@@ -128,12 +131,14 @@ class FormTest extends TestCase
 
     public function testActionValidates()
     {
+        App::instance()->extend(['options' => ['debug' => true]]);
         $this->expectException(TokenMismatchException::class);
         $this->form->action(Action::class);
     }
 
     public function testActionValidatesWithoutGuards()
     {
+        App::instance()->extend(['options' => ['debug' => true]]);
         $this->expectException(TokenMismatchException::class);
         $this->form->withoutGuards()->action(Action::class);
     }
