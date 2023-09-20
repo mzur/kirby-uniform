@@ -4,6 +4,7 @@ namespace Uniform\Tests\Actions;
 
 use Exception;
 use Kirby\Cms\App;
+use Kirby\Http\Environment;
 use Uniform\Actions\LogAction;
 use Uniform\Exceptions\PerformerException;
 use Uniform\Form;
@@ -27,15 +28,10 @@ class LogActionTest extends TestCase
 
     public function testPerform()
     {
-        // We use both SERVER and clone() to be compatible with Kirby 3.5 and 3.7.
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
-        App::instance()->clone([
-            'server' => [
-                'REMOTE_ADDR' => '127.0.0.1',
-                'HTTP_USER_AGENT' => 'Mozilla'
-            ]
-        ]);
+        App::instance()->environment()->detect();
+        App::instance()->clone();
         $this->form->data('message', '<hello>');
         $this->form->data('data', ['some', 'data']);
         $action = new LogActionStub($this->form, ['file' => '/dev/null']);
@@ -48,15 +44,10 @@ class LogActionTest extends TestCase
 
     public function testPerformEscapeHtml()
     {
-        // We use both SERVER and clone() to be compatible with Kirby 3.5 and 3.7.
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla';
-        App::instance()->clone([
-            'server' => [
-                'REMOTE_ADDR' => '127.0.0.1',
-                'HTTP_USER_AGENT' => 'Mozilla'
-            ]
-        ]);
+        App::instance()->environment()->detect();
+        App::instance()->clone();
         $this->form->data('message', '<hello>');
         $action = new LogActionStub($this->form, [
             'file' => '/dev/null',
