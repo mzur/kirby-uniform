@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         php-versions: ['8.0', '8.1', '8.2']
+        kirby-versions: ['^3.5', '^4.0-beta.1']
 
     steps:
     - uses: actions/checkout@v2
@@ -38,6 +39,9 @@ jobs:
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-plugins
+
+    - name: Install Kirby Version
+      run: composer require getkirby/cms:${{ matrix.kirby-versions }}
 
     - name: Run test suite
       run: vendor/bin/phpunit
