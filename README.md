@@ -2,9 +2,9 @@
 
 A versatile [Kirby](http://getkirby.com) plugin to handle web form actions.
 
-[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](https://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Tests](https://github.com/mzur/kirby-uniform/actions/workflows/php.yml/badge.svg)](https://github.com/mzur/kirby-uniform/actions/workflows/php.yml) ![Kirby 3](https://img.shields.io/badge/Kirby-3-green.svg)
+[![Documentation Status](https://readthedocs.org/projects/kirby-uniform/badge/?version=latest)](https://kirby-uniform.readthedocs.io/en/latest/?badge=latest) [![Tests](https://github.com/mzur/kirby-uniform/actions/workflows/php.yml/badge.svg)](https://github.com/mzur/kirby-uniform/actions/workflows/php.yml) ![Kirby >=3](https://img.shields.io/badge/Kirby-%3E=3-green.svg)
 
-This is Uniform for Kirby 3. You can find Uniform for Kirby 2 in the [kirby-2 branch](https://github.com/mzur/kirby-uniform/tree/kirby-2).
+This is Uniform for Kirby >=3. You can find Uniform for Kirby 2 in the [kirby-2 branch](https://github.com/mzur/kirby-uniform/tree/kirby-2).
 
 Builtin actions:
 
