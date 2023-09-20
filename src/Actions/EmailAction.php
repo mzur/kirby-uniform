@@ -113,11 +113,13 @@ class EmailAction extends Action
             return is_scalar($item);
         });
 
-        $minorVersion = intval(explode('.', App::version())[1]);
+        $version = explode('.', App::version());
+        $majorVersion = intval($version[0]);
+        $minorVersion = intval($version[1]);
         $fallback = ['fallback' => ''];
 
         // The arguments to Str::template changed in Kirby 3.6.
-        if ($minorVersion <= 5) {
+        if ($majorVersion <= 3 && $minorVersion <= 5) {
             $fallback = '';
         }
 
