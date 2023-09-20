@@ -41,7 +41,7 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-plugins
 
     - name: Install Kirby Version
-      run: composer require getkirby/cms:${{ matrix.kirby-versions }}
+      run: composer require -w getkirby/cms:${{ matrix.kirby-versions }}
 
     - name: Run test suite
       run: vendor/bin/phpunit
