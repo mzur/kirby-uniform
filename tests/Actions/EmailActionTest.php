@@ -7,7 +7,6 @@ use Uniform\Form;
 use Kirby\Cms\App;
 use Uniform\Tests\TestCase;
 use Uniform\Actions\EmailAction;
-use Mzur\Kirby\DefuseSession\Defuse;
 use Uniform\Exceptions\PerformerException;
 
 class EmailActionTest extends TestCase
@@ -285,7 +284,7 @@ class EmailActionTest extends TestCase
 
     public function testHandleEmailExceptionDebug()
     {
-        Defuse::defuse(['options' => ['debug' => true]]);
+        App::instance()->extend(['options' => ['debug' => true]]);
         $this->form->data('field', 'value');
         $action = new EmailActionStub($this->form, [
             'service' => 'thrower',

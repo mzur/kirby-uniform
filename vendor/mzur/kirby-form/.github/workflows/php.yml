@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['8.0', '8.1', '8.2']
-        kirby-versions: ['^3.5', '^4.0-beta.1']
+        php-versions: ['7.4', '8.0', '8.1']
 
     steps:
     - uses: actions/checkout@v2
@@ -25,9 +24,6 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
-    - name: Remove vendor directory
-      run: rm -rf vendor
-
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v2
@@ -37,11 +33,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
 
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-plugins
+    - name: Allow composer-installer plugin
+      run: composer config allow-plugins.getkirby/composer-installer true
 
-    - name: Install Kirby Version
-      run: composer require -w getkirby/cms:${{ matrix.kirby-versions }}
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
       run: vendor/bin/phpunit
