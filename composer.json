@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
-        "getkirby/cms": "^3.5 || ^4.0-beta.1"
+        "getkirby/cms": "^3.5 || ^4.0"
     },
     "autoload": {
         "psr-4": {
