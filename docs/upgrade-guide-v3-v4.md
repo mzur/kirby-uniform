@@ -1,4 +1,4 @@
-# Upgrade Guide
+# Upgrade Guide v3->v4
 
 There are a few breaking changes between Uniform v3 and v4. Mainly these were introduced to better fit new features and principles of Kirby 3. This guide lists all changes you have to make to your existing Uniform v3 code to make it work with Uniform v4 and Kirby 3.
 

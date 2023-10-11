@@ -31,7 +31,8 @@ nav:
         - AJAX: examples/ajax.md
         - Dynamic Fields: examples/dynamic.md
     - Answers: answers.md
-    - 'Upgrade Guide': upgrade-guide.md
+    - 'Upgrade Guide v4->v5': upgrade-guide-v4-v5.md
+    - 'Upgrade Guide v3->v4': upgrade-guide-v3-v4.md
 theme: readthedocs
 markdown_extensions:
     - toc:
