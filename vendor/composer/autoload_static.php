@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit979ccd9ac382cfbe433fc1293b41c6ce
+class ComposerStaticInitac8e69d9cf6ef1059b95e61e3ac5a86f
 {
     public static $files = array (
         'e862d9fce5eaa28c798b151ac7fc8bc6' => __DIR__ . '/..' . '/mzur/kirby-flash/src/helpers.php',
@@ -77,9 +77,9 @@ class ComposerStaticInit979ccd9ac382cfbe433fc1293b41c6ce
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit979ccd9ac382cfbe433fc1293b41c6ce::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit979ccd9ac382cfbe433fc1293b41c6ce::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit979ccd9ac382cfbe433fc1293b41c6ce::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitac8e69d9cf6ef1059b95e61e3ac5a86f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitac8e69d9cf6ef1059b95e61e3ac5a86f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitac8e69d9cf6ef1059b95e61e3ac5a86f::$classMap;
 
         }, null, ClassLoader::class);
     }
