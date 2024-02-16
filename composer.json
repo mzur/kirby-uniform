@@ -16,7 +16,8 @@
         "docs": "http://kirby-uniform.readthedocs.io"
     },
     "require": {
-        "mzur/kirby-form": "^3.0"
+        "mzur/kirby-form": "^3.0",
+        "getkirby/composer-installer": "^1.2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
