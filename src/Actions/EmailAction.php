@@ -97,7 +97,7 @@ class EmailAction extends Action
      */
     protected function sendEmail(array $params)
     {
-        App::instance()->email($params);
+        App::instance()->email($params['preset'] ?? [], $params);
     }
 
     /**
