@@ -8,6 +8,7 @@ use Kirby\Cms\App;
 use Uniform\Tests\TestCase;
 use Uniform\Actions\EmailAction;
 use Uniform\Exceptions\PerformerException;
+use Kirby\Exception\NotFoundException;
 
 class EmailActionTest extends TestCase
 {
@@ -96,6 +97,46 @@ class EmailActionTest extends TestCase
         $this->assertEquals(['janet@user.com' => null, 'jessica@user.com' => null], $email->cc());
         $expect = ['a' => 3, 'b' => 2, 'message' => 'hello'];
         $this->assertEquals($expect, $action->params['data']);
+    }
+
+    public function testEmailPresets()
+    {
+        App::instance()->extend([
+            'options' => [
+                'email' => [
+                    'presets' => [
+                        'default' => [
+                            'from' => 'john@user.com',
+                            'fromName' => 'John Doe'
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->form->data('message', 'hello');
+        $action = new EmailActionStub($this->form, [
+            'preset' => 'default',
+            'to' => 'jane@user.com',
+            'fromName' => 'Janet Doe'
+        ]);
+        $action->perform();
+
+        $email = $action->email;
+        $this->assertEquals('john@user.com', $email->from());
+        $this->assertEquals('Janet Doe', $email->fromName());
+    }
+
+    public function testEmailPresetNotDefined()
+    {
+        $action = new EmailActionStub($this->form, [
+            'preset' => 'default',
+            'to' => 'janet@user.com',
+            'fromName' => 'Janet Doe'
+        ]);
+
+        $this->expectException(NotFoundException::class);
+        $action->perform();
     }
 
     public function testSubjectTemplate()

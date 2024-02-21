@@ -4,6 +4,7 @@ namespace Uniform\Actions;
 
 use Exception;
 use Kirby\Cms\App;
+use Kirby\Exception\NotFoundException;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\I18n;
 
@@ -31,6 +32,8 @@ class EmailAction extends Action
      */
     public function perform()
     {
+        $this->options = $this->preset($this->option('preset'));
+
         $params = array_merge($this->options, [
             'to' => $this->requireOption('to'),
             'from' => $this->requireOption('from'),
@@ -97,7 +100,7 @@ class EmailAction extends Action
      */
     protected function sendEmail(array $params)
     {
-        App::instance()->email($params);
+        App::instance()->email([], $params);
     }
 
     /**
@@ -174,5 +177,30 @@ class EmailAction extends Action
     {
         return $this->option('receive-copy') === true
             && $this->form->data(self::RECEIVE_COPY_KEY);
+    }
+
+    /**
+     * Loads more options from Kirby email presets, if `preset` was set
+     *
+     * @return array
+     */
+    private function preset(string|null $preset): array
+    {
+        if (!$preset) {
+            return $this->options;
+        }
+
+        if (($presetOptions = App::instance()->option('email.presets.' . $preset)) === null) {
+            throw new NotFoundException([
+                'key' => 'email.preset.notFound',
+                'data' => ['name' => $preset],
+            ]);
+        }
+
+        // Options passed to the action always superseed preset options
+        $options = array_merge($presetOptions, $this->options);
+        unset($options['preset']);
+
+        return $options;
     }
 }

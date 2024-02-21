@@ -52,6 +52,7 @@ return function ($kirby)
 
 The email action accepts the same options than the [email function of Kirby](https://getkirby.com/docs/guide/emails). You can pass on options like `cc`, `bcc` or even `attachments`. The `body` is ignored, however, as it is dynamically generated based on the form data. Here are some special options:
 
+
 ### to (required)
 
 The email address that should be the receiver of the emails. It can be dynamically chosen based on the form content with the [EmailSelectAction](email-select).
@@ -59,6 +60,9 @@ The email address that should be the receiver of the emails. It can be dynamical
 ### from (required)
 
 The email address that will be the sender of the emails. This should be some address that is associated with the website. If you host it at `example.com` the address may be `info@example.com`.
+
+### preset
+The [Kirby email preset](https://getkirby.com/docs/guide/emails#email-presets) to use as a template. It works exactly like you pass in an preset to Kirbys own email function. Uniform uses the preset values as base and merges the action parameters with them. If you have `to` and `from` defined in your preset you do not have to pass them in as parameters again.
 
 ### subject
 
