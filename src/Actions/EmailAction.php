@@ -32,7 +32,7 @@ class EmailAction extends Action
      */
     public function perform()
     {
-        $this->options = $this->preset($this->options['preset'] ?? null);
+        $this->options = $this->preset($this->option('preset'));
 
         $params = array_merge($this->options, [
             'to' => $this->requireOption('to'),
