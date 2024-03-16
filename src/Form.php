@@ -222,6 +222,7 @@ class Form extends BaseForm
     /**
      * Register a hook
      *
+     * @throws Exception If the hook event does not exist
      *
      * @param  string   $hook   Hook event
      * @param  callable $callback Hook callback
