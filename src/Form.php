@@ -3,7 +3,6 @@
 namespace Uniform;
 
 use Kirby\Http\Url;
-use ErrorException;
 use Kirby\Toolkit\Str;
 use Kirby\Http\Response;
 use Uniform\Guards\Guard;
@@ -67,6 +66,17 @@ class Form extends BaseForm
      * @var boolean
      */
     protected $success;
+
+    /**
+     * Hooks to be executed in different stages of form processing
+     *
+     * @var array
+     */
+    protected $hooks = [
+        'success' => [],
+        'error' => [],
+        'always' => [],
+    ];
 
     /**
      * Create a new instance
@@ -210,11 +220,36 @@ class Form extends BaseForm
     }
 
     /**
+     * Register a hook
+     *
+     *
+     * @param  string   $hook   Hook event
+     * @param  callable $callback Hook callback
+     * @return Form
+     */
+    public function on(string $event, callable $fn): Form
+    {
+        if (! in_array($event, array_keys($this->hooks))) {
+            throw new Exception("Hook event '{$event}' does not exist.");
+        }
+
+        $this->hooks[$event][] = $fn;
+        return $this;
+    }
+
+    /**
      * Redirect back (after actions have been performed).
      */
     public function done()
     {
         $this->flash->set(self::FLASH_KEY_SUCCESS, $this->success);
+
+        foreach ($this->hooks[$this->success ? 'success' : 'error'] as $hook) {
+            $hook($this);
+        }
+        foreach ($this->hooks['always'] as $hook) {
+            $hook($this);
+        }
 
         if ($this->shouldRedirect) {
             die(Response::redirect(Url::last()));
