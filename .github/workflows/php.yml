@@ -11,8 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['8.0', '8.1', '8.2']
-        kirby-versions: ['^3.5', '^4.0-beta.1']
+        php-versions: ['8.1', '8.2', '8.3', '8.4']
+        kirby-versions: ['^3.5', '^4.0', '5.0.0-rc.1']
+        exclude:
+          - kirby-versions: '^3.5'
+            php-versions: '8.4'
+          - kirby-versions: '5.0.0-rc.1'
+            php-versions: '8.1'
 
     steps:
     - uses: actions/checkout@v2
@@ -27,15 +32,6 @@ jobs:
 
     - name: Remove vendor directory
       run: rm -rf vendor
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v2
-      with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-plugins
