@@ -2,6 +2,7 @@
 
 namespace Uniform\Actions;
 
+use Exception;
 use Kirby\Cms\App;
 use Kirby\Toolkit\I18n;
 
@@ -20,7 +21,13 @@ class LoginAction extends Action
 
         $user = $this->getUser($this->form->data($userField));
 
-        if (!$user || !$user->login($this->form->data($passwordField))) {
+        try {
+            $success = $user && $user->login($this->form->data($passwordField));
+        } catch (Exception $e) {
+            $success = false;
+        }
+
+        if (!$success) {
             $this->fail(I18n::translate('uniform-login-error'), $userField);
         }
     }

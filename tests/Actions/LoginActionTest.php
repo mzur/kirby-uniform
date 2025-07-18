@@ -2,10 +2,11 @@
 
 namespace Uniform\Tests\Actions;
 
-use Uniform\Form;
-use Uniform\Tests\TestCase;
+use Exception;
 use Uniform\Actions\LoginAction;
 use Uniform\Exceptions\PerformerException;
+use Uniform\Form;
+use Uniform\Tests\TestCase;
 
 class LoginActionTest extends TestCase
 {
@@ -28,7 +29,15 @@ class LoginActionTest extends TestCase
     public function testWrongPassword()
     {
         $action = new LoginActionStub($this->form);
-        $action->user = new UserStub(false);
+        $action->user = new UserStub(login: false);
+        $this->expectException(PerformerException::class);
+        $action->perform();
+    }
+
+    public function testWrongPasswordException()
+    {
+        $action = new LoginActionStub($this->form);
+        $action->user = new UserStub(throw: true);
         $this->expectException(PerformerException::class);
         $action->perform();
     }
@@ -74,15 +83,18 @@ class LoginActionStub extends LoginAction
 
 class UserStub
 {
-    public $login;
     public $password;
-    public function __construct($login)
+    public function __construct(public $login = true, public $throw = false)
     {
-        $this->login = $login;
+        //
     }
 
     public function login($password)
     {
+        if ($this->throw) {
+            throw new Exception("Error");
+        }
+
         $this->password = $password;
         return $this->login;
     }
