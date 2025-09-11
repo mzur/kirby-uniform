@@ -168,10 +168,10 @@ Kirby::plugin('mzur/uniform', [
             // 'uniform-honeytime-invalid' => '',
         ],
         'pt_PT' => [
-            'uniform-filled-potty' => 'O campo do formulário que deveria estar vazio foi preenchido. Se não é um bot de spam, tente novamente deixando o campo em branco.',
+            'uniform-filled-potty' => 'O campo de formulário que deveria estar vazio foi preenchido. Se não é um bot de spam, tente novamente deixando o campo em branco.',
             'uniform-calc-incorrect' => 'Por favor, resolva o problema aritmético.',
             'uniform-email-subject' => 'Mensagem do formulário web',
-            'uniform-email-error' => 'Ocorreu um erro ao enviar o formulário.',
+            'uniform-email-error' => 'Ocorreu um erro ao enviar o formulário',
             'uniform-email-copy' => 'Cópia:',
             'uniform-calc-plus' => 'mais',
             'uniform-log-error' => 'Ocorreu um erro ao escrever no ficheiro de logs.',
