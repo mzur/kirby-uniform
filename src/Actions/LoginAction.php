@@ -22,7 +22,7 @@ class LoginAction extends Action
         $user = $this->getUser($this->form->data($userField));
 
         try {
-            $success = $user && $user->login($this->form->data($passwordField));
+            $success = $user && $user->login($this->form->data($passwordField, escape: false));
         } catch (Exception $e) {
             $success = false;
         }
