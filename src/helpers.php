@@ -16,11 +16,11 @@ if (!function_exists('honeypot_field')) {
      *
      * @return string
      */
-    function honeypot_field($name = null, $class = null)
+    function honeypot_field($name = null, $class = null, $label = null)
     {
         $name = $name ?: HoneypotGuard::FIELD_NAME;
         $class = $class ?: 'uniform__potty';
-        return '<input type="text" name="'.$name.'" class="'.$class.'" tabindex="-1" autocomplete="off">';
+        return '<input type="text" name="'.$name.'" class="'.$class.'" tabindex="-1" autocomplete="off" aria-label="'.$label.'">';
     }
 }
 
