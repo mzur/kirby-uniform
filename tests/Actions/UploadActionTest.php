@@ -116,11 +116,14 @@ class UploadActionTest extends TestCase
             'testfield' => ['target' => $path, 'prefix' => false],
         ]]);
 
-        $action->perform();
+        try {
+            $action->perform();
+        } finally {
+            @unlink("{$path}/test-file.txt");
+            @rmdir($path);
+        }
+        
         $this->assertStringEndsWith('test-file.txt', $action->target);
-
-        @unlink("{$path}/test-file.txt");
-        @rmdir($path);
     }
 
     public function testHandleRollback()
