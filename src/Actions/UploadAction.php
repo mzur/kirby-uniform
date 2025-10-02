@@ -3,6 +3,7 @@
 namespace Uniform\Actions;
 
 use Kirby\Toolkit\A;
+use Kirby\Filesystem\F;
 use Kirby\Toolkit\I18n;
 
 /*
@@ -69,7 +70,7 @@ class UploadAction extends Action
             }
         }
 
-        $name = $file['name'];
+		$name = F::safeName($file['name']);
         $prefix = A::get($options, 'prefix');
 
         if (is_null($prefix)) {
