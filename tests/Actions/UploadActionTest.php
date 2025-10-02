@@ -9,6 +9,10 @@ use Uniform\Exceptions\PerformerException;
 
 class UploadActionTest extends TestCase
 {
+
+    protected $dir;
+    protected $form;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -97,6 +101,26 @@ class UploadActionTest extends TestCase
             unlink("{$path}/prefixmyfile.txt");
             rmdir($path);
         }
+    }
+
+    public function testSanitizeFilename()
+    {
+        $path = $this->dir.'/uniform_abc123';
+        @mkdir($path);
+        $this->form->data('testfield', [
+            'name' => 'test+file.txt',
+            'tmp_name' => $this->dir.'/uniform_tmp',
+            'error' => UPLOAD_ERR_OK,
+        ]);
+        $action = new UploadActionStub($this->form, ['fields' => [
+            'testfield' => ['target' => $path, 'prefix' => false],
+        ]]);
+
+        $action->perform();
+        $this->assertStringEndsWith('test-file.txt', $action->target);
+
+        @unlink("{$path}/test-file.txt");
+        @rmdir($path);
     }
 
     public function testHandleRollback()
