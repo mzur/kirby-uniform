@@ -7,7 +7,7 @@
     </thead>
     <tbody>
 <?php
-        foreach ($data as $field => $value):
+        foreach ($_data as $field => $value):
             if (in_array($field, ['_data', '_options'])) {
                 continue;
             }
