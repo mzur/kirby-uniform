@@ -27,8 +27,12 @@ class SessionStoreActionTest extends TestCase
         $action->perform();
         $form = $session->get('session-store');
 
-        $this->assertInstanceOf(Form::class, $form);
-        $this->assertEquals('my message', $form->data('message'));
+        if (intval(explode('.', App::version())[0]) >= 6) {
+            $this->assertEquals(['message' => 'my message'], $form);
+        } else {
+            $this->assertInstanceOf(Form::class, $form);
+            $this->assertEquals('my message', $form->data('message'));
+        }
     }
 
     public function testPerformWithName()
@@ -42,7 +46,11 @@ class SessionStoreActionTest extends TestCase
         $action->perform();
         $form = $session->get('my-session-store');
 
-        $this->assertInstanceOf(Form::class, $form);
-        $this->assertEquals('my message', $form->data('message'));
+        if (intval(explode('.', App::version())[0]) >= 6) {
+            $this->assertEquals(['message' => 'my message'], $form);
+        } else {
+            $this->assertInstanceOf(Form::class, $form);
+            $this->assertEquals('my message', $form->data('message'));
+        }
     }
 }

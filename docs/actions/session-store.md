@@ -53,6 +53,15 @@ return function ($kirby)
 <?php endif; ?>
 ```
 
+!!! warning "Note"
+    Kirby 6 does not restore objects from the session. With Kirby 6 the action stores the form data as an array instead of the form:
+
+```html+php
+<?php if ($data = kirby()->session()->get('user-form')): ?>
+    Thank you <?php echo $data['email']; ?> for subscribing.
+<?php endif; ?>
+```
+
 ## Options
 
 ### name
