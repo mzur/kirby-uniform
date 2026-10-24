@@ -191,6 +191,14 @@ class EmailAction extends Action
         }
 
         if (($presetOptions = App::instance()->option('email.presets.' . $preset)) === null) {
+            // Kirby 6 only accepts named arguments for exceptions.
+            if (intval(explode('.', App::version())[0]) >= 6) {
+                throw new NotFoundException(
+                    key: 'email.preset.notFound',
+                    data: ['name' => $preset],
+                );
+            }
+
             throw new NotFoundException([
                 'key' => 'email.preset.notFound',
                 'data' => ['name' => $preset],
