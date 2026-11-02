@@ -1,6 +1,6 @@
 # SessionStore Action
 
-This action stores the form in the user's session object so that it can be accessed in subsequent requests - e.g. after a redirect.
+This action stores the form data in the user's session so that it can be accessed in subsequent requests - e.g. after a redirect.
 
 ## Example
 
@@ -46,15 +46,6 @@ return function ($kirby)
 ```
 
 ### Confirmation Page Template
-
-```html+php
-<?php if (kirby()->session()->get('user-form')): ?>
-    Thank you <?php echo kirby()->session()->get('user-form')->data('email'); ?> for subscribing.
-<?php endif; ?>
-```
-
-!!! warning "Note"
-    Kirby 6 does not restore objects from the session. With Kirby 6 the action stores the form data as an array instead of the form:
 
 ```html+php
 <?php if ($data = kirby()->session()->get('user-form')): ?>
