@@ -116,17 +116,7 @@ class EmailAction extends Action
             return is_scalar($item);
         });
 
-        $version = explode('.', App::version());
-        $majorVersion = intval($version[0]);
-        $minorVersion = intval($version[1]);
-        $fallback = ['fallback' => ''];
-
-        // The arguments to Str::template changed in Kirby 3.6.
-        if ($majorVersion <= 3 && $minorVersion <= 5) {
-            $fallback = '';
-        }
-
-        return  Str::template($string, $templatableItems, $fallback);
+        return  Str::template($string, $templatableItems, ['fallback' => '']);
     }
 
     /**
@@ -191,10 +181,10 @@ class EmailAction extends Action
         }
 
         if (($presetOptions = App::instance()->option('email.presets.' . $preset)) === null) {
-            throw new NotFoundException([
-                'key' => 'email.preset.notFound',
-                'data' => ['name' => $preset],
-            ]);
+            throw new NotFoundException(
+                key: 'email.preset.notFound',
+                data: ['name' => $preset],
+            );
         }
 
         // Options passed to the action always superseed preset options

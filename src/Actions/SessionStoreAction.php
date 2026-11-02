@@ -15,7 +15,7 @@ class SessionStoreAction extends Action
         // get the name of the session variable
         $name = $this->option('name', 'session-store');
 
-        // put form into session
-        App::instance()->session()->set($name, $this->form);
+        // put form data into session
+        App::instance()->session()->set($name, $this->form->data());
     }
 }

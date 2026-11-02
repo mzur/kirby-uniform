@@ -82,7 +82,7 @@ Name of a email template to use as email body. If this option is set, the action
 Check out the email templates of the [Uniform repo](https://github.com/mzur/kirby-uniform/tree/master/templates/emails) for examples.
 
 !!! warning "Note"
-    You cannot access form fields with the name `_data` or `_options` directly in the template as these are reserved for the additional variables provided by Uniform. Use `$_data['_data']` and `$_data['_options']` in this case.
+    You cannot access form fields with the name `_data` or `_options` directly in the template as these are reserved for the additional variables provided by Uniform. Use `$_data['_data']` and `$_data['_options']` in this case. Form fields with the name `slot` or `slots` cannot be used with templates at all, as Kirby reserves these variable names in templates.
 
 ### body
 
